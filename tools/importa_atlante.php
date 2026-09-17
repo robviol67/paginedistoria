@@ -1,0 +1,139 @@
+<?php
+// Pagine di Storia — versa dati/atlante.json nel database. Idempotente.
+//
+//   php tools/importa_atlante.php                    (da riga di comando)
+//   https://…/tools/importa_atlante.php?key=…        (dal browser)
+//
+// Regola di prudenza, e non è un dettaglio: di default questo script NON tocca
+// i record già presenti. Dopo l'importazione iniziale la fonte unica è il
+// database, e le correzioni fatte nel pannello valgono più del file di
+// partenza: sovrascriverle in silenzio sarebbe il modo migliore per perdere
+// una giornata di lavoro editoriale. Per sovrascrivere davvero serve &forza=1,
+// che va chiesto a voce alta.
+declare(strict_types=1);
+
+$daRiga = PHP_SAPI === 'cli';
+require_once __DIR__ . '/../inc/db.php';
+
+if (!$daRiga) {
+  header('Content-Type: text/plain; charset=utf-8');
+  $atteso = defined('MIGRATION_KEY') ? MIGRATION_KEY : '';
+  if ($atteso === '' || !hash_equals($atteso, (string)($_GET['key'] ?? ''))) {
+    http_response_code(403);
+    exit("Serve la chiave: ?key=… (MIGRATION_KEY in config.php)\n");
+  }
+}
+
+$forza = $daRiga
+  ? in_array('--forza', $argv ?? [], true)
+  : isset($_GET['forza']);
+
+$file = __DIR__ . '/../dati/atlante.json';
+if (!is_file($file)) exit("✗ manca dati/atlante.json: lancia prima `node tools/estrai_dati.js`\n");
+$D = json_decode(file_get_contents($file), true);
+if (!$D) exit("✗ dati/atlante.json non è JSON valido\n");
+
+echo "Edizione dati {$D['edizione']} · estratta il {$D['generato']}\n";
+echo $forza ? "Modo: SOVRASCRIVO i record esistenti\n\n" : "Modo: aggiungo i mancanti, non tocco gli esistenti\n\n";
+
+$pdo = db();
+$n = ['tass_nuove' => 0, 'tass_agg' => 0, 'fonti_nuove' => 0, 'fonti_agg' => 0,
+      'schede_nuove' => 0, 'schede_agg' => 0, 'saltate' => 0, 'loc' => 0];
+
+try {
+  $pdo->beginTransaction();
+
+  // ── tassonomie ────────────────────────────────────────────────────────────
+  $selT = $pdo->prepare('SELECT id FROM pds_tassonomie WHERE tipo=? AND codice=?');
+  $insT = $pdo->prepare('INSERT INTO pds_tassonomie (tipo, codice, etichetta, descrizione, anno_inizio, anno_fine, dati, ordine) VALUES (?,?,?,?,?,?,?,?)');
+  $updT = $pdo->prepare('UPDATE pds_tassonomie SET etichetta=?, descrizione=?, anno_inizio=?, anno_fine=?, dati=?, ordine=? WHERE id=?');
+  foreach ($D['tassonomie'] as $t) {
+    if (!$t['codice']) continue;
+    $dati = isset($t['dati']) && $t['dati'] ? json_encode($t['dati'], JSON_UNESCAPED_UNICODE) : null;
+    $selT->execute([$t['tipo'], $t['codice']]);
+    $id = $selT->fetchColumn();
+    if ($id === false) {
+      $insT->execute([$t['tipo'], $t['codice'], $t['etichetta'] ?? $t['codice'], $t['descrizione'] ?? null,
+                      $t['anno_inizio'] ?? null, $t['anno_fine'] ?? null, $dati, $t['ordine'] ?? 0]);
+      $n['tass_nuove']++;
+    } elseif ($forza) {
+      $updT->execute([$t['etichetta'] ?? $t['codice'], $t['descrizione'] ?? null,
+                      $t['anno_inizio'] ?? null, $t['anno_fine'] ?? null, $dati, $t['ordine'] ?? 0, $id]);
+      $n['tass_agg']++;
+    }
+  }
+
+  // ── fonti ─────────────────────────────────────────────────────────────────
+  $campiF = ['titolo','autore_ente','natura','categoria','ambito','paese','lingua','url',
+             'accesso','accesso_nota','limiti','come_usarla','copertura','esito','riscontrato','verifica_data'];
+  $selF = $pdo->prepare('SELECT 1 FROM pds_fonti WHERE id=?');
+  $insF = $pdo->prepare('INSERT INTO pds_fonti (id,' . implode(',', $campiF) . ') VALUES (?' . str_repeat(',?', count($campiF)) . ')');
+  $updF = $pdo->prepare('UPDATE pds_fonti SET ' . implode('=?, ', $campiF) . '=? WHERE id=?');
+  foreach ($D['fonti'] as $f) {
+    $vals = array_map(fn($c) => $f[$c] ?? null, $campiF);
+    $selF->execute([$f['id']]);
+    if (!$selF->fetchColumn()) { $insF->execute(array_merge([$f['id']], $vals)); $n['fonti_nuove']++; }
+    elseif ($forza) { $updF->execute(array_merge($vals, [$f['id']])); $n['fonti_agg']++; }
+  }
+
+  // ── schede, con periodi, temi, etichette e citazioni ──────────────────────
+  $campiS = ['slug','tipologia','titolo','data_inizio','data_fine','periodo_principale',
+             'sintesi','perche_studiarla','cautela','verdetto','verdetto_nota','stato','n_doc','ordine'];
+  $selS = $pdo->prepare('SELECT 1 FROM pds_schede WHERE id=?');
+  $insS = $pdo->prepare('INSERT INTO pds_schede (id,' . implode(',', $campiS) . ') VALUES (?' . str_repeat(',?', count($campiS)) . ')');
+  $updS = $pdo->prepare('UPDATE pds_schede SET ' . implode('=?, ', $campiS) . '=? WHERE id=?');
+
+  $delP = $pdo->prepare('DELETE FROM pds_scheda_periodo WHERE scheda_id=?');
+  $insP = $pdo->prepare('INSERT INTO pds_scheda_periodo (scheda_id, periodo_id, principale) VALUES (?,?,?)');
+  $delT2 = $pdo->prepare('DELETE FROM pds_scheda_tema WHERE scheda_id=?');
+  $insT2 = $pdo->prepare('INSERT INTO pds_scheda_tema (scheda_id, tema, genere) VALUES (?,?,?)');
+  $delSF = $pdo->prepare('DELETE FROM pds_scheda_fonte WHERE scheda_id=?');
+  $insSF = $pdo->prepare('INSERT INTO pds_scheda_fonte (scheda_id, fonte_id, ruolo, localizzatore, tipo_documento, data_documento, url_specifico, nota, verificato_il, ordine) VALUES (?,?,?,?,?,?,?,?,?,?)');
+
+  foreach ($D['schede'] as $s) {
+    $vals = array_map(fn($c) => $s[$c] ?? null, $campiS);
+    $selS->execute([$s['id']]);
+    $esiste = (bool)$selS->fetchColumn();
+    if ($esiste && !$forza) { $n['saltate']++; continue; }
+
+    if ($esiste) { $updS->execute(array_merge($vals, [$s['id']])); $n['schede_agg']++; }
+    else { $insS->execute(array_merge([$s['id']], $vals)); $n['schede_nuove']++; }
+
+    // I collegati si riscrivono in blocco: sono la fotografia della scheda,
+    // non righe con vita propria.
+    $delP->execute([$s['id']]);
+    foreach (array_unique($s['periodi'] ?? []) as $p)
+      $insP->execute([$s['id'], $p, $p === ($s['periodo_principale'] ?? null) ? 1 : 0]);
+
+    $delT2->execute([$s['id']]);
+    foreach (array_unique($s['temi'] ?? []) as $t) $insT2->execute([$s['id'], $t, 'tema']);
+    foreach (array_unique($s['etichette'] ?? []) as $e) $insT2->execute([$s['id'], $e, 'etichetta']);
+
+    $delSF->execute([$s['id']]);
+    foreach ($s['fonti'] ?? [] as $f) {
+      $insSF->execute([$s['id'], $f['fonte_id'], $f['ruolo'], $f['localizzatore'], $f['tipo_documento'],
+                       $f['data_documento'], $f['url_specifico'], $f['nota'], $f['verificato_il'], $f['ordine']]);
+      $n['loc']++;
+    }
+  }
+
+  // La data dell'istantanea Wayback è un valore solo: sta nelle impostazioni
+  // del motore (cms_settings, colonne skey/svalue), non in una tabella nuova.
+  if (!empty($D['wayback_data'])) {
+    require_once __DIR__ . '/../inc/settings.php';
+    setting_set('atlante_wayback_data', $D['wayback_data']);
+  }
+
+  $pdo->commit();
+} catch (Throwable $e) {
+  if ($pdo->inTransaction()) $pdo->rollBack();
+  http_response_code(500);
+  exit("✗ ERRORE, niente è stato scritto: " . $e->getMessage() . "\n");
+}
+
+printf("tassonomie   +%d nuove, %d aggiornate\n", $n['tass_nuove'], $n['tass_agg']);
+printf("fonti        +%d nuove, %d aggiornate\n", $n['fonti_nuove'], $n['fonti_agg']);
+printf("schede       +%d nuove, %d aggiornate, %d lasciate stare\n", $n['schede_nuove'], $n['schede_agg'], $n['saltate']);
+printf("citazioni    %d righe scheda×fonte con localizzatore\n", $n['loc']);
+echo "\nFatto. Da qui in avanti la fonte è il database: le pagine si rigenerano\n";
+echo "dal pannello, e questo file torna utile solo alla prossima edizione dati.\n";

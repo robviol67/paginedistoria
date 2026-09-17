@@ -26,6 +26,12 @@ cp -R dist/. "$DIST/"
 for d in inc admin api; do mkdir -p "$DIST/$d"; cp -R "$d/." "$DIST/$d/"; done
 for f in forms.php blog-comment.php preview.php; do [ -f "$f" ] && cp "$f" "$DIST/$f"; done
 
+# 2b · gli attrezzi dell'atlante e il JSON di partenza: l'importazione gira sul
+# server, dove sta il database. dati/ è negato dal web (vedi .htaccess).
+mkdir -p "$DIST/tools" "$DIST/dati"
+cp tools/*.php "$DIST/tools/" 2>/dev/null || true
+cp dati/atlante.json "$DIST/dati/" 2>/dev/null || true
+
 # 3 · la configurazione: sta solo sul server, mai nel repo
 cp config.php "$DIST/config.php"
 
@@ -45,6 +51,10 @@ Options -Indexes
 
 # inc/ è la libreria del pannello: la include il server, non il browser.
 RedirectMatch 403 (?i)/inc/
+
+# dati/ è il JSON di partenza dell'importazione: lo legge il server. Quello che
+# serve al browser è l'indice generato, che sta in assets/.
+RedirectMatch 403 (?i)/dati/
 
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"

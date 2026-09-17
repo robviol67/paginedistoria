@@ -1,0 +1,163 @@
+<?php
+// Pagine di Storia — migration dell'atlante: schede, fonti, localizzatori,
+// tassonomie, relazioni. Idempotente; risponde a ?check=1 senza eseguire nulla.
+//
+// Impianto: il database è la fonte unica. Le pagine scheda e il file indice
+// letto dai filtri si rigenerano da qui alla pubblicazione, come le altre
+// pagine del motore.
+//
+// Una scelta che vale la pena avere in chiaro: i Nessi NON hanno una tabella
+// propria. Nel design sono la sesta tipologia di scheda e ne condividono la
+// pagina, quindi sono righe di pds_schede con tipologia='Nesso' più i campi
+// del verdetto. Una tabella parallela avrebbe significato duplicare fonti,
+// localizzatori, periodi e temi per un solo tipo di record.
+header('Content-Type: text/plain; charset=utf-8');
+require_once __DIR__ . '/../inc/db.php';
+
+$check = isset($_GET['check']);
+
+try {
+  $tabelle = ['pds_schede', 'pds_tassonomie', 'pds_scheda_periodo', 'pds_scheda_tema',
+              'pds_fonti', 'pds_scheda_fonte', 'pds_scheda_relazione'];
+
+  if ($check) {
+    // Verifica in-process: una query su information_schema, nessun HTTP interno.
+    $st = db()->prepare("SELECT COUNT(*) FROM information_schema.TABLES
+      WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME IN ('" . implode("','", $tabelle) . "')");
+    $st->execute();
+    $presenti = (int)$st->fetchColumn();
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['applied' => $presenti === count($tabelle), 'tabelle' => $presenti . '/' . count($tabelle)]);
+    exit;
+  }
+
+  // ── Le schede: il record editoriale ───────────────────────────────────────
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_schede (
+      id VARCHAR(12) NOT NULL PRIMARY KEY,
+      slug VARCHAR(160) NOT NULL,
+      tipologia VARCHAR(32) NOT NULL,
+      titolo VARCHAR(255) NOT NULL,
+      data_inizio VARCHAR(16) NULL,
+      data_fine VARCHAR(16) NULL,
+      periodo_principale VARCHAR(12) NULL,
+      sintesi TEXT NULL,
+      perche_studiarla TEXT NULL,
+      cautela TEXT NULL,
+      verdetto VARCHAR(48) NULL,
+      verdetto_nota TEXT NULL,
+      stato VARCHAR(32) NOT NULL DEFAULT 'da_verificare',
+      n_doc INT NOT NULL DEFAULT 0,
+      pubblicata TINYINT NOT NULL DEFAULT 1,
+      ordine INT NOT NULL DEFAULT 0,
+      creata_il DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      aggiornata_il DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      UNIQUE KEY slug_unico (slug),
+      INDEX tipologia (tipologia),
+      INDEX periodo_principale (periodo_principale),
+      INDEX stato (stato)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_schede\n";
+
+  // ── Le tassonomie: periodi, temi, tipologie, verdetti, nature, accessi ────
+  // Una tabella sola con un campo `tipo`: sono elenchi brevi e chiusi, con gli
+  // stessi campi. Sei tabelle da dieci righe l'una sarebbero sei volte il
+  // lavoro per la stessa cosa.
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_tassonomie (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tipo VARCHAR(32) NOT NULL,
+      codice VARCHAR(64) NOT NULL,
+      etichetta VARCHAR(255) NOT NULL,
+      descrizione TEXT NULL,
+      anno_inizio SMALLINT NULL,
+      anno_fine SMALLINT NULL,
+      dati TEXT NULL,
+      ordine INT NOT NULL DEFAULT 0,
+      UNIQUE KEY tipo_codice (tipo, codice),
+      INDEX tipo (tipo)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_tassonomie\n";
+
+  // ── Scheda × periodo e scheda × tema ─────────────────────────────────────
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_scheda_periodo (
+      scheda_id VARCHAR(12) NOT NULL,
+      periodo_id VARCHAR(12) NOT NULL,
+      principale TINYINT NOT NULL DEFAULT 0,
+      PRIMARY KEY (scheda_id, periodo_id),
+      INDEX periodo_id (periodo_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_scheda_periodo\n";
+
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_scheda_tema (
+      scheda_id VARCHAR(12) NOT NULL,
+      tema VARCHAR(160) NOT NULL,
+      genere VARCHAR(16) NOT NULL DEFAULT 'tema',
+      PRIMARY KEY (scheda_id, genere, tema),
+      INDEX tema (tema)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_scheda_tema\n";
+
+  // ── Le fonti, con la verifica tecnica ────────────────────────────────────
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_fonti (
+      id VARCHAR(24) NOT NULL PRIMARY KEY,
+      titolo VARCHAR(255) NOT NULL,
+      autore_ente VARCHAR(255) NULL,
+      natura VARCHAR(48) NULL,
+      categoria VARCHAR(48) NULL,
+      ambito VARCHAR(48) NULL,
+      paese VARCHAR(48) NULL,
+      lingua VARCHAR(24) NULL,
+      url TEXT NULL,
+      accesso VARCHAR(48) NULL,
+      accesso_nota TEXT NULL,
+      limiti TEXT NULL,
+      come_usarla TEXT NULL,
+      copertura VARCHAR(255) NULL,
+      esito VARCHAR(48) NULL,
+      riscontrato TEXT NULL,
+      verifica_data VARCHAR(16) NULL,
+      aggiornata_il DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX natura (natura),
+      INDEX categoria (categoria)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_fonti\n";
+
+  // ── Il localizzatore: l'attribuzione puntuale scheda × fonte ─────────────
+  // È il cuore editoriale del progetto: pagina, seduta, sentenza, documento.
+  // Una scheda può citare la stessa fonte in due punti diversi, quindi la
+  // chiave è la riga, non la coppia.
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_scheda_fonte (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      scheda_id VARCHAR(12) NOT NULL,
+      fonte_id VARCHAR(24) NOT NULL,
+      ruolo VARCHAR(48) NULL,
+      localizzatore TEXT NULL,
+      tipo_documento VARCHAR(160) NULL,
+      data_documento VARCHAR(16) NULL,
+      url_specifico TEXT NULL,
+      nota TEXT NULL,
+      verificato_il VARCHAR(16) NULL,
+      ordine INT NOT NULL DEFAULT 0,
+      INDEX scheda_id (scheda_id),
+      INDEX fonte_id (fonte_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_scheda_fonte\n";
+
+  // ── I collegamenti fra schede (compresi i Nessi) ─────────────────────────
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_scheda_relazione (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      scheda_id VARCHAR(12) NOT NULL,
+      verso_id VARCHAR(12) NOT NULL,
+      relazione VARCHAR(48) NOT NULL DEFAULT 'collegata',
+      nota TEXT NULL,
+      ordine INT NOT NULL DEFAULT 0,
+      UNIQUE KEY coppia (scheda_id, verso_id, relazione),
+      INDEX verso_id (verso_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_scheda_relazione\n";
+
+  echo "\nFatto. Le tabelle sono pronte e vuote: i dati li porta dentro\n";
+  echo "tools/importa_atlante.php, che si può rilanciare senza fare danni.\n";
+} catch (Throwable $e) {
+  http_response_code(500);
+  echo "ERRORE: " . $e->getMessage() . "\n";
+}
