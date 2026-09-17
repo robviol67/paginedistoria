@@ -1,0 +1,193 @@
+/* Pagine di Storia — stili delle pagine GENERATE (Taccuino, schede, fonti).
+   I prototipi del Design portano gli stili in linea: è una scelta dell'ambiente
+   di prototipazione, e l'handoff chiede di spostarli in CSS mantenendo i valori
+   esatti (§2). Qui stanno quei valori, sugli stessi token del kit: misure di
+   lettura corte, filetti da 1px, raggio 0, rosso solo per accenti e stati. */
+
+/* ── colonna di lettura ─────────────────────────────────────────────────── */
+.pds-lettura {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) 96px;
+}
+.pds-elenco {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) 96px;
+}
+
+/* ── percorso e testatina ───────────────────────────────────────────────── */
+.pds-percorso {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-neutral-700);
+  margin-bottom: var(--space-6);
+}
+.pds-testatina {
+  margin: 0 0 var(--space-3);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+.pds-testatina a { color: var(--color-accent-700); }
+
+.pds-lettura h1 {
+  font-size: clamp(19px, 2.9vw, 29px);
+  line-height: 1.06;
+  margin: 0 0 var(--space-4);
+}
+.pds-occhiello {
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0 0 var(--space-4);
+  color: var(--color-neutral-800);
+  font-family: var(--font-reading);
+}
+.pds-firma {
+  margin: 0 0 var(--space-6);
+  font-size: 13px;
+  color: var(--color-neutral-700);
+  border-bottom: 1px solid var(--color-text);
+  padding-bottom: var(--space-4);
+}
+
+/* ── corpo del testo ────────────────────────────────────────────────────── */
+.pds-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-size: 17px;
+  line-height: 1.66;
+  font-family: var(--font-reading);
+}
+.pds-corpo p { margin: 0; }
+.pds-corpo h2 {
+  font-family: var(--font-heading);
+  font-size: 21px;
+  margin: var(--space-4) 0 0;
+}
+.pds-corpo a { color: var(--color-accent-700); }
+
+.pds-citazione {
+  margin: var(--space-2) 0;
+  border-left: 4px solid var(--color-text);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  font-size: 16px;
+}
+.pds-citazione p { margin: 0 0 6px; }
+.pds-citazione footer {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--color-neutral-700);
+}
+
+/* Riquadri: nota di metodo e schede collegate. Il filetto pieno, non il colore,
+   li distingue dal testo — il colore non porta mai da solo un'informazione. */
+.pds-nota,
+.pds-collegate {
+  border: 1px solid var(--color-text);
+  background: var(--color-neutral-100);
+  padding: var(--space-4);
+  margin: var(--space-4) 0;
+  font-family: var(--font-heading);
+  font-size: 15px;
+}
+.pds-nota-titolo {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.pds-collegate ul { margin: 0; padding-left: var(--space-4); }
+.pds-collegate li { margin: 0 0 4px; }
+
+/* ── indice del Taccuino ────────────────────────────────────────────────── */
+.pds-categorie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
+  padding: var(--space-3) 0;
+  margin-bottom: var(--space-8);
+}
+.pds-categorie-titolo {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral-700);
+  align-self: center;
+  margin-right: var(--space-2);
+}
+
+.pds-evidenza {
+  border-bottom: 1px solid var(--color-text);
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  align-items: start;
+}
+.pds-evidenza h2 {
+  font-size: clamp(19px, 1.9vw, 24px);
+  margin: 0 0 var(--space-3);
+  max-width: 24ch;
+}
+.pds-evidenza h2 a { color: var(--color-text); text-decoration: none; }
+.pds-evidenza p { font-size: 16px; max-width: 56ch; margin: 0 0 var(--space-3); }
+
+.pds-griglia {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+.pds-scheda-card {
+  border-top: 1px solid var(--color-text);
+  padding-top: var(--space-3);
+}
+.pds-scheda-card h3 {
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 0 0 var(--space-2);
+  max-width: 26ch;
+}
+.pds-scheda-card h3 a { color: var(--color-text); text-decoration: none; }
+.pds-scheda-card p {
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0 0 var(--space-2);
+  color: var(--color-neutral-800);
+}
+.pds-card-meta { font-size: 12px; color: var(--color-neutral-700); }
+
+/* ── paginazione ────────────────────────────────────────────────────────── */
+.pds-pagine {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+.pds-pagine a,
+.pds-pagine span {
+  padding: 8px 14px;
+  border: 1px solid var(--color-divider);
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--color-text);
+}
+.pds-pagine [aria-current="page"] {
+  border-color: var(--color-text);
+  font-weight: 600;
+}
+
+/* ── stampa: gli indirizzi per esteso, senza intestazione né azioni ─────── */
+@media print {
+  .pds-nota, .pds-collegate, .pds-citazione { break-inside: avoid; }
+}

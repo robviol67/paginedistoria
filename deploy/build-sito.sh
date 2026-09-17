@@ -30,7 +30,7 @@ for f in forms.php blog-comment.php preview.php; do [ -f "$f" ] && cp "$f" "$DIS
 # server, dove sta il database. dati/ è negato dal web (vedi .htaccess).
 mkdir -p "$DIST/tools" "$DIST/dati"
 cp tools/*.php "$DIST/tools/" 2>/dev/null || true
-cp dati/atlante.json "$DIST/dati/" 2>/dev/null || true
+cp dati/*.json "$DIST/dati/" 2>/dev/null || true
 
 # 3 · la configurazione: sta solo sul server, mai nel repo
 cp config.php "$DIST/config.php"

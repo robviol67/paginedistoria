@@ -50,9 +50,10 @@ const PAGES = [
     title: 'Privacy — Pagine di Storia',
     desc: 'Informativa sul trattamento dei dati personali.' },
 
-  { src: 'src/Taccuino.dc.html', out: 'blog.html',
-    title: 'Taccuino — Pagine di Storia',
-    desc: 'Note di lavoro, letture e verifiche dietro le schede del portale.' },
+  // Taccuino: l'indice NON si costruisce più dal prototipo. I post stanno nel
+  // database e blog.html lo rigenera il motore a ogni pubblicazione
+  // (inc/pds_blog.php). Se restasse qui, ogni deploy riporterebbe indietro
+  // l'indice alla versione finta del prototipo, cancellando i post veri.
 ];
 
 // I prototipi si collegano fra loro con i nomi dei file Design: qui diventano

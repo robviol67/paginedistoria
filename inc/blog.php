@@ -230,6 +230,10 @@ function blog_card_html($post) {
 }
 
 function blog_post_render_doc($post) {
+  // Seam per-sito: se il progetto porta una resa propria (inc/pds_blog.php),
+  // comanda quella. Il motore resta padrone di tabelle, pannello e
+  // pubblicazione; cambia solo il vestito.
+  if (function_exists('pds_post_render_doc')) return pds_post_render_doc($post);
   $title = $post['seo_title'] ?: $post['title'];
   $cat = $post['category_id'] ? blog_category_get($post['category_id']) : null;
   $date = date('d/m/Y', strtotime($post['created_at']));
@@ -271,6 +275,7 @@ function blog_post_render_doc($post) {
 function blog_index_file($page) { return $page <= 1 ? 'blog.html' : 'blog-' . (int)$page . '.html'; }
 
 function blog_index_render_doc($page = 1) {
+  if (function_exists('pds_index_render_doc')) return pds_index_render_doc($page);
   $total = blog_posts_public_count();
   $pages = max(1, (int)ceil($total / BLOG_PER_PAGE));
   $page = max(1, min($page, $pages));
@@ -383,3 +388,8 @@ function blog_publish_all() {
   }
   blog_index_publish_all();
 }
+
+// ── vestito per-sito ────────────────────────────────────────────────────────
+// Si include in coda, quando le funzioni del motore esistono già: pds_blog.php
+// le usa (blog_route, blog_posts_public…) e ne sostituisce solo due.
+if (is_file(__DIR__ . '/pds_blog.php')) require_once __DIR__ . '/pds_blog.php';
