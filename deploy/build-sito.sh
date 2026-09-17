@@ -19,8 +19,11 @@ mkdir -p "$DIST"
 # 1 · le pagine statiche, gli asset e i seed prodotti dal build
 cp -R dist/. "$DIST/"
 
-# 2 · il motore PHP: pannello, API, librerie, handler pubblici
-for d in inc admin api; do cp -R "$d" "$DIST/$d"; done
+# 2 · il motore PHP: pannello, API, librerie, handler pubblici.
+# La barra finale e il "/." non sono un vezzo: `cp -R inc _dist/inc` con la
+# destinazione GIÀ esistente (il build ci ha messo tpl/ e i json) annida
+# _dist/inc/inc e il pannello non trova più le sue librerie.
+for d in inc admin api; do mkdir -p "$DIST/$d"; cp -R "$d/." "$DIST/$d/"; done
 for f in forms.php blog-comment.php preview.php; do [ -f "$f" ] && cp "$f" "$DIST/$f"; done
 
 # 3 · la configurazione: sta solo sul server, mai nel repo
