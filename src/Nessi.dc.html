@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html" aria-current="page">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main class="pds-apertura" style="--pds-cover:url(/assets/immagini/copertina-nessi.svg);max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6) 96px" data-print-urls>
+
+  <div data-print-only style="justify-content:space-between;align-items:baseline;gap:12pt;border-bottom:3px solid var(--color-text);padding-bottom:6pt;margin-bottom:12pt">
+    <span style="font-family:var(--font-heading);font-weight:600;font-size:10pt;letter-spacing:0.08em;text-transform:uppercase">Pagine di Storia 1943–2002</span>
+    <span class="num" style="font-size:9pt">Nessi · candidati da istruire</span>
+  </div>
+
+  <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)">Sezione · domande di causalità</p>
+  <h1 style="font-size:clamp(20px,2.9vw,32px);max-width:22ch;margin:0 0 var(--space-4)">Nessi da mettere alla prova</h1>
+  <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;line-height:1.6;max-width:64ch;margin:0 0 var(--space-4)">Dieci candidati sul rapporto fra nuovi media, informatica, salute pubblica e politica italiana. Nessuno di questi è ancora una scheda: ognuno porta la <strong>domanda</strong>, il <strong>test cronologico</strong>, il <strong>meccanismo ipotizzato</strong>, le prove da cercare in un senso e nell’altro, e un <strong>verdetto provvisorio</strong> sulla scala a sette gradi.</p>
+  <p style="margin:0 0 var(--space-8);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch;color:var(--color-neutral-800);border-bottom:1px solid var(--color-text);padding-bottom:var(--space-4)">Il verdetto provvisorio dice dove porta la cronologia allo stato attuale, non dove arriverà l’istruttoria. Chi non supera il filtro politico resta nel <a href="Taccuino.dc.html">Taccuino</a> e non entra nell’atlante: la scala è descritta nel <a href="Metodo.dc.html">Metodo</a>.</p>
+
+  <section style="margin-bottom:var(--space-8)">
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;border-bottom:1px solid var(--color-text);padding-bottom:var(--space-3);margin-bottom:var(--space-4)">
+      <h2 style="margin:0;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)">Candidati</h2>
+      <p class="num" style="margin:0;font-size:12px;color:var(--color-neutral-700)">{{ mostrati }} su {{ totale }} · tutti allo stato «da istruire»</p>
+      <div style="display:flex;gap:var(--space-2);margin-left:auto;flex-wrap:wrap" data-print-hide>
+        <a class="btn btn-secondary" href="Segnala.dc.html" style="text-decoration:none">Proponi una prova</a>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:var(--space-6)">
+      <sc-for list="{{ nessi }}" as="n" hint-placeholder-count="4">
+        <article data-print-block style="border:1px solid var(--color-text);border-left:4px solid var(--color-accent);padding:var(--space-4)">
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:baseline;margin-bottom:var(--space-2)">
+            <p class="num" style="margin:0;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ n.id }} · {{ n.arco }}</p>
+            <span class="tag tag-outline" style="font-size:10px">{{ n.tema }}</span>
+            <p class="num" style="margin:0 0 0 auto;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-accent);padding:4px var(--space-2)">Verdetto provvisorio · {{ n.verdetto }}</p>
+          </div>
+
+          <h3 style="margin:0 0 var(--space-3);font-size:clamp(19px,1.4vw,24px);line-height:1.15;max-width:34ch"><a href="{{ n.link }}" style="color:var(--color-text);text-decoration:none">{{ n.domanda }}</a></h3>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:var(--color-divider);border:1px solid var(--color-divider);margin-bottom:var(--space-4)">
+            <div style="background:var(--color-neutral-100);padding:var(--space-3)">
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Corsia A · il fenomeno</p>
+              <p class="num" style="margin:0 0 4px;font-size:13px;font-weight:600">{{ n.aData }}</p>
+              <p style="margin:0;font-size:14px">{{ n.aTesto }}</p>
+            </div>
+            <div style="background:var(--color-neutral-100);padding:var(--space-3)">
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Corsia B · l’esito politico</p>
+              <p class="num" style="margin:0 0 4px;font-size:13px;font-weight:600">{{ n.bData }}</p>
+              <p style="margin:0;font-size:14px">{{ n.bTesto }}</p>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4);margin-bottom:var(--space-4)">
+            <div>
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Test cronologico</p>
+              <p style="margin:0;font-size:14px">{{ n.test }}</p>
+            </div>
+            <div>
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Meccanismo ipotizzato</p>
+              <p style="margin:0;font-size:14px">{{ n.meccanismo }}</p>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;background:var(--color-divider);border:1px solid var(--color-divider);margin-bottom:var(--space-4)">
+            <div style="background:var(--color-bg);padding:var(--space-3);border-left:4px solid var(--color-text)">
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Prove da cercare a favore</p>
+              <p style="margin:0;font-size:14px">{{ n.favore }}</p>
+            </div>
+            <div style="background:var(--color-bg);padding:var(--space-3);border-left:4px solid var(--color-accent)">
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Prove da cercare contro</p>
+              <p style="margin:0;font-size:14px">{{ n.contro }}</p>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4);border-top:1px solid var(--color-divider);padding-top:var(--space-3)">
+            <div>
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Rischio di fallacia</p>
+              <p style="margin:0;font-size:14px;color:var(--color-neutral-800)">{{ n.rischio }}</p>
+            </div>
+            <div>
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Ricadute politiche da verificare</p>
+              <p style="margin:0;font-size:14px;color:var(--color-neutral-800)">{{ n.ricadute }}</p>
+            </div>
+            <div>
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Fonti da acquisire</p>
+              <p class="num" style="margin:0;font-size:13px">{{ n.fonti }}</p>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-6);align-items:start;border-top:1px solid var(--color-text);padding-top:var(--space-6)">
+    <div>
+      <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:0 0 var(--space-3)">Che cosa fa cadere un candidato</h2>
+      <p style="margin:0 0 var(--space-3);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:58ch">Tre condizioni, in ordine: la cronologia deve essere compatibile, il meccanismo deve essere descrivibile con documenti, l’esito politico deve essere un atto — una legge, una delibera, una crisi di governo, uno spostamento elettorale misurato. Se manca la terza, il candidato è materiale da Taccuino.</p>
+      <p class="num" style="margin:0;border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:14px">Nessun candidato di questa pagina ha ancora superato le tre condizioni.</p>
+    </div>
+    <aside style="border:1px solid var(--color-text);background:var(--color-neutral-100);padding:var(--space-4)">
+      <p style="display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M12 3 2 21h20Z"></path><g stroke="currentColor"><path d="M12 9v5M12 18v.1"></path></g></g></svg>
+        Cautela sui nuovi media
+      </p>
+      <p style="margin:0 0 var(--space-3);font-size:15px">Sui fenomeni tecnologici la letteratura divulgativa attribuisce effetti politici con grande generosità. Qui serve il contrario: prima l’atto, poi la catena che lo spiega. In assenza di atto, il verdetto è «correlazione senza causa».</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)" data-print-hide>
+        <a class="btn btn-secondary" href="Metodo.dc.html" style="text-decoration:none">La scala dei verdetti</a>
+        <a class="btn btn-secondary" href="Fonti.dc.html" style="text-decoration:none">Repertorio delle fonti</a>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.2</span></p>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:1500},&quot;tema&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Tutti&quot;,&quot;Informazione, RAI e potere&quot;,&quot;Costituzione e istituzioni&quot;,&quot;Welfare e riforme sociali&quot;,&quot;Magistratura e questione morale&quot;,&quot;Politica estera e Guerra fredda&quot;],&quot;default&quot;:&quot;Tutti&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Candidati&quot;},&quot;verdetto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Tutti&quot;,&quot;Causa&quot;,&quot;Concausa&quot;,&quot;Antecedente&quot;,&quot;Convergenza&quot;,&quot;Correlazione senza causa&quot;],&quot;default&quot;:&quot;Tutti&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Candidati&quot;}}">
+const NESSI = [
+  {
+    id: 'N03', arco: '1984–1994', tema: 'Informazione, RAI e potere', verdetto: '03 · Antecedente',
+    domanda: 'Lo spot Apple del Super Bowl 1984 ha fornito il linguaggio alle campagne politiche italiane del 1994?',
+    aData: '22 gennaio 1984', aTesto: 'Lo spot «1984» va in onda una sola volta durante il Super Bowl e diventa il caso di scuola della pubblicità come evento: il prodotto appare pochi secondi, il nemico è un sistema.',
+    bData: '26 gennaio 1994', bTesto: 'Un partito nuovo si annuncia con un videomessaggio registrato, costruito sulla contrapposizione fra un sistema e una promessa di libertà, e non con un congresso.',
+    test: 'Dieci anni separano i due fatti: la cronologia regge, ma un decennio richiede di mostrare la catena di trasmissione, non la somiglianza formale.',
+    meccanismo: 'Tecniche e personale passano dalla pubblicità commerciale alla comunicazione politica attraverso le concessionarie e i consulenti formati sulle campagne di prodotto degli anni ’80.',
+    favore: 'Curricula e incarichi dei consulenti delle campagne 1994; manuali e corsi delle concessionarie; storyboard e note di regia che citino modelli statunitensi.',
+    contro: 'Precedenti italiani autonomi: spot referendari 1974 e 1981, Tribune elettorali, campagne DC e PCI degli anni ’80; letteratura che fa risalire il formato alla televisione commerciale nazionale.',
+    rischio: 'Somiglianza retorica presa per filiazione: due prodotti della stessa industria pubblicitaria possono convergere senza che uno derivi dall’altro.',
+    ricadute: 'Regolazione degli spot politici: legge 515/1993 sulle spese elettorali e legge 28/2000 sulla parità di accesso.',
+    fonti: 'Archivi delle concessionarie · Rai Teche · atti parlamentari sulle leggi 515/1993 e 28/2000'
+  },
+  {
+    id: 'N04', arco: '1980–2000', tema: 'Costituzione e istituzioni', verdetto: '02 · Concausa',
+    domanda: 'Il personal computer ha prodotto la stagione delle riforme amministrative, o le ha solo rese eseguibili?',
+    aData: '1980–1992', aTesto: 'Il calcolatore entra negli uffici pubblici come strumento individuale: anagrafi, catasti e ruoli fiscali cominciano a esistere in forma interrogabile da una scrivania.',
+    bData: '7 agosto 1990 · 1993 · 1997', bTesto: 'Legge 241 sul procedimento amministrativo e sul diritto di accesso, istituzione dell’Autorità per l’informatica nella pubblica amministrazione, riforme sulla semplificazione.',
+    test: 'L’informatizzazione precede le riforme di un decennio: la successione è compatibile con un rapporto di condizione abilitante.',
+    meccanismo: 'L’accesso agli atti e i termini certi del procedimento diventano esigibili solo quando lo stato di una pratica è consultabile: la tecnica rende sanzionabile un obbligo già teorizzato.',
+    favore: 'Relazioni tecniche allegate ai disegni di legge; piani triennali di informatizzazione; dati sui tempi dei procedimenti prima e dopo.',
+    contro: 'Il diritto di accesso è discusso in dottrina già negli anni ’70 su modello anglosassone; molte amministrazioni applicano la 241 senza sistemi informativi.',
+    rischio: 'Determinismo tecnologico: attribuire alla macchina una riforma decisa da una cultura giuridica e da una pressione politica precedenti.',
+    ricadute: 'Legge 241/1990, d.lgs. 39/1993, DPR 445/2000: esigibilità dell’accesso e digitalizzazione del documento amministrativo.',
+    fonti: 'Atti parlamentari · relazioni AIPA · Corte dei conti · Gazzetta Ufficiale'
+  },
+  {
+    id: 'N05', arco: '1987–2002', tema: 'Informazione, RAI e potere', verdetto: '05 · Correlazione senza causa',
+    domanda: 'Internet agli albori ha aggirato il duopolio televisivo nella formazione dell’opinione politica?',
+    aData: 'dicembre 1987 – 1996', aTesto: 'Registrazione del primo dominio nazionale, apertura dei provider commerciali, primi siti di partito e di giornale: la rete esiste in Italia ma con penetrazione a una cifra.',
+    bData: '1994–2001', bTesto: 'Le campagne elettorali restano interamente televisive; le norme sulla parità di accesso del 2000 disciplinano radio e TV e non considerano la rete.',
+    test: 'Nel periodo dell’atlante la rete arriva a una quota di popolazione troppo bassa per spostare esiti: il test cronologico consente al massimo un effetto di nicchia.',
+    meccanismo: 'Mailing list, newsgroup e primi siti costruiscono canali orizzontali per minoranze politiche organizzate, senza intercettare l’elettorato di massa.',
+    favore: 'Archivi di mailing list e newsgroup politici; primi siti dei partiti; uso della rete nelle mobilitazioni del 2001–2002.',
+    contro: 'Dati ISTAT e Audiweb sulla diffusione domestica; spesa elettorale dichiarata, quasi tutta televisiva; assenza della rete negli atti sulla par condicio.',
+    rischio: 'Retrodatare al periodo 1943–2002 effetti che appartengono al decennio successivo.',
+    ricadute: 'Se confermato l’effetto di nicchia, la ricaduta è organizzativa e non elettorale: va detto esplicitamente nella scheda.',
+    fonti: 'Registro .it · ISTAT · rendiconti elettorali · atti sulla legge 28/2000'
+  },
+  {
+    id: 'N06', arco: '1982–1993', tema: 'Welfare e riforme sociali', verdetto: '02 · Concausa',
+    domanda: 'La lotta all’AIDS ha fatto delle associazioni un interlocutore stabile delle istituzioni sanitarie?',
+    aData: '1982–1988', aTesto: 'Primi casi diagnosticati in Italia, panico sociale e discriminazione documentata; nascono associazioni che fanno insieme assistenza, informazione e pressione politica.',
+    bData: '5 giugno 1990', bTesto: 'La legge 135 sul piano di interventi contro l’AIDS: fondi, reparti, anonimato del test, divieto di indagini sullo stato sierologico nei rapporti di lavoro.',
+    test: 'Sei anni fra l’emergenza sanitaria e la legge, con le campagne ministeriali nel mezzo: successione stretta e verificabile atto per atto.',
+    meccanismo: 'Le associazioni forniscono dati di prima mano che il servizio sanitario non ha, e in cambio ottengono audizioni, ruoli nelle commissioni e riconoscimento normativo.',
+    favore: 'Verbali delle audizioni parlamentari; composizione della Commissione nazionale AIDS; testo della legge 135/1990 confrontato con i documenti associativi.',
+    contro: 'La legge può spiegarsi con l’allineamento a raccomandazioni OMS e comunitarie e con la spinta ospedaliera, indipendentemente dalle associazioni.',
+    rischio: 'Attribuire alla mobilitazione ciò che deriva da obblighi internazionali già assunti.',
+    ricadute: 'Legge 135/1990, tutela dell’anonimato, precedente di co-decisione fra associazioni e ministero riusato negli anni successivi.',
+    fonti: 'Gazzetta Ufficiale · atti parlamentari · archivi associativi · documenti OMS'
+  },
+  {
+    id: 'N07', arco: '1988–2002', tema: 'Magistratura e questione morale', verdetto: '02 · Concausa',
+    domanda: 'Le intercettazioni telefoniche hanno spostato il baricentro dell’informazione politica dal Parlamento alle procure?',
+    aData: '24 ottobre 1988', aTesto: 'Il nuovo codice di procedura penale disciplina le intercettazioni e il regime degli atti; l’espansione della telefonia moltiplica il materiale raccolto.',
+    bData: '1992–2002', bTesto: 'Trascrizioni pubblicate in prima pagina, avvisi di garanzia come notizie di apertura, tentativi ricorrenti di limitare per legge la pubblicazione.',
+    test: 'Lo strumento precede di quattro anni l’inchiesta che ne fa un genere giornalistico: la cronologia regge, ma chiama in causa anche la crisi dei partiti.',
+    meccanismo: 'Un atto d’indagine testuale, citabile e apparentemente autoevidente diventa la fonte più economica per la cronaca politica, sostituendo il resoconto parlamentare.',
+    favore: 'Conteggio delle autorizzazioni; analisi delle prime pagine 1990–2002; disegni di legge sulla pubblicazione e relative relazioni.',
+    contro: 'Il primato giudiziario nell’agenda è già visibile negli anni ’80 senza intercettazioni; il crollo dei partiti è causa autonoma della perdita di centralità parlamentare.',
+    rischio: 'Confondere lo strumento con la causa: il mezzo di prova spiega la forma della notizia, non il collasso del sistema politico.',
+    ricadute: 'Interventi legislativi sulla pubblicabilità, regole deontologiche, prassi delle commissioni d’inchiesta.',
+    fonti: 'Ministero della giustizia · atti parlamentari · emeroteca · Consiglio nazionale dell’Ordine dei giornalisti'
+  },
+  {
+    id: 'N08', arco: '1976–1993', tema: 'Informazione, RAI e potere', verdetto: '03 · Antecedente',
+    domanda: 'Le emittenti locali hanno funzionato da scuola di reclutamento per il ceto politico eletto direttamente dal 1993?',
+    aData: '1976–1990', aTesto: 'Centinaia di radio e televisioni locali danno visibilità continua a figure di quartiere, di categoria e di partito fuori dai canali di carriera interni.',
+    bData: '25 marzo 1993', bTesto: 'La legge 81 introduce l’elezione diretta dei sindaci: la notorietà personale diventa una risorsa elettorale immediatamente convertibile.',
+    test: 'Quindici anni di visibilità locale precedono la riforma che la premia: la sequenza è compatibile e circoscrivibile a singole città.',
+    meccanismo: 'Il mezzo locale costruisce riconoscibilità a costo quasi nullo; la riforma trasforma quella riconoscibilità in voto senza passare dall’apparato di partito.',
+    favore: 'Biografie dei sindaci eletti 1993–2002; palinsesti e archivi delle emittenti; liste civiche con candidati provenienti dai media locali.',
+    contro: 'Prevalenza di percorsi classici — professioni, associazionismo, partito — nei sindaci del periodo; casi di notorietà televisiva locale senza esito elettorale.',
+    rischio: 'Selezionare i casi confermanti: bastano tre sindaci ex conduttori per costruire una regola che i numeri non sostengono.',
+    ricadute: 'Effetti sulla selezione delle candidature locali e sul rapporto fra liste civiche e partiti.',
+    fonti: 'Ministero dell’interno · anagrafe degli amministratori · archivi delle emittenti locali'
+  },
+  {
+    id: 'N09', arco: '1990–1993', tema: 'Costituzione e istituzioni', verdetto: '05 · Correlazione senza causa',
+    domanda: 'Fax e reti telefoniche hanno reso possibile la mobilitazione referendaria che ha cambiato la legge elettorale?',
+    aData: '1990–1992', aTesto: 'Comitati sparsi coordinano raccolta firme, banchetti e depositi con fax, telefono e liste di recapiti: struttura leggera, nessun apparato territoriale.',
+    bData: '9 giugno 1991 · 18 aprile 1993', bTesto: 'Referendum sulla preferenza unica e referendum sul sistema elettorale, entrambi con esito schiacciante e conseguente riscrittura della legge.',
+    test: 'La tecnologia è disponibile e in uso durante le due campagne: la contemporaneità c’è, il contributo causale è tutto da dimostrare.',
+    meccanismo: 'Il fax abbatte il costo del coordinamento nazionale e consente a un comitato senza sedi di competere con le macchine di partito sulla logistica delle firme.',
+    favore: 'Circolari e comunicati dei comitati; costi di campagna; testimonianze degli organizzatori; tempi di raccolta rispetto ai referendum precedenti.',
+    contro: 'Le firme sono raccolte da reti associative, sindacali e di partito preesistenti; referendum degli anni ’70 e ’80 riuscirono senza fax.',
+    rischio: 'Spiegare un risultato politico con lo strumento organizzativo disponibile in quel momento, come se non ce ne fossero altri.',
+    ricadute: 'Legge 277/1993 e riforma del sistema elettorale; precedente per le campagne referendarie successive.',
+    fonti: 'Archivi dei comitati promotori · Corte di cassazione (ufficio referendum) · Radio Radicale'
+  },
+  {
+    id: 'N10', arco: '1991', tema: 'Politica estera e Guerra fredda', verdetto: '02 · Concausa',
+    domanda: 'La guerra in diretta ha spostato in Parlamento la decisione sull’impiego delle forze armate?',
+    aData: '17 gennaio 1991', aTesto: 'L’attacco all’Iraq è trasmesso mentre accade: per settimane la diretta continua è la principale fonte pubblica, con immagini fornite dai comandi militari.',
+    bData: 'gennaio–febbraio 1991', bTesto: 'Comunicazioni del governo e voti delle Camere sulla partecipazione italiana, con il vincolo dell’articolo 11 discusso in aula e sui giornali.',
+    test: 'Diretta e voti sono simultanei: senza uno scarto temporale il rapporto causale va cercato nei verbali, non nella sequenza.',
+    meccanismo: 'La visibilità dell’operazione rende politicamente impraticabile una decisione soltanto governativa e costringe a un passaggio parlamentare esplicito.',
+    favore: 'Resoconti stenografici delle sedute; dichiarazioni sul rapporto fra immagini e consenso; confronto con le prassi delle missioni precedenti.',
+    contro: 'Il passaggio parlamentare può derivare dalla coalizione di governo e dagli obblighi ONU; il coinvolgimento in missioni internazionali era già materia di voto.',
+    rischio: 'Sovrastimare l’effetto del mezzo su una decisione presa dentro vincoli internazionali stringenti.',
+    ricadute: 'Prassi del voto parlamentare sulle missioni, consolidata nel decennio successivo.',
+    fonti: 'Atti parlamentari · risoluzioni ONU · Rai Teche'
+  },
+  {
+    id: 'N11', arco: '1994–2000', tema: 'Costituzione e istituzioni', verdetto: '04 · Convergenza',
+    domanda: 'Proiezioni e sondaggi in diretta hanno costretto il legislatore a disciplinare la comunicazione elettorale?',
+    aData: '1994–2000', aTesto: 'Exit poll, proiezioni e sondaggi diventano il contenuto principale delle notti elettorali e delle settimane precedenti, con errori ripetuti e smentite in diretta.',
+    bData: '22 febbraio 2000', bTesto: 'La legge 28 disciplina la parità di accesso e vieta la pubblicazione dei sondaggi nei quindici giorni precedenti il voto.',
+    test: 'Sei anni di pratica contestata precedono la norma: sequenza compatibile, ma la norma nasce dentro un conflitto politico più ampio sul sistema televisivo.',
+    meccanismo: 'La contestazione pubblica degli strumenti previsionali fornisce l’argomento tecnico a una maggioranza che cerca di riequilibrare l’accesso alle reti.',
+    favore: 'Relazioni ai disegni di legge; verbali della commissione di vigilanza; rassegna degli errori di proiezione 1994–1999.',
+    contro: 'La disciplina della comunicazione elettorale è in cantiere dal 1993; il divieto sui sondaggi ricalca norme già esistenti in altri paesi europei.',
+    rischio: 'Confondere l’occasione con la causa: l’errore delle proiezioni può essere il pretesto di una legge decisa per altri motivi.',
+    ricadute: 'Legge 28/2000, poteri dell’Autorità per le garanzie nelle comunicazioni, regolamenti della commissione di vigilanza.',
+    fonti: 'Atti parlamentari · AGCOM · archivi degli istituti demoscopici'
+  },
+  {
+    id: 'N12', arco: '1985–1993', tema: 'Welfare e riforme sociali', verdetto: '01 · Causa',
+    domanda: 'L’emergenza AIDS fra i tossicodipendenti ha determinato la legge sulle droghe del 1990?',
+    aData: '1985–1989', aTesto: 'La diffusione dell’infezione per via iniettiva rende la tossicodipendenza un problema di sanità pubblica misurabile, con dati epidemiologici e reparti dedicati.',
+    bData: '26 giugno 1990 · 18 aprile 1993', bTesto: 'La legge 162 inasprisce il regime del consumo con obbligo di trattamento; tre anni dopo un referendum abrogativo ne cancella la parte punitiva.',
+    test: 'Epidemia, legge e referendum stanno in otto anni, ciascuno documentato: è il candidato con la catena più corta e più controllabile.',
+    meccanismo: 'Il dato sanitario fornisce la giustificazione tecnica a un indirizzo repressivo già sostenuto politicamente; la sanzione viene presentata come strumento terapeutico.',
+    favore: 'Relazione al disegno di legge e dati dell’Istituto superiore di sanità; dibattito parlamentare; campagne ministeriali del 1988–1990.',
+    contro: 'Le posizioni proibizioniste precedono l’epidemia; i dati sanitari sono usati anche dai contrari, che chiedono riduzione del danno e non sanzione.',
+    rischio: 'Prendere la motivazione dichiarata in relazione come causa reale della norma.',
+    ricadute: 'Legge 162/1990, referendum del 1993, avvio dei servizi per le tossicodipendenze nel sistema sanitario.',
+    fonti: 'Gazzetta Ufficiale · atti parlamentari · Istituto superiore di sanità · Ministero della sanità'
+  }
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    const tema = this.props.tema ?? 'Tutti';
+    const verdetto = this.props.verdetto ?? 'Tutti';
+    let nessi = NESSI;
+    if (tema !== 'Tutti') nessi = nessi.filter(n => n.tema === tema);
+    if (verdetto !== 'Tutti') nessi = nessi.filter(n => n.verdetto.indexOf(verdetto) >= 0);
+    const mk = n => { const p = new URLSearchParams({ tipo: 'nesso', id: n.id, titolo: n.domanda, anni: n.arco }); return 'Scheda%20nesso.dc.html?' + p.toString().replace(/\+/g, '%20'); };
+    nessi = nessi.map(n => ({ ...n, link: mk(n) }));
+    return { nessi, totale: NESSI.length, mostrati: nessi.length };
+  }
+}
+</script>
+</body>
+</html>

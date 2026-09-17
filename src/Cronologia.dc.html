@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/dati.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html" aria-current="page">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main class="pds-apertura" style="--pds-cover:url(/assets/immagini/copertina-cronologia.svg);max-width:1180px;margin:0 auto;padding:var(--space-6) var(--space-6) 96px">
+
+  <h1 style="font-size:clamp(19px,2.3vw,26px);margin:0 0 var(--space-2)">Una cronologia, due prospettive</h1>
+  <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch;margin:0 0 var(--space-6)">A sinistra l’Italia, a destra ciò che accade nel mondo e arriva sul tavolo delle istituzioni italiane. Su telefono le due corsie diventano una sola colonna, con l’etichetta Italia o Mondo su ogni voce.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:var(--space-3) 0;margin-bottom:var(--space-8);position:sticky;top:64px;background:var(--color-bg);z-index:10" data-print-hide>
+    <span style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Salta a</span>
+    <div class="num" style="display:flex;flex-wrap:wrap;gap:4px">
+      <sc-for list="{{ salti }}" as="s" hint-placeholder-count="13">
+        <a class="tag tag-neutral" href="{{ s.href }}" style="text-decoration:none">{{ s.label }}</a>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:var(--space-2);margin-left:auto">
+      <button class="btn btn-secondary" type="button" onClick="{{ toggleItalia }}">{{ labelItalia }}</button>
+      <button class="btn btn-secondary" type="button" onClick="{{ toggleMondo }}">{{ labelMondo }}</button>
+    </div>
+  </div>
+
+  <div id="cronologia-app" data-vb-skip style="display:flex;flex-direction:column;gap:var(--space-8)">
+    <sc-for list="{{ periodi }}" as="p" hint-placeholder-count="3">
+      <section id="{{ p.id }}" style="scroll-margin-top:140px">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-3);border-bottom:1px solid var(--color-text);padding-bottom:var(--space-2);margin-bottom:var(--space-4)">
+          <h2 class="num" style="margin:0;font-size:clamp(19px,1.8vw,24px)">{{ p.anni }}</h2>
+          <p style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:18px">{{ p.titolo }}</p>
+          <a class="btn btn-ghost" href="{{ p.link }}" style="margin-left:auto;text-decoration:none;white-space:nowrap">Scheda del periodo →</a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6)">
+          <sc-if value="{{ mostraItalia }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600">Italia <span class="num" style="color:var(--color-neutral-700)">{{ p.nItalia }}</span></p>
+            <ul class="num" style="list-style:none;margin:0;padding:0;border-left:1px solid var(--color-text)">
+              <sc-for list="{{ p.italia }}" as="v" hint-placeholder-count="3">
+                <li style="padding:0 0 var(--space-3) var(--space-4);position:relative">
+                  <span style="position:absolute;left:-5px;top:8px;width:8px;height:8px;background:var(--color-text)"></span>
+                  <span style="display:block;font-size:12px;color:var(--color-neutral-700)">{{ v.anno }}</span>
+                  <a href="{{ v.link }}" style="color:var(--color-text);font-weight:600;font-size:15px">{{ v.titolo }}</a>
+                </li>
+              </sc-for>
+            </ul>
+          </div>
+          </sc-if>
+          <sc-if value="{{ mostraMondo }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Accade nel mondo <span class="num">{{ p.nMondo }}</span></p>
+            <ul class="num" style="list-style:none;margin:0;padding:0;border-left:4px double var(--color-neutral-500)">
+              <sc-for list="{{ p.mondo }}" as="v" hint-placeholder-count="2">
+                <li style="padding:0 0 var(--space-3) var(--space-4);position:relative">
+                  <span style="position:absolute;left:-6px;top:8px;width:9px;height:9px;border:1px solid var(--color-neutral-600);background:var(--color-bg)"></span>
+                  <span style="display:block;font-size:12px;color:var(--color-neutral-700)">{{ v.anno }}</span>
+                  <a href="{{ v.link }}" style="color:var(--color-text);font-weight:600;font-size:15px">{{ v.titolo }}</a>
+                </li>
+              </sc-for>
+            </ul>
+          </div>
+          </sc-if>
+        </div>
+      </section>
+    </sc-for>
+  </div>
+
+  <section style="margin-top:96px;border-top:1px solid var(--color-divider);padding-top:var(--space-6)">
+    <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-4)">Mockup · la stessa sezione a 360 px</h2>
+    <div style="width:340px;max-width:100%;border:1px solid var(--color-text);padding:var(--space-4)">
+      <p class="num" style="margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:20px">1992–1994</p>
+      <p style="margin:0 0 var(--space-3);font-size:14px;font-weight:600">La crisi della Prima Repubblica</p>
+      <ul class="num" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--space-3)">
+        <li style="border-left:4px solid var(--color-text);padding-left:var(--space-3)"><span style="display:block;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Italia · 1992</span><span style="font-weight:600;font-size:14px">Mani Pulite e Tangentopoli</span></li>
+        <li style="border-left:6px double var(--color-neutral-500);padding-left:var(--space-3)"><span style="display:block;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Mondo · 1992</span><span style="font-weight:600;font-size:14px">Trattato di Maastricht e parametri</span></li>
+        <li style="border-left:4px solid var(--color-text);padding-left:var(--space-3)"><span style="display:block;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Italia · 1993</span><span style="font-weight:600;font-size:14px">Referendum del 1993</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { corsia: 'entrambe' };
+
+  attendiDati() {
+    if (window.AT) return;
+    const t = setInterval(() => { if (window.AT) { clearInterval(t); this.forceUpdate(); } }, 60);
+    setTimeout(() => clearInterval(t), 8000);
+  }
+  componentDidMount() { this.attendiDati(); }
+
+  renderVals() {
+    const D = window.AT;
+    if (!D) return { periodi: [], salti: [] };
+    const c = this.state.corsia;
+
+    const voce = r => ({ anno: D.anni(r), titolo: r.id + ' · ' + r.titolo, link: D.pagina(r.id) });
+    const perAnno = (a, b) => parseInt(a.inizio, 10) - parseInt(b.inizio, 10) || a.titolo.localeCompare(b.titolo, 'it');
+
+    const periodi = D.tassonomie.periodi.map(p => {
+      const dentro = D.indice.filter(r => (r.periodi || []).indexOf(p.id) !== -1);
+      const italia = dentro.filter(r => r.tipologia === 'Evento').sort(perAnno);
+      const mondo = dentro.filter(r => r.tipologia === 'Accade nel mondo').sort(perAnno);
+      return {
+        id: p.id, anni: p.inizio + '–' + p.fine, titolo: p.titolo, link: D.pagina(p.id),
+        italia: italia.map(voce), mondo: mondo.map(voce),
+        nItalia: italia.length, nMondo: mondo.length
+      };
+    });
+
+    return {
+      periodi: periodi,
+      salti: D.tassonomie.periodi.map(p => ({ href: '#' + p.id, label: p.inizio + '–' + p.fine })),
+      mostraItalia: c !== 'mondo',
+      mostraMondo: c !== 'italia',
+      labelItalia: c === 'italia' ? 'Mostra tutto' : 'Solo Italia',
+      labelMondo: c === 'mondo' ? 'Mostra tutto' : 'Solo mondo',
+      toggleItalia: () => this.setState({ corsia: c === 'italia' ? 'entrambe' : 'italia' }),
+      toggleMondo: () => this.setState({ corsia: c === 'mondo' ? 'entrambe' : 'mondo' })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

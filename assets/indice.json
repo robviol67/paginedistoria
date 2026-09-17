@@ -1,0 +1,1107 @@
+{
+  "generato": "2026-09-16",
+  "edizione_dati": "1.1",
+  "nota": "Indice leggero di esempio per le app JS (ricerca, filtri, cronologia). 32 voci su 172. I testi provengono dai dati v1.1 e NON sono verificati; i temi sono rimappati sulla tassonomia a 18 voci.",
+  "campi": [
+    "id",
+    "slug",
+    "tipologia",
+    "titolo",
+    "anno_inizio",
+    "anno_fine",
+    "periodo_ids",
+    "periodo_principale",
+    "temi",
+    "sintesi_breve",
+    "n_fonti",
+    "verdetto",
+    "stato"
+  ],
+  "periodi": [
+    {
+      "id": "P01",
+      "anno_inizio": 1943,
+      "anno_fine": 1948,
+      "titolo": "Dalla caduta del fascismo alla Repubblica"
+    },
+    {
+      "id": "P02",
+      "anno_inizio": 1948,
+      "anno_fine": 1953,
+      "titolo": "La scelta occidentale"
+    },
+    {
+      "id": "P03",
+      "anno_inizio": 1953,
+      "anno_fine": 1963,
+      "titolo": "Miracolo economico e trasformazione sociale"
+    },
+    {
+      "id": "P04",
+      "anno_inizio": 1963,
+      "anno_fine": 1968,
+      "titolo": "Il centro-sinistra e la modernizzazione incompiuta"
+    },
+    {
+      "id": "P05",
+      "anno_inizio": 1968,
+      "anno_fine": 1974,
+      "titolo": "Contestazione, Autunno caldo e strategia della tensione"
+    },
+    {
+      "id": "P06",
+      "anno_inizio": 1974,
+      "anno_fine": 1978,
+      "titolo": "Crisi economica e solidarietà nazionale"
+    },
+    {
+      "id": "P07",
+      "anno_inizio": 1978,
+      "anno_fine": 1981,
+      "titolo": "Dal delitto Moro alla P2"
+    },
+    {
+      "id": "P08",
+      "anno_inizio": 1981,
+      "anno_fine": 1987,
+      "titolo": "L’Italia di Pertini e Craxi"
+    },
+    {
+      "id": "P09",
+      "anno_inizio": 1987,
+      "anno_fine": 1992,
+      "titolo": "La fine delle coordinate della Guerra fredda"
+    },
+    {
+      "id": "P10",
+      "anno_inizio": 1992,
+      "anno_fine": 1994,
+      "titolo": "La crisi della Prima Repubblica"
+    },
+    {
+      "id": "P11",
+      "anno_inizio": 1994,
+      "anno_fine": 1996,
+      "titolo": "Il nuovo bipolarismo"
+    },
+    {
+      "id": "P12",
+      "anno_inizio": 1996,
+      "anno_fine": 2001,
+      "titolo": "L’Ulivo e la scelta della moneta unica"
+    },
+    {
+      "id": "P13",
+      "anno_inizio": 2001,
+      "anno_fine": 2003,
+      "titolo": "L’euro nella vita quotidiana e l’orizzonte 2003"
+    }
+  ],
+  "temi": [
+    "Costituzione e istituzioni",
+    "Diritti civili e legislazione",
+    "Europa ed euro",
+    "Informazione, RAI e potere",
+    "Lavoro, sindacati e concertazione",
+    "Mafie e risposta dello Stato",
+    "Magistratura e questione morale",
+    "Memoria e uso politico della storia",
+    "Partiti e culture politiche",
+    "Politica economica e Stato imprenditore",
+    "Politica estera e Guerra fredda",
+    "Regioni e questione territoriale",
+    "Servizi, apparati e controllo parlamentare",
+    "Società e politica",
+    "Stato e Chiesa",
+    "Terrorismi, stragi e ordine pubblico",
+    "Welfare e riforme sociali"
+  ],
+  "tipologie": [
+    "Periodo",
+    "Tema",
+    "Personaggio",
+    "Evento",
+    "Accade nel mondo",
+    "Nesso"
+  ],
+  "verdetti": [
+    "causa",
+    "concausa",
+    "antecedente",
+    "convergenza",
+    "correlazione senza causa",
+    "nessun rapporto",
+    "non accertabile"
+  ],
+  "schede": [
+    {
+      "id": "P01",
+      "slug": "dalla-caduta-del-fascismo-alla-repubblica",
+      "tipologia": "Periodo",
+      "titolo": "Dalla caduta del fascismo alla Repubblica",
+      "anno_inizio": 1943,
+      "anno_fine": 1948,
+      "periodo_ids": [
+        "P01"
+      ],
+      "temi": [
+        "Costituzione e istituzioni",
+        "Partiti e culture politiche",
+        "Memoria e uso politico della storia"
+      ],
+      "sintesi_breve": "L’armistizio divide il paese; occupazione tedesca, RSI, Resistenza e avanzata alleata precedono la Liberazione.",
+      "n_fonti": 6,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "P05",
+      "slug": "contestazione-autunno-caldo-e-strategia-della-tensione",
+      "tipologia": "Periodo",
+      "titolo": "Contestazione, Autunno caldo e strategia della tensione",
+      "anno_inizio": 1968,
+      "anno_fine": 1974,
+      "periodo_ids": [
+        "P05"
+      ],
+      "temi": [
+        "Lavoro, sindacati e concertazione",
+        "Diritti civili e legislazione",
+        "Terrorismi, stragi e ordine pubblico"
+      ],
+      "sintesi_breve": "Mobilitazioni studentesche e operaie producono nuovi linguaggi e conquiste normative.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P05"
+    },
+    {
+      "id": "P08",
+      "slug": "litalia-di-pertini-e-craxi",
+      "tipologia": "Periodo",
+      "titolo": "L’Italia di Pertini e Craxi",
+      "anno_inizio": 1981,
+      "anno_fine": 1987,
+      "periodo_ids": [
+        "P08"
+      ],
+      "temi": [
+        "Partiti e culture politiche",
+        "Politica economica e Stato imprenditore",
+        "Politica estera e Guerra fredda"
+      ],
+      "sintesi_breve": "Il pentapartito, la presidenza Pertini e i governi Craxi segnano il decennio.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P08"
+    },
+    {
+      "id": "P10",
+      "slug": "la-crisi-della-prima-repubblica",
+      "tipologia": "Periodo",
+      "titolo": "La crisi della Prima Repubblica",
+      "anno_inizio": 1992,
+      "anno_fine": 1994,
+      "periodo_ids": [
+        "P10"
+      ],
+      "temi": [
+        "Magistratura e questione morale",
+        "Mafie e risposta dello Stato",
+        "Politica economica e Stato imprenditore"
+      ],
+      "sintesi_breve": "Mani Pulite, le stragi mafiose e la crisi della lira travolgono equilibri politici e fiducia pubblica.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "P12",
+      "slug": "lulivo-e-la-scelta-della-moneta-unica",
+      "tipologia": "Periodo",
+      "titolo": "L’Ulivo e la scelta della moneta unica",
+      "anno_inizio": 1996,
+      "anno_fine": 2001,
+      "periodo_ids": [
+        "P12"
+      ],
+      "temi": [
+        "Europa ed euro",
+        "Politica economica e Stato imprenditore",
+        "Politica estera e Guerra fredda"
+      ],
+      "sintesi_breve": "I governi dell’Ulivo perseguono l’ingresso nell’unione monetaria e proseguono privatizzazioni e riforme.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P12"
+    },
+    {
+      "id": "P13",
+      "slug": "leuro-nella-vita-quotidiana-e-lorizzonte-2003",
+      "tipologia": "Periodo",
+      "titolo": "L’euro nella vita quotidiana e l’orizzonte 2003",
+      "anno_inizio": 2001,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P13"
+      ],
+      "temi": [
+        "Europa ed euro",
+        "Politica economica e Stato imprenditore",
+        "Diritti civili e legislazione"
+      ],
+      "sintesi_breve": "Il ritorno del centrodestra al governo, il G8 di Genova e l’11 settembre aprono una fase nuova.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P13"
+    },
+    {
+      "id": "T01",
+      "slug": "repubblica-costituzione-e-attuazione",
+      "tipologia": "Tema",
+      "titolo": "Repubblica, Costituzione e attuazione",
+      "anno_inizio": 1943,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Costituzione e istituzioni",
+        "Diritti civili e legislazione"
+      ],
+      "sintesi_breve": "La democrazia repubblicana nasce da una nuova cornice di diritti e poteri, la cui attuazione richiede decenni: Corte costituzionale, regioni e riforme amministrative cambiano il ra",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "T04",
+      "slug": "da-ventotene-alleuro",
+      "tipologia": "Tema",
+      "titolo": "Da Ventotene all’euro",
+      "anno_inizio": 1943,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Europa ed euro",
+        "Costituzione e istituzioni",
+        "Politica economica e Stato imprenditore"
+      ],
+      "sintesi_breve": "Progetti federalisti, CECA, CEE, mercato unico e unione monetaria corrispondono a fasi e compromessi differenti.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "T09",
+      "slug": "diritti-civili-e-cittadinanza",
+      "tipologia": "Tema",
+      "titolo": "Diritti civili e cittadinanza",
+      "anno_inizio": 1946,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Diritti civili e legislazione",
+        "Costituzione e istituzioni",
+        "Stato e Chiesa"
+      ],
+      "sintesi_breve": "Voto, divorzio, obiezione di coscienza, famiglia e libertà personali diventano terreno di mobilitazione e riforma.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "T19",
+      "slug": "giustizia-corruzione-e-crisi-politica",
+      "tipologia": "Tema",
+      "titolo": "Giustizia, corruzione e crisi politica",
+      "anno_inizio": 1974,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Magistratura e questione morale",
+        "Partiti e culture politiche",
+        "Costituzione e istituzioni"
+      ],
+      "sintesi_breve": "Scandali finanziari e indagini sul finanziamento dei partiti modificano fiducia e conflitti tra poteri.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P06"
+    },
+    {
+      "id": "B01",
+      "slug": "alcide-de-gasperi",
+      "tipologia": "Personaggio",
+      "titolo": "Alcide De Gasperi",
+      "anno_inizio": 1943,
+      "anno_fine": 1954,
+      "periodo_ids": [
+        "P01",
+        "P02",
+        "P03"
+      ],
+      "temi": [
+        "Partiti e culture politiche",
+        "Politica estera e Guerra fredda",
+        "Europa ed euro"
+      ],
+      "sintesi_breve": "Leader della DC e presidente del Consiglio dal 1945 al 1953, guida la ricostruzione democratica, la scelta atlantica e l’integrazione europea.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "B06",
+      "slug": "aldo-moro",
+      "tipologia": "Personaggio",
+      "titolo": "Aldo Moro",
+      "anno_inizio": 1946,
+      "anno_fine": 1978,
+      "periodo_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06"
+      ],
+      "temi": [
+        "Partiti e culture politiche",
+        "Costituzione e istituzioni",
+        "Politica estera e Guerra fredda"
+      ],
+      "sintesi_breve": "Costituente, segretario della DC e presidente del Consiglio, è centrale nel centro-sinistra e nel dialogo con il PCI.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "B08",
+      "slug": "enrico-berlinguer",
+      "tipologia": "Personaggio",
+      "titolo": "Enrico Berlinguer",
+      "anno_inizio": 1969,
+      "anno_fine": 1984,
+      "periodo_ids": [
+        "P05",
+        "P06",
+        "P07",
+        "P08"
+      ],
+      "temi": [
+        "Partiti e culture politiche",
+        "Politica estera e Guerra fredda",
+        "Lavoro, sindacati e concertazione"
+      ],
+      "sintesi_breve": "Segretario del PCI dal 1972, propone il compromesso storico e partecipa all’eurocomunismo.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P05"
+    },
+    {
+      "id": "B09",
+      "slug": "sandro-pertini",
+      "tipologia": "Personaggio",
+      "titolo": "Sandro Pertini",
+      "anno_inizio": 1943,
+      "anno_fine": 1985,
+      "periodo_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08"
+      ],
+      "temi": [
+        "Costituzione e istituzioni",
+        "Partiti e culture politiche",
+        "Memoria e uso politico della storia"
+      ],
+      "sintesi_breve": "Antifascista e socialista, presidente della Camera e poi della Repubblica dal 1978 al 1985, diventa un riferimento pubblico durante terrorismo e calamità.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "B11",
+      "slug": "bettino-craxi",
+      "tipologia": "Personaggio",
+      "titolo": "Bettino Craxi",
+      "anno_inizio": 1976,
+      "anno_fine": 2000,
+      "periodo_ids": [
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12"
+      ],
+      "temi": [
+        "Partiti e culture politiche",
+        "Politica economica e Stato imprenditore",
+        "Politica estera e Guerra fredda"
+      ],
+      "sintesi_breve": "Segretario del PSI e presidente del Consiglio dal 1983 al 1987, promuove un ruolo più forte dei socialisti, interviene sulla scala mobile e gestisce Sigonella.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P06"
+    },
+    {
+      "id": "B20",
+      "slug": "giovanni-falcone",
+      "tipologia": "Personaggio",
+      "titolo": "Giovanni Falcone",
+      "anno_inizio": 1980,
+      "anno_fine": 1992,
+      "periodo_ids": [
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "temi": [
+        "Mafie e risposta dello Stato",
+        "Magistratura e questione morale",
+        "Costituzione e istituzioni"
+      ],
+      "sintesi_breve": "Magistrato protagonista del pool antimafia e del maxiprocesso, sviluppa indagini finanziarie e cooperazione tra uffici.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P07"
+    },
+    {
+      "id": "B28",
+      "slug": "carlo-azeglio-ciampi",
+      "tipologia": "Personaggio",
+      "titolo": "Carlo Azeglio Ciampi",
+      "anno_inizio": 1979,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Politica economica e Stato imprenditore",
+        "Europa ed euro",
+        "Costituzione e istituzioni"
+      ],
+      "sintesi_breve": "Governatore della Banca d’Italia, presidente del Consiglio nel 1993-1994, ministro del Tesoro e dal 1999 presidente della Repubblica, attraversa crisi monetaria e ingresso nell’eur",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P07"
+    },
+    {
+      "id": "B30",
+      "slug": "silvio-berlusconi",
+      "tipologia": "Personaggio",
+      "titolo": "Silvio Berlusconi",
+      "anno_inizio": 1978,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Informazione, RAI e potere",
+        "Partiti e culture politiche",
+        "Politica economica e Stato imprenditore"
+      ],
+      "sintesi_breve": "Imprenditore della televisione commerciale e fondatore di Forza Italia, guida i governi del 1994 e dal 2001.",
+      "n_fonti": 5,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P07"
+    },
+    {
+      "id": "E31",
+      "slug": "seveso-diossina-e-rischio-industriale",
+      "tipologia": "Evento",
+      "titolo": "Seveso: diossina e rischio industriale",
+      "anno_inizio": 1976,
+      "anno_fine": 1976,
+      "periodo_ids": [
+        "P06"
+      ],
+      "temi": [
+        "Politica economica e Stato imprenditore",
+        "Welfare e riforme sociali",
+        "Società e politica"
+      ],
+      "sintesi_breve": "Il 10 luglio una fuoriuscita dall’impianto ICMESA di Meda contamina l’area circostante con diossina.",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P06"
+    },
+    {
+      "id": "E48",
+      "slug": "mani-pulite-e-tangentopoli",
+      "tipologia": "Evento",
+      "titolo": "Mani Pulite e Tangentopoli",
+      "anno_inizio": 1992,
+      "anno_fine": 1994,
+      "periodo_ids": [
+        "P10"
+      ],
+      "temi": [
+        "Magistratura e questione morale",
+        "Partiti e culture politiche",
+        "Informazione, RAI e potere"
+      ],
+      "sintesi_breve": "L’arresto di Mario Chiesa il 17 febbraio 1992 avvia la sequenza milanese di inchieste nota come Mani Pulite.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "E49",
+      "slug": "la-strage-di-capaci",
+      "tipologia": "Evento",
+      "titolo": "La strage di Capaci",
+      "anno_inizio": 1992,
+      "anno_fine": 1992,
+      "periodo_ids": [
+        "P09"
+      ],
+      "temi": [
+        "Mafie e risposta dello Stato",
+        "Costituzione e istituzioni",
+        "Magistratura e questione morale"
+      ],
+      "sintesi_breve": "Il 23 maggio l’attentato sull’autostrada uccide Giovanni Falcone, Francesca Morvillo e gli agenti Antonio Montinaro, Rocco Dicillo e Vito Schifani.",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P09"
+    },
+    {
+      "id": "E52",
+      "slug": "crisi-della-lira-e-uscita-dallo-sme",
+      "tipologia": "Evento",
+      "titolo": "Crisi della lira e uscita dallo SME",
+      "anno_inizio": 1992,
+      "anno_fine": 1992,
+      "periodo_ids": [
+        "P09"
+      ],
+      "temi": [
+        "Politica economica e Stato imprenditore",
+        "Europa ed euro",
+        "Partiti e culture politiche"
+      ],
+      "sintesi_breve": "Nel settembre 1992 la pressione sulla lira porta alla svalutazione e alla sospensione della partecipazione al meccanismo di cambio dello SME.",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P09"
+    },
+    {
+      "id": "E53",
+      "slug": "referendum-del-1993-e-nuova-legge-elettorale",
+      "tipologia": "Evento",
+      "titolo": "Referendum del 1993 e nuova legge elettorale",
+      "anno_inizio": 1993,
+      "anno_fine": 1993,
+      "periodo_ids": [
+        "P10"
+      ],
+      "temi": [
+        "Costituzione e istituzioni",
+        "Partiti e culture politiche",
+        "Diritti civili e legislazione"
+      ],
+      "sintesi_breve": "Il referendum di aprile sulla legge elettorale del Senato accelera la riforma.",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "E54",
+      "slug": "le-elezioni-del-1994-e-la-prima-alternanza",
+      "tipologia": "Evento",
+      "titolo": "Le elezioni del 1994 e la prima alternanza",
+      "anno_inizio": 1994,
+      "anno_fine": 1994,
+      "periodo_ids": [
+        "P10"
+      ],
+      "temi": [
+        "Partiti e culture politiche",
+        "Informazione, RAI e potere",
+        "Costituzione e istituzioni"
+      ],
+      "sintesi_breve": "Forza Italia e gli alleati vincono le elezioni di marzo; Berlusconi forma il suo primo governo, che cade entro la fine dell’anno.",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "E55",
+      "slug": "dalleuro-scritturale-al-contante",
+      "tipologia": "Evento",
+      "titolo": "Dall’euro scritturale al contante",
+      "anno_inizio": 1999,
+      "anno_fine": 2003,
+      "periodo_ids": [
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Europa ed euro",
+        "Politica economica e Stato imprenditore",
+        "Diritti civili e legislazione"
+      ],
+      "sintesi_breve": "L’euro nasce come moneta il 1° gennaio 1999; banconote e monete circolano dal 1° gennaio 2002.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P12"
+    },
+    {
+      "id": "E74",
+      "slug": "legge-mammi-e-duopolio-televisivo",
+      "tipologia": "Evento",
+      "titolo": "Legge Mammì e duopolio televisivo",
+      "anno_inizio": 1990,
+      "anno_fine": 1990,
+      "periodo_ids": [
+        "P09"
+      ],
+      "temi": [
+        "Informazione, RAI e potere",
+        "Politica economica e Stato imprenditore",
+        "Partiti e culture politiche"
+      ],
+      "sintesi_breve": "La legge 223 del 6 agosto 1990 disciplina per la prima volta in modo organico il sistema radiotelevisivo pubblico e privato.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "da_verificare",
+      "periodo_principale": "P09"
+    },
+    {
+      "id": "E86",
+      "slug": "referendum-sul-titolo-v",
+      "tipologia": "Evento",
+      "titolo": "Referendum sul Titolo V",
+      "anno_inizio": 2001,
+      "anno_fine": 2001,
+      "periodo_ids": [
+        "P12"
+      ],
+      "temi": [
+        "Costituzione e istituzioni",
+        "Regioni e questione territoriale",
+        "Partiti e culture politiche"
+      ],
+      "sintesi_breve": "La riforma del Titolo V, approvata dalla sola maggioranza di centro-sinistra a fine legislatura, ridisegna le competenze tra Stato e Regioni.",
+      "n_fonti": 3,
+      "verdetto": null,
+      "stato": "da_verificare",
+      "periodo_principale": "P12"
+    },
+    {
+      "id": "M01",
+      "slug": "piano-marshall-aiuti-e-scelta-occidentale",
+      "tipologia": "Accade nel mondo",
+      "titolo": "Piano Marshall: aiuti e scelta occidentale",
+      "anno_inizio": 1947,
+      "anno_fine": 1952,
+      "periodo_ids": [
+        "P01",
+        "P02"
+      ],
+      "temi": [
+        "Politica estera e Guerra fredda",
+        "Politica economica e Stato imprenditore",
+        "Partiti e culture politiche"
+      ],
+      "sintesi_breve": "Gli Stati Uniti propongono un programma di aiuti alla ricostruzione europea.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P01"
+    },
+    {
+      "id": "M18",
+      "slug": "caduta-del-muro-e-dissoluzione-dellurss",
+      "tipologia": "Accade nel mondo",
+      "titolo": "Caduta del Muro e dissoluzione dell’URSS",
+      "anno_inizio": 1989,
+      "anno_fine": 1991,
+      "periodo_ids": [
+        "P09"
+      ],
+      "temi": [
+        "Politica estera e Guerra fredda",
+        "Partiti e culture politiche",
+        "Memoria e uso politico della storia"
+      ],
+      "sintesi_breve": "La fine dei regimi dell’Europa orientale e dell’URSS elimina le coordinate del bipolarismo.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "verificata",
+      "periodo_principale": "P09"
+    },
+    {
+      "id": "M24",
+      "slug": "trattato-di-maastricht-e-parametri",
+      "tipologia": "Accade nel mondo",
+      "titolo": "Trattato di Maastricht e parametri",
+      "anno_inizio": 1992,
+      "anno_fine": 1993,
+      "periodo_ids": [
+        "P10"
+      ],
+      "temi": [
+        "Europa ed euro",
+        "Politica economica e Stato imprenditore",
+        "Politica estera e Guerra fredda"
+      ],
+      "sintesi_breve": "Firmato il 7 febbraio 1992 ed entrato in vigore nel novembre 1993, il trattato istituisce l’Unione europea e fissa il calendario dell’unione monetaria.",
+      "n_fonti": 4,
+      "verdetto": null,
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N01",
+      "slug": "lo-yuppismo-deriva-dal-berlusconismo",
+      "tipologia": "Nesso",
+      "titolo": "Lo yuppismo deriva dal berlusconismo?",
+      "anno_inizio": 1983,
+      "anno_fine": 1994,
+      "periodo_ids": [
+        "P08",
+        "P09",
+        "P10"
+      ],
+      "temi": [
+        "Società e politica",
+        "Informazione, RAI e potere"
+      ],
+      "sintesi_breve": "Il modello yuppie prende forma in Italia a metà anni ’80; il berlusconismo politico nasce nel 1994: la cronologia ribalta la domanda.",
+      "n_fonti": 6,
+      "verdetto": "antecedente",
+      "stato": "da_verificare",
+      "periodo_principale": "P08"
+    },
+    {
+      "id": "N02",
+      "slug": "edonismo-reaganiano-e-moda-anni-ottanta",
+      "tipologia": "Nesso",
+      "titolo": "L’edonismo reaganiano è causa o conseguenza della moda degli anni ’80?",
+      "anno_inizio": 1975,
+      "anno_fine": 1990,
+      "periodo_ids": [
+        "P06",
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "temi": [
+        "Società e politica"
+      ],
+      "sintesi_breve": "L’etichetta nasce in televisione nel 1985; il prêt-à-porter milanese ha radici negli anni ’70.",
+      "n_fonti": 4,
+      "verdetto": "convergenza",
+      "stato": "da_verificare",
+      "periodo_principale": "P06"
+    },
+    {
+      "id": "N03",
+      "slug": "lo-spot-apple-1984-e-le-campagne-del-1994",
+      "tipologia": "Nesso",
+      "titolo": "Lo spot Apple del Super Bowl 1984 ha fornito il linguaggio alle campagne politiche italiane del 1994?",
+      "anno_inizio": 1984,
+      "anno_fine": 1994,
+      "periodo_ids": [
+        "P08",
+        "P09",
+        "P10"
+      ],
+      "temi": [
+        "Informazione, RAI e potere"
+      ],
+      "sintesi_breve": "Dieci anni fra lo spot «1984» e il videomessaggio del gennaio 1994: la somiglianza formale non prova la filiazione, serve la catena dei consulenti.",
+      "n_fonti": 0,
+      "verdetto": "antecedente",
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N04",
+      "slug": "personal-computer-e-riforme-amministrative",
+      "tipologia": "Nesso",
+      "titolo": "Il personal computer ha prodotto le riforme amministrative, o le ha solo rese eseguibili?",
+      "anno_inizio": 1980,
+      "anno_fine": 2000,
+      "periodo_ids": [
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12"
+      ],
+      "temi": [
+        "Costituzione e istituzioni"
+      ],
+      "sintesi_breve": "L’informatizzazione degli uffici precede di un decennio la legge 241/1990: rapporto di condizione abilitante da distinguere dal determinismo tecnologico.",
+      "n_fonti": 0,
+      "verdetto": "concausa",
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N05",
+      "slug": "internet-agli-albori-e-duopolio-televisivo",
+      "tipologia": "Nesso",
+      "titolo": "Internet agli albori ha aggirato il duopolio televisivo nella formazione dell’opinione politica?",
+      "anno_inizio": 1987,
+      "anno_fine": 2002,
+      "periodo_ids": [
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Informazione, RAI e potere"
+      ],
+      "sintesi_breve": "Nel periodo dell’atlante la rete resta a penetrazione minima e fuori dalla par condicio del 2000: al massimo un effetto di nicchia organizzativa.",
+      "n_fonti": 0,
+      "verdetto": "correlazione senza causa",
+      "stato": "da_verificare",
+      "periodo_principale": "P12"
+    },
+    {
+      "id": "N06",
+      "slug": "lotta-all-aids-e-associazioni-interlocutrici",
+      "tipologia": "Nesso",
+      "titolo": "La lotta all’AIDS ha fatto delle associazioni un interlocutore stabile delle istituzioni sanitarie?",
+      "anno_inizio": 1982,
+      "anno_fine": 1993,
+      "periodo_ids": [
+        "P08",
+        "P09"
+      ],
+      "temi": [
+        "Welfare e riforme sociali"
+      ],
+      "sintesi_breve": "Dall’emergenza del 1982 alla legge 135/1990: audizioni, commissioni e anonimato del test come precedente di co-decisione.",
+      "n_fonti": 0,
+      "verdetto": "concausa",
+      "stato": "da_verificare",
+      "periodo_principale": "P09"
+    },
+    {
+      "id": "N07",
+      "slug": "intercettazioni-e-informazione-politica",
+      "tipologia": "Nesso",
+      "titolo": "Le intercettazioni telefoniche hanno spostato il baricentro dell’informazione politica dal Parlamento alle procure?",
+      "anno_inizio": 1988,
+      "anno_fine": 2002,
+      "periodo_ids": [
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "temi": [
+        "Magistratura e questione morale"
+      ],
+      "sintesi_breve": "Il nuovo codice del 1988 precede di quattro anni l’inchiesta che ne fa un genere giornalistico; concorre la crisi dei partiti.",
+      "n_fonti": 0,
+      "verdetto": "concausa",
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N08",
+      "slug": "emittenti-locali-e-ceto-politico-eletto",
+      "tipologia": "Nesso",
+      "titolo": "Le emittenti locali hanno funzionato da scuola di reclutamento per il ceto politico eletto direttamente dal 1993?",
+      "anno_inizio": 1976,
+      "anno_fine": 1993,
+      "periodo_ids": [
+        "P07",
+        "P08",
+        "P09",
+        "P10"
+      ],
+      "temi": [
+        "Informazione, RAI e potere"
+      ],
+      "sintesi_breve": "Quindici anni di visibilità locale precedono la legge 81/1993 sui sindaci eletti: rischio alto di selezione dei casi confermanti.",
+      "n_fonti": 0,
+      "verdetto": "antecedente",
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N09",
+      "slug": "fax-e-mobilitazione-referendaria",
+      "tipologia": "Nesso",
+      "titolo": "Fax e reti telefoniche hanno reso possibile la mobilitazione referendaria che ha cambiato la legge elettorale?",
+      "anno_inizio": 1990,
+      "anno_fine": 1993,
+      "periodo_ids": [
+        "P09",
+        "P10"
+      ],
+      "temi": [
+        "Costituzione e istituzioni"
+      ],
+      "sintesi_breve": "Contemporaneità fra strumento e campagne del 1991 e 1993, ma le firme passano da reti associative preesistenti.",
+      "n_fonti": 0,
+      "verdetto": "correlazione senza causa",
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N10",
+      "slug": "guerra-in-diretta-e-voto-parlamentare",
+      "tipologia": "Nesso",
+      "titolo": "La guerra in diretta ha spostato in Parlamento la decisione sull’impiego delle forze armate?",
+      "anno_inizio": 1991,
+      "anno_fine": 1991,
+      "periodo_ids": [
+        "P09",
+        "P10"
+      ],
+      "temi": [
+        "Politica estera e Guerra fredda"
+      ],
+      "sintesi_breve": "Diretta e voti sono simultanei: il rapporto causale va cercato nei resoconti stenografici e non nella sequenza.",
+      "n_fonti": 0,
+      "verdetto": "concausa",
+      "stato": "da_verificare",
+      "periodo_principale": "P10"
+    },
+    {
+      "id": "N11",
+      "slug": "sondaggi-in-diretta-e-legge-sulla-par-condicio",
+      "tipologia": "Nesso",
+      "titolo": "Proiezioni e sondaggi in diretta hanno costretto il legislatore a disciplinare la comunicazione elettorale?",
+      "anno_inizio": 1994,
+      "anno_fine": 2000,
+      "periodo_ids": [
+        "P10",
+        "P11",
+        "P12"
+      ],
+      "temi": [
+        "Informazione, RAI e potere"
+      ],
+      "sintesi_breve": "Sei anni di previsioni contestate precedono la legge 28/2000, nata però dentro un conflitto più ampio sul sistema televisivo.",
+      "n_fonti": 0,
+      "verdetto": "convergenza",
+      "stato": "da_verificare",
+      "periodo_principale": "P12"
+    },
+    {
+      "id": "N12",
+      "slug": "aids-tossicodipendenze-e-legge-del-1990",
+      "tipologia": "Nesso",
+      "titolo": "L’emergenza AIDS fra i tossicodipendenti ha determinato la legge sulle droghe del 1990?",
+      "anno_inizio": 1985,
+      "anno_fine": 1993,
+      "periodo_ids": [
+        "P08",
+        "P09",
+        "P10"
+      ],
+      "temi": [
+        "Welfare e riforme sociali"
+      ],
+      "sintesi_breve": "Epidemia, legge 162/1990 e referendum del 1993 in otto anni documentati: la catena più corta e controllabile dei candidati.",
+      "n_fonti": 0,
+      "verdetto": "causa",
+      "stato": "da_verificare",
+      "periodo_principale": "P09"
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/dati.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html" aria-current="page">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main class="pds-apertura" style="--pds-cover:url(/assets/immagini/copertina-fonti.svg);max-width:1180px;margin:0 auto;padding:var(--space-6) var(--space-6) 96px">
+
+  <h1 style="font-size:clamp(19px,2.3vw,26px);margin:0 0 var(--space-2)">Repertorio delle fonti</h1>
+  <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch;margin:0 0 var(--space-6)">Ogni fonte dichiara natura, ambito, accesso ed esito dell’ultima verifica. La divulgazione — podcast e trasmissioni — è contata a parte e non vale per i minimi richiesti a una scheda. Il campo «materiale» dice che cosa si ha in mano: un libro, un atto parlamentare, una sentenza, una registrazione.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:flex-end;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:var(--space-4) 0;margin-bottom:var(--space-6)">
+    <div class="field" style="flex:1 1 220px">
+      <label for="fq">Cerca una fonte</label>
+      <input class="input" id="fq" type="search" placeholder="Ente, titolo, autore, sigla" value="{{ q }}" onInput="{{ setQ }}">
+    </div>
+    <div class="field" style="flex:0 1 180px">
+      <label for="fnat">Natura</label>
+      <select class="input" id="fnat" value="{{ natura }}" onChange="{{ setNatura }}"><option>Tutte</option><option>Primaria</option><option>Storiografica</option><option>Strumento</option><option>Divulgazione</option></select>
+    </div>
+    <div class="field" style="flex:0 1 210px">
+      <label for="fmat">Tipo di materiale</label>
+      <select class="input" id="fmat" value="{{ materiale }}" onChange="{{ setMateriale }}">
+        <sc-for list="{{ materiali }}" as="m" hint-placeholder-count="6"><option>{{ m }}</option></sc-for>
+      </select>
+    </div>
+    <div class="field" style="flex:0 1 160px">
+      <label for="famb">Ambito</label>
+      <select class="input" id="famb" value="{{ ambito }}" onChange="{{ setAmbito }}"><option>Tutti</option><option>Italiana</option><option>Internazionale</option></select>
+    </div>
+    <div class="field" style="flex:0 1 180px">
+      <label for="facc">Accesso</label>
+      <select class="input" id="facc" value="{{ accesso }}" onChange="{{ setAccesso }}"><option>Tutti</option><option>Libero</option><option>Biblioteca</option><option>A pagamento</option><option>In sede</option></select>
+    </div>
+    <button class="btn btn-secondary" type="button" style="height:36px;white-space:nowrap" onClick="{{ azzera }}">Azzera i filtri</button>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-6);margin-bottom:var(--space-4)">
+    <p class="num" style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:17px">{{ conteggio }}</p>
+    <p style="margin:0;font-size:13px;color:var(--color-neutral-700)">Ordinate per natura, poi per ente. Il materiale dice che cosa si ha in mano: un libro, un atto, una registrazione.</p>
+  </div>
+
+  <div id="fonti-app" data-vb-skip style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+    <table class="table num" style="min-width:760px">
+      <thead>
+        <tr>
+          <th scope="col">Sigla</th>
+          <th scope="col">Fonte</th>
+          <th scope="col">Natura</th>
+          <th scope="col">Materiale</th>
+          <th scope="col">Ambito</th>
+          <th scope="col">Accesso</th>
+          <th scope="col">Verifica</th>
+          <th scope="col">Schede</th>
+        </tr>
+      </thead>
+      <tbody>
+        <sc-for list="{{ fonti }}" as="f" hint-placeholder-count="8">
+          <tr>
+            <td style="font-weight:600">{{ f.id }}</td>
+            <td><a href="{{ f.link }}" style="color:var(--color-text)">{{ f.titolo }}</a><span style="display:block;font-size:12px;color:var(--color-neutral-700)">{{ f.ente }}</span></td>
+            <td>{{ f.natura }}</td>
+            <td>{{ f.materiale }}</td>
+            <td>{{ f.ambito }}</td>
+            <td>{{ f.accesso }}</td>
+            <td>{{ f.verifica }}</td>
+            <td>{{ f.schede }}</td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+    <sc-if value="{{ vuoto }}">
+      <p style="margin:var(--space-4) 0 0;border:1px solid var(--color-text);padding:var(--space-4);font-size:15px">Nessuna fonte con questi criteri: prova ad azzerare i filtri.</p>
+    </sc-if>
+  </div>
+
+  <section style="margin-top:var(--space-8);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-6)">
+    <div style="border:1px solid var(--color-text);padding:var(--space-4);background:var(--color-neutral-100)">
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:var(--space-2)">Da dove cominciare</h2>
+      <p style="margin:0 0 var(--space-3);font-size:14px">I portali generici servono a orientarsi, non a provare: stanno qui e non valgono per i minimi di una scheda.</p>
+      <ul style="margin:0;padding-left:1.1em;font-size:14px;display:flex;flex-direction:column;gap:4px">
+        <sc-for list="{{ orientamento }}" as="o" hint-placeholder-count="3"><li>{{ o }}</li></sc-for>
+      </ul>
+    </div>
+    <div style="border:2px dashed var(--color-divider);padding:var(--space-4)">
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:var(--space-2)">Per ascoltare e vedere</h2>
+      <p style="margin:0 0 var(--space-3);font-size:14px;color:var(--color-neutral-800)">{{ divulgazioneElenco }}</p>
+      <p class="num" style="margin:0;font-size:12px;color:var(--color-neutral-700)">{{ divulgazioneConteggio }}</p>
+    </div>
+    <div style="border:1px solid var(--color-accent);padding:var(--space-4);background:var(--color-accent-100)">
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:var(--space-2);color:var(--color-accent-700)">Verifica in corso</h2>
+      <p style="margin:0 0 var(--space-3);font-size:14px;color:var(--color-accent-900)">{{ avvisoVerifica }}</p>
+      <a class="btn btn-secondary" href="Metodo.dc.html" style="text-decoration:none">Il protocollo di verifica</a>
+    </div>
+  </section>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { q: '', natura: 'Tutte', materiale: 'Tutti i materiali', ambito: 'Tutti', accesso: 'Tutti' };
+
+  attendiDati(conSchede) {
+    const pronto = () => window.AT && (!conSchede || window.AT.schede);
+    if (pronto()) return;
+    const t = setInterval(() => { if (pronto()) { clearInterval(t); this.forceUpdate(); } }, 60);
+    setTimeout(() => clearInterval(t), 8000);
+  }
+  componentDidMount() {
+    this.attendiDati(false);
+    const p = new URLSearchParams(location.search), st = {};
+    const D = window.AT; if (!D) return;
+    if (p.get('q')) st.q = p.get('q');
+    if (p.get('natura')) { const v = p.get('natura').toLowerCase(); const n = ['primaria', 'storiografica', 'strumento', 'divulgazione'].find(x => x.indexOf(v) === 0); if (n) st.natura = n.charAt(0).toUpperCase() + n.slice(1); }
+    if (p.get('materiale')) { const v = p.get('materiale').toLowerCase(); const m = D.fonti.map(f => f.categoria).find(x => x && (x.toLowerCase() === v || x.toLowerCase().indexOf(v) === 0)); if (m) st.materiale = m; }
+    if (p.get('ambito')) { const v = p.get('ambito').toLowerCase(); st.ambito = v.indexOf('int') === 0 ? 'Internazionale' : 'Italiana'; }
+    if (Object.keys(st).length) this.setState(st);
+  }
+
+  aggiorna(patch) {
+    this.setState(patch, () => {
+      const s = this.state, p = new URLSearchParams();
+      if (s.q.trim()) p.set('q', s.q.trim());
+      if (s.natura !== 'Tutte') p.set('natura', s.natura);
+      if (s.materiale !== 'Tutti i materiali') p.set('materiale', s.materiale);
+      if (s.ambito !== 'Tutti') p.set('ambito', s.ambito);
+      if (s.accesso !== 'Tutti') p.set('accesso', s.accesso);
+      const qs = p.toString();
+      history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+    });
+  }
+
+  renderVals() {
+    const D = window.AT;
+    if (!D) return { conteggio: 'Caricamento del repertorio…', fonti: [], materiali: [], orientamento: [] };
+    const s = this.state, q = s.q.trim().toLowerCase();
+    const ESITO = { raggiungibile: 'Raggiungibile', spostata: 'Spostata', irraggiungibile: 'Irraggiungibile', 'a pagamento': 'A pagamento' };
+
+    const passa = f => {
+      const testo = (f.id + ' ' + f.titolo + ' ' + (f.autore_ente || '') + ' ' + f.natura + ' ' + (f.categoria || '') + ' ' + (f.editore || '')).toLowerCase();
+      if (q && testo.indexOf(q) === -1) return false;
+      if (s.natura !== 'Tutte' && f.natura !== s.natura.toLowerCase()) return false;
+      if (s.materiale !== 'Tutti i materiali' && f.categoria !== s.materiale) return false;
+      if (s.ambito !== 'Tutti' && f.ambito !== s.ambito.toLowerCase()) return false;
+      if (s.accesso !== 'Tutti') {
+        const a = (f.accesso || '').toLowerCase(), v = s.accesso.toLowerCase();
+        if (v === 'libero' && a.indexOf('libero') === -1) return false;
+        if (v === 'biblioteca' && a.indexOf('biblioteca') === -1) return false;
+        if (v === 'a pagamento' && a !== 'a pagamento') return false;
+        if (v === 'in sede' && a !== 'in sede') return false;
+      }
+      return true;
+    };
+
+    const ordN = { primaria: 0, storiografica: 1, strumento: 2, divulgazione: 3 };
+    const trovate = D.fonti.filter(passa).slice().sort((a, b) =>
+      (ordN[a.natura] - ordN[b.natura]) || (a.autore_ente || a.titolo).localeCompare(b.autore_ente || b.titolo, 'it'));
+
+    const righe = trovate.map(f => ({
+      id: f.id, titolo: f.titolo, ente: f.autore_ente || '',
+      natura: f.natura.charAt(0).toUpperCase() + f.natura.slice(1),
+      materiale: f.categoria || '—',
+      ambito: f.ambito === 'internazionale' ? 'Internazionale · ' + (f.paese || '') : 'Italiana',
+      accesso: f.accesso || '—',
+      verifica: (ESITO[f.esito] || f.esito || '—') + (f.riscontrato ? '' : ' · solo tecnica'),
+      schede: f.n_schede,
+      link: 'Fonte.dc.html?id=' + f.id
+    }));
+
+    const divulgazione = D.fonti.filter(f => f.natura === 'divulgazione');
+    const nonRiscontrate = D.fonti.filter(f => !f.riscontrato);
+    const orfane = D.fonti.filter(f => !f.n_schede);
+
+    return {
+      q: s.q, natura: s.natura, materiale: s.materiale, ambito: s.ambito, accesso: s.accesso,
+      materiali: ['Tutti i materiali'].concat(Array.from(new Set(D.fonti.map(f => f.categoria).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'it'))),
+      setQ: e => this.aggiorna({ q: e.target.value }),
+      setNatura: e => this.aggiorna({ natura: e.target.value }),
+      setMateriale: e => this.aggiorna({ materiale: e.target.value }),
+      setAmbito: e => this.aggiorna({ ambito: e.target.value }),
+      setAccesso: e => this.aggiorna({ accesso: e.target.value }),
+      azzera: () => this.aggiorna({ q: '', natura: 'Tutte', materiale: 'Tutti i materiali', ambito: 'Tutti', accesso: 'Tutti' }),
+      conteggio: trovate.length + (trovate.length === 1 ? ' fonte' : ' fonti') + ' su ' + D.fonti.length,
+      fonti: righe,
+      vuoto: trovate.length === 0,
+      orientamento: D.fonti.filter(f => f.natura === 'strumento').slice(0, 4).map(f => f.titolo),
+      divulgazioneElenco: 'Divulgazione con autori identificati: ' + divulgazione.slice(0, 4).map(f => f.titolo).join(', ') + '. Elencata a parte in ogni scheda.',
+      divulgazioneConteggio: divulgazione.length + ' voci · non contate tra le fonti',
+      avvisoVerifica: nonRiscontrate.length + ' fonti su ' + D.fonti.length + ' hanno solo la verifica tecnica del 14/09/2026: il contenuto non è ancora riscontrato' + (orfane.length ? '; ' + orfane.length + ' non sono collegate a nessuna scheda' : '') + '.'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

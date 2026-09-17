@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html" aria-current="page">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main style="max-width:1080px;margin:0 auto;padding:var(--space-6) var(--space-6) 96px">
+
+  <nav aria-label="Percorso" style="display:flex;gap:8px;font-size:12px;color:var(--color-neutral-700);margin-bottom:var(--space-6)">
+    <a href="Taccuino.dc.html">Taccuino</a><span>›</span><span>{{ nome }}</span>
+  </nav>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-6);align-items:flex-start;border-bottom:1px solid var(--color-text);padding-bottom:var(--space-6);margin-bottom:var(--space-6)">
+    <div style="flex:1 1 360px;min-width:0">
+      <p style="display:flex;align-items:center;gap:8px;margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-accent-700)">
+        <sc-if value="{{ isNessi }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg></sc-if>
+        <sc-if value="{{ isRicorrenze }}"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16"></rect><path d="M3 10h18M7 3v5M17 3v5"></path><g stroke="currentColor"><path d="M7 15h10M7 18h6"></path></g></g></svg></sc-if>
+        <sc-if value="{{ isFonti }}"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="5" y="3" width="15" height="18"></rect><path d="M3 7h4M3 12h4M3 17h4M10 7h6M10 11h6"></path><g stroke="currentColor"><path d="M10 16h4"></path></g></g></svg></sc-if>
+        <sc-if value="{{ isAggiornamenti }}"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><g stroke="currentColor"><path d="M12 6v6l4 2"></path></g></g></svg></sc-if>
+        Categoria del Taccuino
+      </p>
+      <h1 style="font-size:clamp(20px,2.9vw,32px);margin:0 0 var(--space-3)">{{ nome }}</h1>
+      <p style="font-size:16px;line-height:1.65;font-family:var(--font-reading);max-width:58ch;margin:0">{{ descrizione }}</p>
+    </div>
+    <dl class="num" style="flex:0 1 220px;margin:0;border:1px solid var(--color-divider);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)">
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Post</dt><dd style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:23px">{{ nPost }}</dd></div>
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Ultimo</dt><dd style="margin:0;font-size:14px">{{ ultimo }}</dd></div>
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Registro</dt><dd style="margin:0;font-size:14px">{{ registro }}</dd></div>
+    </dl>
+  </div>
+
+  <nav aria-label="Categorie" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:var(--space-8)">
+    <span style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700);margin-right:var(--space-2)">Altre categorie</span>
+    <a class="tag tag-neutral" href="Taccuino%20categoria.dc.html" style="text-decoration:none">Nessi</a>
+    <a class="tag tag-neutral" href="Taccuino%20categoria.dc.html" style="text-decoration:none">Accadde oggi</a>
+    <a class="tag tag-neutral" href="Taccuino%20categoria.dc.html" style="text-decoration:none">Dentro le fonti</a>
+    <a class="tag tag-neutral" href="Taccuino%20categoria.dc.html" style="text-decoration:none">Aggiornamenti</a>
+    <a class="btn btn-ghost" href="Taccuino.dc.html" style="margin-left:auto;text-decoration:none;white-space:nowrap">Tutto il Taccuino →</a>
+  </nav>
+
+  <div data-vb-skip style="display:flex;flex-direction:column;gap:2px;margin-bottom:var(--space-8)">
+    <sc-for list="{{ post }}" as="p" hint-placeholder-count="5">
+      <article style="border:1px solid var(--color-divider);border-left:4px solid var(--color-accent);padding:var(--space-4);display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:flex-start">
+        <p class="num" style="flex:0 0 96px;margin:0;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-neutral-700)">{{ p.data }}</p>
+        <div style="flex:1 1 320px;min-width:0">
+          <sc-if value="{{ p.link }}" hint-placeholder-val="{{ true }}">
+            <h2 style="margin:0 0 6px;font-size:22px;line-height:1.15"><a href="{{ p.link }}" style="color:var(--color-text);text-decoration:none">{{ p.titolo }}</a></h2>
+          </sc-if>
+          <sc-if value="{{ p.inLavorazione }}" hint-placeholder-val="{{ false }}">
+            <h2 style="margin:0 0 6px;font-size:22px;line-height:1.15;color:var(--color-neutral-700)">{{ p.titolo }} <span class="tag tag-neutral" style="vertical-align:middle;font-size:10px">In preparazione</span></h2>
+          </sc-if>
+          <p style="margin:0 0 var(--space-2);font-size:15px;font-family:var(--font-reading);line-height:1.62;color:var(--color-neutral-800);max-width:62ch">{{ p.occhiello }}</p>
+          <p class="num" style="margin:0;font-size:12px;color:var(--color-neutral-700)">{{ p.meta }}</p>
+        </div>
+      </article>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ isNessi }}" hint-placeholder-val="{{ true }}">
+    <section style="border:1px solid var(--color-accent);padding:var(--space-4);margin-bottom:var(--space-8)">
+      <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">Le schede Nesso dietro questi post</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px">
+        <a href="Scheda%20nesso.dc.html?id=N01" style="border:1px solid var(--color-divider);padding:var(--space-3);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px">
+          <span class="num" style="font-size:11px;color:var(--color-neutral-700)">N01</span>
+          <span style="font-weight:600;font-size:15px">Lo yuppismo deriva dal berlusconismo?</span>
+          <span class="num" style="font-size:12px;color:var(--color-accent-700);text-transform:uppercase;letter-spacing:0.04em">Verdetto: antecedente</span>
+        </a>
+        <a href="Scheda%20nesso.dc.html?id=N02" style="border:1px solid var(--color-divider);padding:var(--space-3);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px">
+          <span class="num" style="font-size:11px;color:var(--color-neutral-700)">N02</span>
+          <span style="font-weight:600;font-size:15px">L’edonismo reaganiano è causa o conseguenza della moda degli anni ’80?</span>
+          <span class="num" style="font-size:12px;color:var(--color-accent-700);text-transform:uppercase;letter-spacing:0.04em">Verdetto: convergenza</span>
+        </a>
+      </div>
+      <p style="margin:var(--space-3) 0 0;font-size:12px;color:var(--color-neutral-700)">Il post argomenta, la scheda prova. Questo rimando è obbligatorio in categoria Nessi.</p>
+    </section>
+  </sc-if>
+
+  <nav aria-label="Pagine" style="display:flex;gap:var(--space-2);justify-content:flex-start">
+    <span class="btn btn-primary" aria-current="page">1</span>
+    <a class="btn btn-secondary" href="Taccuino%20categoria.dc.html" style="text-decoration:none">2</a>
+    <a class="btn btn-secondary" href="Taccuino%20categoria.dc.html" style="text-decoration:none">Pagina successiva →</a>
+  </nav>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1140,&quot;height&quot;:1200},&quot;categoria&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Nessi&quot;,&quot;Accadde oggi&quot;,&quot;Dentro le fonti&quot;,&quot;Aggiornamenti&quot;],&quot;default&quot;:&quot;Nessi&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Variante&quot;}}">
+const CAT = {
+  Nessi: {
+    nome: 'Nessi',
+    descrizione: 'Versione discorsiva delle schede Nesso: una domanda di causalità per volta, il test cronologico ricostruito in prosa e il rimando alla scheda che la mette alla prova. Qui le ipotesi si possono dichiarare; nell’atlante no.',
+    nPost: 9, ultimo: '12 settembre 2026', registro: 'Argomentativo',
+    post: [
+      { data: '12 set 2026', link: 'Taccuino%20post.dc.html', titolo: 'Chi viene prima: lo yuppismo o il berlusconismo?', occhiello: 'Rimettere in fila le date cambia la risposta e, soprattutto, cambia la domanda.', meta: '7 minuti · scheda N01 · verdetto antecedente' },
+      { data: '22 ago 2026', link: 'Taccuino%20post%20riflusso.dc.html', titolo: 'Il “riflusso” e la fine della solidarietà nazionale', occhiello: 'Un candidato Nesso che per ora non supera il test cronologico: le due curve si muovono insieme, il meccanismo manca.', meta: '6 minuti · candidato, scheda non pubblicata' },
+      { data: '4 ago 2026', inLavorazione: true, titolo: 'Televisione commerciale e crisi dei partiti di massa', occhiello: 'Due declini paralleli e una domanda mal posta: chi perde iscritti prima, e dove.', meta: '9 minuti · in lavorazione' },
+      { data: '19 lug 2026', inLavorazione: true, titolo: 'Secolarizzazione e referendum su divorzio e aborto', occhiello: 'Il voto del 1974 misura una società già cambiata o la cambia?', meta: '8 minuti · scheda N04 · verdetto concausa' },
+      { data: '28 giu 2026', inLavorazione: true, titolo: '“Scendere in campo”: il calcio nel linguaggio politico', occhiello: 'Una metafora non fa una causa, ma dice che pubblico si immagina chi parla.', meta: '5 minuti · scheda N05 · verdetto correlazione senza causa' }
+    ]
+  },
+  'Accadde oggi': {
+    nome: 'Accadde oggi',
+    descrizione: 'Ricorrenze politiche e istituzionali: una data, che cosa accadde davvero quel giorno, che cosa ne è stato fatto dopo. Ogni post rimanda alla scheda e agli atti.',
+    nPost: 24, ultimo: '7 settembre 2026', registro: 'Cronachistico',
+    post: [
+      { data: '7 feb', link: 'Taccuino%20post%20maastricht.dc.html', titolo: 'Maastricht, la firma e il suo uso interno', occhiello: 'Che cosa firmò l’Italia nel 1992 e come il vincolo diventò argomento di governo.', meta: '5 minuti · scheda M24' },
+      { data: '2 giu', link: 'Taccuino%20post%20duegiugno.dc.html', titolo: 'Il referendum del 1946 e la festa che ne è nata', occhiello: 'Dal voto istituzionale alla costruzione di una ricorrenza.', meta: '4 minuti · scheda E01' },
+      { data: '23 mag', inLavorazione: true, titolo: 'Capaci: la strage e la risposta legislativa', occhiello: 'Cronologia dei dieci giorni successivi, atto per atto.', meta: '6 minuti · scheda E49' },
+      { data: '16 mar', inLavorazione: true, titolo: '1978: il giorno del rapimento Moro', occhiello: 'Le prime ore, le comunicazioni alle Camere, la linea della fermezza.', meta: '7 minuti · scheda E31' },
+      { data: '1 gen', inLavorazione: true, titolo: '2002: l’euro nelle tasche', occhiello: 'Il passaggio al contante europeo e la chiusura dell’arco cronologico dell’atlante.', meta: '4 minuti · scheda E55' }
+    ]
+  },
+  'Dentro le fonti': {
+    nome: 'Dentro le fonti',
+    descrizione: 'Come si legge un documento: che cosa prova, che cosa non prova, dove sta il localizzatore. Serie di servizio per studenti e docenti, e palestra del protocollo di verifica.',
+    nPost: 11, ultimo: '3 settembre 2026', registro: 'Didattico',
+    post: [
+      { data: '3 set 2026', link: 'Taccuino%20post%202.dc.html', titolo: 'Come si legge una seduta parlamentare', occhiello: 'Resoconto stenografico, sommario, allegati: che cosa prova ciascun pezzo.', meta: '8 minuti · fonte CAM' },
+      { data: '9 ago 2026', link: 'Taccuino%20post%20frus.dc.html', titolo: 'Un telegramma del FRUS, riga per riga', occhiello: 'Chi scrive, a chi, che cosa sa e che cosa omette.', meta: '7 minuti · fonte FRUS' },
+      { data: '21 lug 2026', inLavorazione: true, titolo: 'Una sentenza non è una spiegazione storica', occhiello: 'Gradi, capi d’imputazione, prescrizione: leggere il dispositivo prima delle motivazioni.', meta: '6 minuti' },
+      { data: '30 giu 2026', inLavorazione: true, titolo: 'Relazioni di maggioranza e di minoranza', occhiello: 'Nelle commissioni d’inchiesta il disaccordo è parte del documento.', meta: '6 minuti · fonte P2DOC' },
+      { data: '12 giu 2026', inLavorazione: true, titolo: 'Quando il link muore: usare la copia archiviata', occhiello: 'Perché ogni indirizzo diretto dell’atlante ha una copia su Wayback Machine.', meta: '4 minuti' }
+    ]
+  },
+  Aggiornamenti: {
+    nome: 'Aggiornamenti',
+    descrizione: 'Registro pubblico dei cambiamenti: schede nuove, correzioni recepite, fonti sostituite, stato della revisione. È la parte meno letta del sito e la più importante per la sua affidabilità.',
+    nPost: 16, ultimo: '1 settembre 2026', registro: 'Registro',
+    post: [
+      { data: '1 set 2026', link: 'Taccuino%20post%20revisione.dc.html', titolo: '24 schede in revisione: stato dei lavori', occhiello: 'Priorità, fonti sostituite, prime correzioni recepite dalle segnalazioni.', meta: '3 minuti' },
+      { data: '18 ago 2026', inLavorazione: true, titolo: 'Sei fonti riverificate, una rimossa', occhiello: 'SEN, QUI, TRE, OFF, BOLDOC, GLADOC: esiti. WIKNEWS esce dal repertorio.', meta: '3 minuti' },
+      { data: '2 ago 2026', inLavorazione: true, titolo: 'Nuova tassonomia dei temi: da 24 a 18', occhiello: 'Che cosa è stato accorpato e dove sono finite le schede di costume.', meta: '5 minuti' },
+      { data: '14 lug 2026', inLavorazione: true, titolo: 'Dipendenza dal portale della Camera: −31 rimandi generici', occhiello: 'Sostituiti con sedute e documenti precisi, con copia archiviata.', meta: '2 minuti' },
+      { data: '27 giu 2026', inLavorazione: true, titolo: '“Il mondo accade” diventa “Accade nel mondo”', occhiello: 'Rinominate etichette, filtri e le quattro sezioni della scheda.', meta: '2 minuti' }
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    const k = this.props.categoria ?? 'Nessi';
+    const c = CAT[k] || CAT.Nessi;
+    return {
+      ...c,
+      isNessi: k === 'Nessi',
+      isRicorrenze: k === 'Accadde oggi',
+      isFonti: k === 'Dentro le fonti',
+      isAggiornamenti: k === 'Aggiornamenti'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

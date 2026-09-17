@@ -1,0 +1,93 @@
+/* Atlante — solo ciò che non può stare inline: token del tema scuro, stampa,
+   cifre tabellari, riduzione del movimento. Le componenti restano inline nei .dc.html. */
+
+[data-theme="dark"] {
+  --color-bg: #17100e;
+  --color-surface: #221a18;
+  --color-text: #f4f1f0;
+  --color-accent: #ff563c;
+  --color-accent-2: #ff563c;
+  --color-divider: color-mix(in srgb, #f4f1f0 42%, transparent);
+
+  /* ramp invertita: lo stesso passo conserva il ruolo (100 = tinta tenue, 900 = massimo contrasto) */
+  --color-neutral-100: #221a18;
+  --color-neutral-200: #2c2422;
+  --color-neutral-300: #3b3230;
+  --color-neutral-400: #554b48;
+  --color-neutral-500: #7a6f6b;
+  --color-neutral-600: #9c918d;
+  --color-neutral-700: #bdb3af;
+  --color-neutral-800: #ddd5d2;
+  --color-neutral-900: #f4f1f0;
+
+  --color-accent-100: #3a1109;
+  --color-accent-200: #4d170e;
+  --color-accent-300: #7c1405;
+  --color-accent-400: #ae1800;
+  --color-accent-500: #ff563c;
+  --color-accent-600: #ff755f;
+  --color-accent-700: #ff9783;
+  --color-accent-800: #ffc4b8;
+  --color-accent-900: #ffe0d9;
+
+  --shadow-sm: 0 1px 0 color-mix(in srgb, #f4f1f0 18%, transparent);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 14px 38px rgba(0, 0, 0, 0.65);
+}
+
+html { color-scheme: light; background: var(--color-bg); }
+html[data-theme="dark"] { color-scheme: dark; }
+
+.num { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1; }
+
+a:hover { color: var(--color-accent-700); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+[data-print-only] { display: none; }
+
+@media print {
+  @page { size: A4; margin: 18mm 16mm 20mm; }
+
+  /* i token diventano bianco e nero: tutto l'inline che usa var() segue */
+  :root, html[data-theme="dark"] {
+    --color-bg: #fff; --color-surface: #fff; --color-text: #000;
+    --color-divider: #000; --color-accent: #000;
+    --color-accent-100: #fff; --color-accent-200: #eee; --color-accent-600: #000;
+    --color-accent-700: #000; --color-accent-800: #000; --color-accent-900: #000;
+    --color-neutral-100: #fff; --color-neutral-200: #e4e4e4; --color-neutral-300: #d2d2d2;
+    --color-neutral-600: #5a5a5a; --color-neutral-700: #383838; --color-neutral-800: #141414;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+  }
+
+  [data-print-hide] { display: none !important; }
+  [data-print-only] { display: flex !important; }
+
+  html, body { background: #fff !important; color: #000 !important; }
+  body { font-size: 10.5pt; line-height: 1.45; }
+  main { max-width: none !important; margin: 0 !important; padding: 0 !important; }
+
+  /* una colonna: niente sticky, niente affiancamenti */
+  main *, main *::before { box-shadow: none !important; }
+  main [style*="sticky"] { position: static !important; }
+  [data-vb-skip] { display: block !important; }
+  main article { flex: none !important; min-width: 0 !important; }
+
+  h1 { font-size: 21pt !important; line-height: 1.08 !important; max-width: none !important; }
+  h2 { font-size: 9.5pt !important; }
+  p, li, dd, dt, td, th { max-width: none !important; }
+
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  [data-print-block] { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  table, dl, blockquote, aside { break-inside: avoid; }
+  [data-print-urls] a[href^="http"]::after {
+    content: " — " attr(href);
+    font-size: 8.5pt;
+    word-break: break-all;
+  }
+  [data-print-urls] .btn { border: 0 !important; padding: 0 !important; font-size: 8.5pt !important; }
+}

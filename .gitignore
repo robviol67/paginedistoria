@@ -1,0 +1,42 @@
+# Pagine di Storia — questo è il repo di UN SITO, non del motore VelociBuilder.
+# Differenza che conta: qui i file per-sito (src/, assets/, site.config.js) SI
+# versionano, perché sono il sito. Restano fuori solo i segreti e ciò che si
+# rigenera da solo.
+
+# ── Segreti — mai nel repo ───────────────────────────────────────────────────
+config.php
+inc/mail-config.php
+deploy/carica.conf
+secret.md
+.netrc*
+
+# ── Output del build: si rigenera con `node build/build.js` ──────────────────
+dist/
+inc/tpl/
+inc/cms-pages.json
+inc/cms-defaults.json
+inc/nav-seed.json
+inc/nav-theme.json
+inc/nav-shell-seed.html
+inc/products-seed.json
+inc/lists-seed.json
+inc/options-seed.json
+inc/forms-seed.json
+inc/footer-seed.json
+inc/ai-seed.json
+inc/home.html
+src-clean/
+
+# ── Stato locale del deploy (impronta dell'ultimo giro) ──────────────────────
+.deploy-stato
+
+# ── Caricamenti dal pannello: stanno sul server, non qui ─────────────────────
+uploads/*
+!uploads/.gitkeep
+
+# ── Sistema ──────────────────────────────────────────────────────────────────
+.DS_Store
+node_modules/
+*.log
+*.bak
+_dist/

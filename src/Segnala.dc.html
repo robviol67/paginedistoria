@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main style="max-width:1000px;margin:0 auto;padding:var(--space-8) var(--space-6) 96px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-8);align-items:start">
+
+    <div>
+      <h1 style="font-size:clamp(19px,2.6vw,28px);max-width:20ch;margin:0 0 var(--space-4)">Segnala una correzione</h1>
+      <p style="font-size:16px;max-width:52ch;margin:0 0 var(--space-4)">Una data sbagliata, un’attribuzione imprecisa, una fonte migliore di quella citata: le segnalazioni con un riferimento verificabile entrano nel ciclo di revisione e, se accolte, compaiono negli aggiornamenti del Taccuino.</p>
+      <div style="border:1px solid var(--color-text);background:var(--color-neutral-100);padding:var(--space-4)">
+        <p style="margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Cosa aiuta davvero</p>
+        <ul style="margin:0;padding-left:1.1em;font-size:14px;display:flex;flex-direction:column;gap:6px">
+          <li>L’identificativo della scheda (per esempio <span class="num">E48</span>).</li>
+          <li>Il punto esatto del testo da correggere.</li>
+          <li>Un documento, un atto o un volume con localizzatore: seduta, numero di legge, pagine.</li>
+        </ul>
+      </div>
+    </div>
+
+    <form data-vb-form style="border:1px solid var(--color-divider);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-4)">
+      <div class="field">
+        <label for="sg-scheda">Scheda</label>
+        <input class="input" id="sg-scheda" name="scheda" placeholder="E48 · Mani Pulite e Tangentopoli">
+      </div>
+
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend style="font-size:12px;margin-bottom:6px;color:color-mix(in srgb, var(--color-text) 70%, transparent)">Tipo di errore</legend>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label class="radio"><input type="radio" name="tipo" value="data" checked><span class="dot"></span><span>Data, cifra o nome</span></label>
+          <label class="radio"><input type="radio" name="tipo" value="attribuzione"><span class="dot"></span><span>Attribuzione o ruolo</span></label>
+          <label class="radio"><input type="radio" name="tipo" value="giudiziario"><span class="dot"></span><span>Esito giudiziario o grado della sentenza</span></label>
+          <label class="radio"><input type="radio" name="tipo" value="fonte"><span class="dot"></span><span>Fonte mancante, imprecisa o non raggiungibile</span></label>
+          <label class="radio"><input type="radio" name="tipo" value="altro"><span class="dot"></span><span>Altro</span></label>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="sg-testo">Che cosa va corretto</label>
+        <textarea class="input" id="sg-testo" name="testo" rows="4" placeholder="Riporta la frase e la correzione proposta."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="sg-fonte">Fonte proposta, con localizzatore</label>
+        <textarea class="input" id="sg-fonte" name="fonte" rows="3" placeholder="Es. Camera dei deputati, XI legislatura, seduta del 29 aprile 1993 — indirizzo del documento."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="sg-email">Email, se vuoi una risposta</label>
+        <input class="input" id="sg-email" name="email" type="email" placeholder="nome@esempio.it">
+      </div>
+
+      <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px">
+        <input type="checkbox" name="consenso" required style="margin-top:3px">
+        <span>Acconsento al trattamento dei dati per la gestione della segnalazione, secondo la <a href="Privacy.dc.html">privacy policy</a>.</span>
+      </label>
+
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);border-top:1px solid var(--color-divider);padding-top:var(--space-4)">
+        <button class="btn btn-primary" type="submit">Invia la segnalazione</button>
+        <button class="btn btn-secondary" type="reset">Svuota</button>
+      </div>
+      <p style="margin:0;font-size:12px;color:var(--color-neutral-700)">Tempo di risposta indicativo: due settimane. Le segnalazioni anonime vengono comunque valutate.</p>
+    </form>
+  </div>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+</body>
+</html>

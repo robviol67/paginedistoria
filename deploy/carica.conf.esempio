@@ -1,0 +1,7 @@
+# K21 · deploy-ftp — configurazione per Pagine di Storia. NON versionare.
+FTP_HOST=ftp.esempio.it
+FTP_ROOT=/httpdocs
+DIST=dist
+FTP_PAUSA=0.6
+# Credenziali in un netrc dedicato, mai qui dentro e mai nella riga di comando.
+FTP_NETRC=~/.netrc-esempio

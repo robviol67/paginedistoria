@@ -1,0 +1,211 @@
+/* ════════════════════════════════════════════════════════════════════════
+   Pagine di Storia — pelle grafica v2 (kit grafico v1, 17 settembre 2026)
+   Caricato DOPO styles.css del design system e DOPO atlante.css:
+   rimappa i token, porta i font del marchio e definisce intestazione,
+   navigazione e piede. Le componenti di pagina restano inline nei .dc.html.
+   ════════════════════════════════════════════════════════════════════════ */
+
+@font-face{font-family:Poppins;src:url('font/Poppins-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url('font/Poppins-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url('font/Poppins-Black.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:'Libre Baskerville';src:url('font/LibreBaskerville-Variable.woff2') format('woff2');font-weight:400 700;font-style:normal;font-display:swap}
+
+/* ── token: tema chiaro (carta) ───────────────────────────────────────── */
+:root {
+  --color-bg: #f5f2eb;
+  --color-surface: #efebe2;
+  --color-text: #20211f;
+  --color-accent: #b83a2c;
+  --color-accent-2: #a0301f;
+  --color-divider: #d3cfc6;
+
+  --color-neutral-100: #fbf9f4;
+  --color-neutral-200: #efebe2;
+  --color-neutral-300: #e2ddd2;
+  --color-neutral-400: #cfc9bc;
+  --color-neutral-500: #a8a29a;
+  --color-neutral-600: #85817a;
+  --color-neutral-700: #64645f;
+  --color-neutral-800: #3d3e3a;
+  --color-neutral-900: #20211f;
+
+  --color-accent-100: #f8efec;
+  --color-accent-200: #efd8d3;
+  --color-accent-300: #e0b3aa;
+  --color-accent-400: #cc7c6d;
+  --color-accent-500: #b83a2c;
+  --color-accent-600: #a0301f;
+  --color-accent-700: #86281a;
+  --color-accent-800: #5e1d14;
+  --color-accent-900: #3c1410;
+
+  --color-accent-2-100: #f8efec;
+  --color-accent-2-200: #efd8d3;
+  --color-accent-2-300: #e0b3aa;
+  --color-accent-2-400: #cc7c6d;
+  --color-accent-2-500: #b83a2c;
+  --color-accent-2-600: #a0301f;
+  --color-accent-2-700: #86281a;
+  --color-accent-2-800: #5e1d14;
+  --color-accent-2-900: #3c1410;
+
+  --font-heading: Poppins, system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: Poppins, system-ui, sans-serif;
+  --font-reading: 'Libre Baskerville', Georgia, serif;
+
+  --shadow-sm: none;
+  --shadow-md: 0 2px 10px color-mix(in srgb, #20211f 10%, transparent);
+  --shadow-lg: 0 10px 28px color-mix(in srgb, #20211f 16%, transparent);
+
+  --pds-max: 1200px;
+}
+
+/* ── token: tema scuro (inchiostro) ──────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bg: #20211f;
+  --color-surface: #272824;
+  --color-text: #f5f2eb;
+  --color-accent: #ff8c79;
+  --color-accent-2: #ff8c79;
+  --color-divider: #53544f;
+
+  --color-neutral-100: #272824;
+  --color-neutral-200: #303129;
+  --color-neutral-300: #3d3e39;
+  --color-neutral-400: #53544f;
+  --color-neutral-500: #7a7a74;
+  --color-neutral-600: #9c9b94;
+  --color-neutral-700: #bdbbb3;
+  --color-neutral-800: #ddddd2;
+  --color-neutral-900: #f5f2eb;
+
+  --color-accent-100: #3a1a14;
+  --color-accent-200: #4d2219;
+  --color-accent-300: #7c3325;
+  --color-accent-400: #b8503c;
+  --color-accent-500: #ff8c79;
+  --color-accent-600: #ffa695;
+  --color-accent-700: #ffb9aa;
+  --color-accent-800: #ffd3c9;
+  --color-accent-900: #ffe8e2;
+
+  --shadow-sm: none;
+  --shadow-md: 0 4px 14px rgba(0,0,0,.5);
+  --shadow-lg: 0 14px 38px rgba(0,0,0,.6);
+}
+
+body { font-family: var(--font-body); letter-spacing: 0; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
+/* solo il titolo di pagina prende il nero del marchio; i sottotitoli restano SemiBold */
+h1 { letter-spacing: -0.02em; font-weight: 900; font-size: 34px; }
+h2, h3, h4, h5, h6 { font-weight: 600; }
+h2 { font-size: 25px; }
+h3 { font-size: 20px; }
+h4 { font-size: 17px; }
+.pds-display { font-weight: 900; }
+
+/* lettura: sottotitoli, aperture, testi lunghi, citazioni */
+.lettura, .lettura p, .lettura li, blockquote, .occhiello-serif {
+  font-family: var(--font-reading);
+}
+blockquote { font-style: normal; }
+
+a { text-underline-offset: 4px; }
+a:hover { color: var(--color-accent-700); }
+
+/* filetti: 1 px per separare, 4 px solo per accenti e stati */
+.hr { height: 1px; }
+
+/* ── apertura di sezione: motivo del kit dietro il titolo ─────────────── */
+.pds-apertura { position: relative; }
+.pds-apertura::before {
+  content: ""; position: absolute; top: 0; right: 0; z-index: 0;
+  width: min(42%, 520px); height: 210px; pointer-events: none;
+  background: var(--pds-cover) no-repeat right top / contain;
+}
+.pds-apertura > * { position: relative; z-index: 1; }
+@media (max-width: 899px) { .pds-apertura::before { display: none; } }
+[data-theme="dark"] .pds-apertura::before { display: none; }
+
+/* ── icone del kit (griglia 24, tratto 1,75) ─────────────────────────── */
+.pds-icona { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; }
+.pds-icona-s { width: 18px; height: 18px; }
+
+/* ── intestazione ────────────────────────────────────────────────────── */
+.pds-header {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: var(--space-6);
+  min-height: 84px; padding: 0 var(--space-6);
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-divider);
+  margin-bottom: var(--space-4);
+}
+.pds-brand { display: block; margin-right: auto; line-height: 0; }
+.pds-brand img { width: 196px; max-width: 46vw; }
+.pds-brand .logo-scuro { display: none; }
+[data-theme="dark"] .pds-brand .logo-chiaro { display: none; }
+[data-theme="dark"] .pds-brand .logo-scuro { display: block; }
+
+.pds-nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+.pds-nav a {
+  color: var(--color-text); text-decoration: none; font-size: 13px;
+  padding: 30px 0 26px; border-bottom: 4px solid transparent;
+}
+.pds-nav a:hover { color: var(--color-text); border-color: var(--color-accent-400); }
+.pds-nav a[aria-current="page"] { color: var(--color-text); border-color: var(--color-accent); font-weight: 600; }
+.pds-tema { margin-left: var(--space-2); min-height: 44px; min-width: 44px; }
+
+@media (max-width: 1180px) {
+  .pds-header { gap: var(--space-3); padding-inline: var(--space-4); }
+  .pds-brand img { width: 160px; }
+  .pds-nav { gap: var(--space-3); flex-wrap: nowrap; }
+  .pds-nav a { font-size: 12px; }
+}
+@media (max-width: 1000px) {
+  .pds-header { min-height: 68px; justify-content: space-between; padding: var(--space-2) var(--space-4); flex-wrap: wrap; }
+  .pds-brand img { width: 168px; }
+  .pds-brand { margin-right: 0; }
+  .pds-nav { gap: var(--space-3); width: 100%; flex-wrap: wrap; order: 2; }
+  .pds-nav a { padding: 8px 0; border-bottom-width: 3px; font-size: 13px; }
+  .pds-tema { order: 1; margin-left: 0; }
+}
+
+/* ── piede ───────────────────────────────────────────────────────────── */
+.pds-footer {
+  background: #20211f; color: #f5f2eb;
+  padding: 56px var(--space-6) 40px;
+  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--space-8);
+  align-items: start;
+}
+.pds-footer a { color: #f5f2eb; font-size: 13px; text-decoration: none; border-bottom: 1px solid rgba(245,242,235,.35); }
+.pds-footer a:hover { color: #ff8c79; border-color: #ff8c79; }
+.pds-footer img { width: 260px; max-width: 70vw; margin-bottom: var(--space-3); }
+.pds-footer .pds-footer-claim { font-family: var(--font-reading); font-size: 14px; color: #d7d2c8; margin: 0; max-width: 46ch; }
+.pds-footer-links { display: grid; grid-template-columns: repeat(2, auto); gap: 10px var(--space-8); }
+.pds-footer-nota {
+  grid-column: 1 / -1; border-top: 1px solid #53544f; padding-top: var(--space-4);
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #bdbbb3;
+  display: flex; flex-wrap: wrap; gap: var(--space-4);
+}
+@media (max-width: 760px) {
+  .pds-footer { grid-template-columns: 1fr; padding: 44px var(--space-4) 32px; }
+  .pds-footer-links { grid-template-columns: 1fr; }
+}
+
+/* ── stampa: i token tornano al bianco e nero (ridichiarati qui perché
+      questo foglio vince sull'ordine di cascata) ─────────────────────── */
+@media print {
+  :root, html[data-theme="dark"] {
+    --color-bg: #fff; --color-surface: #fff; --color-text: #000;
+    --color-divider: #000; --color-accent: #000; --color-accent-2: #000;
+    --color-accent-100: #fff; --color-accent-200: #eee; --color-accent-500: #000;
+    --color-accent-600: #000; --color-accent-700: #000; --color-accent-800: #000; --color-accent-900: #000;
+    --color-neutral-100: #fff; --color-neutral-200: #e4e4e4; --color-neutral-300: #d2d2d2;
+    --color-neutral-400: #b4b4b4; --color-neutral-500: #7a7a7a;
+    --color-neutral-600: #5a5a5a; --color-neutral-700: #383838; --color-neutral-800: #141414; --color-neutral-900: #000;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+  }
+  .pds-header, .pds-footer { display: none !important; }
+}

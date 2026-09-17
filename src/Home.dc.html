@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/dati.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html" aria-current="page">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main class="pds-apertura" style="--pds-cover:url(/assets/immagini/copertina-home.svg);max-width:1180px;margin:0 auto;padding:0 var(--space-6) 96px">
+
+  <section style="padding:var(--space-8) 0;border-bottom:1px solid var(--color-divider)">
+    <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">Storia politica e istituzionale · 1943–2002</p>
+    <h1 style="font-size:clamp(23px,3.7vw,44px);line-height:1.02;max-width:20ch;margin:0 0 var(--space-4)">Storia d’Italia dal dopoguerra all’euro</h1>
+    <p style="font-size:16px;line-height:1.65;font-family:var(--font-reading);max-width:60ch;margin:0 0 var(--space-6)">Istituzioni, partiti, governi e politica estera dal 1943 al 2002. Ogni scheda dichiara le sue fonti, il loro grado e i suoi limiti: i fatti accertati, gli atti giudiziari e le interpretazioni restano distinti.</p>
+
+    <form role="search" action="Atlante.dc.html" method="get" style="display:flex;flex-wrap:wrap;gap:var(--space-2);max-width:640px;margin-bottom:var(--space-6)">
+      <label class="field" style="flex:1 1 260px;min-width:0">
+        <span style="display:block;font-size:12px;margin-bottom:5px">Cerca in titoli, sintesi, autori e fonti</span>
+        <input class="input" type="search" name="q" placeholder="Maastricht, Mani Pulite, Anselmi, FRUS…">
+      </label>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-end;height:36px">Cerca</button>
+    </form>
+
+    <dl class="num" style="display:flex;flex-wrap:wrap;gap:var(--space-6) var(--space-8);margin:0;border-top:1px solid var(--color-divider);padding-top:var(--space-4)">
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Schede</dt><dd style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:26px">170</dd></div>
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Fonti</dt><dd style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:26px">157</dd></div>
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Periodi</dt><dd style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:26px">13</dd></div>
+      <div><dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Riferimenti</dt><dd style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:26px">522</dd></div>
+    </dl>
+  </section>
+
+  <section style="padding:var(--space-8) 0;border-bottom:1px solid var(--color-divider)">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4)">
+      <h2 style="display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:0"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16"></rect><path d="M3 10h18M7 3v5M17 3v5"></path><g stroke="currentColor"><path d="M7 15h10M7 18h6"></path></g></g></svg>Linea del tempo</h2>
+      <div style="display:flex;gap:2px;margin-left:auto" data-print-hide>
+        <button class="btn btn-secondary" type="button" onClick="{{ mostraFascia }}" aria-pressed="{{ inFascia }}" style="{{ stileFascia }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex:none"><path d="M3 9h18v6H3zM9 9v6M15 9v6"></path></svg>
+          Fascia
+        </button>
+        <button class="btn btn-secondary" type="button" onClick="{{ mostraVerticale }}" aria-pressed="{{ inVerticale }}" style="{{ stileVerticale }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex:none"><path d="M6 3v18"></path><circle cx="6" cy="8" r="2.5"></circle><circle cx="6" cy="17" r="2.5"></circle><path d="M12 8h8M12 17h6"></path></svg>
+          Verticale
+        </button>
+      </div>
+    </div>
+
+    <div data-vb-skip>
+      <sc-if value="{{ inFascia }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div class="num" style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-text);padding-bottom:4px;margin-bottom:2px">
+            <span>1943</span><span>1958</span><span>1973</span><span>1988</span><span>2002</span>
+          </div>
+          <div style="display:flex;gap:2px;background:var(--color-divider);border:1px solid var(--color-text);border-top:0">
+          <a href="Cronologia.dc.html#P01" aria-label="1943–1948 · Dalla caduta del fascismo alla Repubblica" title="1943–1948 · Dalla caduta del fascismo alla Repubblica" style="flex:5 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P02" aria-label="1948–1953 · La scelta occidentale" title="1948–1953 · La scelta occidentale" style="flex:5 1 6px;min-width:6px;background:var(--color-neutral-300);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P03" aria-label="1953–1963 · Miracolo economico" title="1953–1963 · Miracolo economico" style="flex:10 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P04" aria-label="1963–1968 · Il centro-sinistra" title="1963–1968 · Il centro-sinistra" style="flex:5 1 6px;min-width:6px;background:var(--color-neutral-300);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P05" aria-label="1968–1974 · Contestazione e stragi" title="1968–1974 · Contestazione e stragi" style="flex:6 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P06" aria-label="1974–1978 · Solidarietà nazionale" title="1974–1978 · Solidarietà nazionale" style="flex:4 1 6px;min-width:6px;background:var(--color-neutral-300);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P07" aria-label="1978–1981 · Da Moro alla P2" title="1978–1981 · Da Moro alla P2" style="flex:3 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P08" aria-label="1981–1987 · Pertini e Craxi" title="1981–1987 · Pertini e Craxi" style="flex:6 1 6px;min-width:6px;background:var(--color-neutral-300);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P09" aria-label="1987–1992 · Fine della Guerra fredda" title="1987–1992 · Fine della Guerra fredda" style="flex:5 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P10" aria-label="1992–1994 · Crisi della Prima Repubblica" title="1992–1994 · Crisi della Prima Repubblica" style="flex:2 1 6px;min-width:6px;background:var(--color-accent);height:46px;display:block" style-hover="background:var(--color-accent-600)"></a>
+          <a href="Cronologia.dc.html#P11" aria-label="1994–1996 · Il nuovo bipolarismo" title="1994–1996 · Il nuovo bipolarismo" style="flex:2 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P12" aria-label="1996–2001 · L’Ulivo e la moneta unica" title="1996–2001 · L’Ulivo e la moneta unica" style="flex:5 1 6px;min-width:6px;background:var(--color-neutral-300);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          <a href="Cronologia.dc.html#P13" aria-label="2001–2003 · L’euro nella vita quotidiana" title="2001–2003 · L’euro nella vita quotidiana" style="flex:1 1 6px;min-width:6px;background:var(--color-neutral-200);height:46px;display:block" style-hover="background:var(--color-neutral-400)"></a>
+          </div>
+          <p style="margin:var(--space-2) 0 var(--space-6);font-size:12px;color:var(--color-neutral-700)">La fascia mostra i tredici periodi in scala: ogni segmento è proporzionale alla sua durata. Le etichette stanno nell’elenco qui sotto, dove restano leggibili anche su telefono.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 var(--space-6);border-top:1px solid var(--color-divider)">
+          <a class="num" href="Cronologia.dc.html#P01" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1943–1948</span><span style="font-size:13px;font-weight:600">Dalla caduta del fascismo alla Repubblica</span></a>
+          <a class="num" href="Cronologia.dc.html#P02" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1948–1953</span><span style="font-size:13px;font-weight:600">La scelta occidentale</span></a>
+          <a class="num" href="Cronologia.dc.html#P03" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1953–1963</span><span style="font-size:13px;font-weight:600">Miracolo economico</span></a>
+          <a class="num" href="Cronologia.dc.html#P04" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1963–1968</span><span style="font-size:13px;font-weight:600">Il centro-sinistra</span></a>
+          <a class="num" href="Cronologia.dc.html#P05" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1968–1974</span><span style="font-size:13px;font-weight:600">Contestazione e stragi</span></a>
+          <a class="num" href="Cronologia.dc.html#P06" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1974–1978</span><span style="font-size:13px;font-weight:600">Solidarietà nazionale</span></a>
+          <a class="num" href="Cronologia.dc.html#P07" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1978–1981</span><span style="font-size:13px;font-weight:600">Da Moro alla P2</span></a>
+          <a class="num" href="Cronologia.dc.html#P08" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1981–1987</span><span style="font-size:13px;font-weight:600">Pertini e Craxi</span></a>
+          <a class="num" href="Cronologia.dc.html#P09" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1987–1992</span><span style="font-size:13px;font-weight:600">Fine della Guerra fredda</span></a>
+          <a class="num" href="Cronologia.dc.html#P10" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1992–1994</span><span style="font-size:13px;font-weight:600">Crisi della Prima Repubblica</span></a>
+          <a class="num" href="Cronologia.dc.html#P11" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1994–1996</span><span style="font-size:13px;font-weight:600">Il nuovo bipolarismo</span></a>
+          <a class="num" href="Cronologia.dc.html#P12" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">1996–2001</span><span style="font-size:13px;font-weight:600">L’Ulivo e la moneta unica</span></a>
+          <a class="num" href="Cronologia.dc.html#P13" style="display:flex;gap:8px;align-items:baseline;border-bottom:1px solid var(--color-divider);padding:6px 0;text-decoration:none;color:var(--color-text)" style-hover="background:var(--color-neutral-200)"><span style="width:82px;flex:none;font-size:12px;color:var(--color-neutral-700)">2001–2003</span><span style="font-size:13px;font-weight:600">L’euro nella vita quotidiana</span></a>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ inVerticale }}">
+        <div style="display:flex;flex-direction:column;border-top:1px solid var(--color-divider)">
+          <a href="Cronologia.dc.html#P01" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:111px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1943<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1948</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:81px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Dalla caduta del fascismo alla Repubblica</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Referendum, Costituente, trattato di pace</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">5 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P02" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:111px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1948<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1953</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:81px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">La scelta occidentale</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Elezioni del 1948, NATO, centrismo</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">5 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P03" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:176px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1953<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1963</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:146px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Miracolo economico</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Crescita, emigrazione interna, apertura a sinistra</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">10 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P04" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:111px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1963<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1968</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:81px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Il centro-sinistra</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Nazionalizzazioni, programmazione, riforme incompiute</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">5 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P05" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:124px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1968<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1974</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:94px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Contestazione e stragi</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Autunno caldo, piazza Fontana, referendum sul divorzio</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">6 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P06" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:98px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1974<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1978</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:68px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Solidarietà nazionale</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Crisi petrolifera, compromesso storico</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">4 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P07" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:85px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1978<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1981</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:55px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Da Moro alla P2</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Delitto Moro, presidenza Pertini, logge e apparati</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">3 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P08" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:124px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1981<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1987</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:94px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Pertini e Craxi</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Pentapartito, scala mobile, Sigonella</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">6 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P09" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:111px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1987<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1992</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:81px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Fine della Guerra fredda</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Gladio, Bolognina, Maastricht in vista</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">5 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P10" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:72px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-accent-700)">1992<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1994</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-9px;top:6px;width:18px;height:18px;border-radius:50%;background:var(--color-accent);border:1px solid var(--color-bg)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:42px;background:var(--color-accent)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Crisi della Prima Repubblica</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Mani Pulite, stragi, crisi della lira, alternanza</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">2 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P11" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:72px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1994<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 1996</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:42px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Il nuovo bipolarismo</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Governi brevi e sistema maggioritario</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">2 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P12" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:111px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">1996<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 2001</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:81px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">L’Ulivo e la moneta unica</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Ammissione all’euro, Bicamerale, Titolo V</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">5 anni</span>
+            </span>
+          </a>
+          <a href="Cronologia.dc.html#P13" style="display:flex;gap:var(--space-4);text-decoration:none;color:var(--color-text);min-height:59px" style-hover="background:var(--color-neutral-100)">
+            <span class="num" style="flex:none;width:clamp(62px,17vw,96px);text-align:right;padding-top:2px;font-family:var(--font-heading);font-weight:600;font-size:17px;color:var(--color-text)">2001<span style="display:block;font-size:12px;font-weight:400;color:var(--color-neutral-700)">→ 2003</span></span>
+            <span style="flex:none;width:2px;background:var(--color-divider);position:relative"><span style="position:absolute;left:-7px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--color-bg);border:1px solid var(--color-text)"></span><span style="position:absolute;left:-3px;top:24px;width:6px;height:29px;background:var(--color-neutral-400)"></span></span>
+            <span style="min-width:0;padding:0 0 var(--space-4) var(--space-2)">
+              <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">L’euro nella vita quotidiana</span>
+              <span style="display:block;font-size:13px;color:var(--color-neutral-800);margin-top:2px">Il contante europeo e la chiusura dell’atlante</span>
+              <span class="num" style="display:inline-block;margin-top:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">2 anni</span>
+            </span>
+          </a>
+          <p style="margin:var(--space-4) 0 0;font-size:12px;color:var(--color-neutral-700)">Anche qui la scala è rispettata: l’altezza di ogni tratto cresce con la durata del periodo.</p>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section style="padding:var(--space-8) 0;border-bottom:1px solid var(--color-divider)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-3);margin-bottom:var(--space-4)">
+      <h2 style="display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:0"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M11 5h10M11 12h10M11 19h10M3 4l2 2 3-3M3 11l2 2 3-3"></path><g stroke="currentColor"><path d="M3 18l2 2 3-3"></path></g></g></svg>Da dove cominciare</h2>
+      <p style="margin:0;font-size:12px;color:var(--color-neutral-700)">Quattro voci scelte dalla redazione, modificabili dal pannello.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4)">
+      <sc-for list="{{ inizi }}" as="it" hint-placeholder-count="4">
+        <a data-vb-list="da_dove_cominciare" href="{{ it.link }}" style="border:1px solid var(--color-divider);border-left:4px solid var(--color-text);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:6px">
+          <span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ it.kicker }}</span>
+          <span style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">{{ it.title }}</span>
+          <span style="font-size:13px;color:var(--color-neutral-800)">{{ it.desc }}</span>
+          <span style="margin-top:auto;padding-top:var(--space-2);color:var(--color-accent)"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M10 4H4v16h16v-6M14 3h7v7M21 3 10 14"></path><g stroke="currentColor"></g></g></svg></span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="padding:var(--space-8) 0;border-bottom:1px solid var(--color-divider)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-3);margin-bottom:var(--space-4)">
+      <h2 style="display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700);margin:0"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg>Nessi in evidenza</h2>
+      <p style="margin:0;font-size:12px;color:var(--color-neutral-700)">Domande di causalità messe alla prova, con verdetto graduato.</p>
+      <a class="btn btn-ghost" href="Nessi.dc.html" style="margin-left:auto;text-decoration:none;white-space:nowrap">Tutti i Nessi →</a>
+    </div>
+    <div data-vb-skip style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-4)">
+
+      <article style="border:1px solid var(--color-accent);border-left:4px solid var(--color-accent);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)">
+        <div style="display:flex;align-items:center;gap:var(--space-2)">
+          <span style="flex:none;width:24px;height:24px;display:grid;place-items:center;background:var(--color-accent);color:#fff"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg></span>
+          <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">Nesso N01</span>
+          <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">1983–1994</span>
+        </div>
+        <h3 style="margin:0;font-size:21px"><a href="Scheda%20nesso.dc.html?id=N01" style="color:var(--color-text);text-decoration:none">Lo yuppismo deriva dal berlusconismo?</a></h3>
+        <p style="margin:0;font-size:13px;color:var(--color-neutral-800)">Il test cronologico ribalta la domanda: quello che precede è Berlusconi imprenditore televisivo.</p>
+        <p style="margin:0;display:flex;align-items:center;gap:var(--space-2);border:1px solid var(--color-accent);padding:6px var(--space-2);font-size:12px"><span style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Verdetto</span><strong style="text-transform:uppercase;letter-spacing:0.04em;color:var(--color-accent-700)">Antecedente</strong></p>
+      </article>
+
+      <article style="border:1px solid var(--color-accent);border-left:4px solid var(--color-accent);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)">
+        <div style="display:flex;align-items:center;gap:var(--space-2)">
+          <span style="flex:none;width:24px;height:24px;display:grid;place-items:center;background:var(--color-accent);color:#fff"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg></span>
+          <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">Nesso N02</span>
+          <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">1975–1990</span>
+        </div>
+        <h3 style="margin:0;font-size:21px"><a href="Scheda%20nesso.dc.html?id=N02" style="color:var(--color-text);text-decoration:none">L’edonismo reaganiano è causa o conseguenza della moda degli anni ’80?</a></h3>
+        <p style="margin:0;font-size:13px;color:var(--color-neutral-800)">L’etichetta nasce in televisione nel 1985; il prêt-à-porter milanese ha radici negli anni ’70.</p>
+        <p style="margin:0;display:flex;align-items:center;gap:var(--space-2);border:1px solid var(--color-accent);padding:6px var(--space-2);font-size:12px"><span style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Verdetto</span><strong style="text-transform:uppercase;letter-spacing:0.04em;color:var(--color-accent-700)">Convergenza</strong></p>
+      </article>
+
+      <article style="border:1px solid var(--color-divider);border-left:4px solid var(--color-neutral-400);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)">
+        <div style="display:flex;align-items:center;gap:var(--space-2)">
+          <span style="flex:none;width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--color-neutral-500);color:var(--color-neutral-600)"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg></span>
+          <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Nesso in lavorazione</span>
+        </div>
+        <h3 style="margin:0;font-size:21px;color:var(--color-neutral-800)">Televisione commerciale e crisi dei partiti di massa</h3>
+        <p style="margin:0;font-size:13px;color:var(--color-neutral-700)">Candidato in coda: serve il test cronologico e almeno due prove contro.</p>
+        <p style="margin:0;font-size:12px;color:var(--color-neutral-700);border-top:1px solid var(--color-divider);padding-top:var(--space-2)">Non pubblicato</p>
+      </article>
+    </div>
+  </section>
+
+  <section style="padding:var(--space-8) 0">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-3);margin-bottom:var(--space-4)">
+      <h2 style="display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:0"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="5" y="3" width="15" height="18"></rect><path d="M3 7h4M3 12h4M3 17h4M10 7h6M10 11h6"></path><g stroke="currentColor"><path d="M10 16h4"></path></g></g></svg>Dal Taccuino</h2>
+      <a class="btn btn-ghost" href="Taccuino.dc.html" style="margin-left:auto;text-decoration:none;white-space:nowrap">Tutti i post →</a>
+    </div>
+    <div data-vb-skip style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;background:var(--color-divider);border:1px solid var(--color-divider)">
+      <a href="Taccuino%20post%20maastricht.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:6px">
+        <span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Accadde oggi · 07/02</span>
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Maastricht, trent’anni dopo la firma</span>
+        <span style="font-size:13px;color:var(--color-neutral-800)">Che cosa firmò l’Italia e che cosa ne fece il dibattito interno.</span>
+      </a>
+      <a href="Taccuino%20post%202.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:6px">
+        <span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Dentro le fonti</span>
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">Come si legge una seduta parlamentare</span>
+        <span style="font-size:13px;color:var(--color-neutral-800)">Resoconto stenografico, sommario, allegati: cosa prova ciascuno.</span>
+      </a>
+      <a href="Taccuino%20post%20revisione.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:6px">
+        <span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Aggiornamenti</span>
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">24 schede in revisione: come procede</span>
+        <span style="font-size:13px;color:var(--color-neutral-800)">Stato del protocollo fonti e prime correzioni recepite.</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { vista: 'fascia' };
+  renderVals() {
+    const v = this.state.vista;
+    const attivo = 'background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)';
+    const spento = '';
+    return {
+      inFascia: v === 'fascia',
+      inVerticale: v === 'verticale',
+      stileFascia: v === 'fascia' ? attivo : spento,
+      stileVerticale: v === 'verticale' ? attivo : spento,
+      mostraFascia: () => this.setState({ vista: 'fascia' }),
+      mostraVerticale: () => this.setState({ vista: 'verticale' }),
+      inizi: [
+        { kicker: 'Metodo', title: 'Che cos’è un atlante politico-istituzionale', desc: 'Il filtro di inclusione, i gradi di prova, la scala dei verdetti.', link: 'Metodo.dc.html' },
+        { kicker: 'Periodo', title: '1943–1948: nasce la Repubblica', desc: 'Referendum, Costituente, epurazione, trattato di pace.', link: 'Scheda%20periodo.dc.html?id=P01' },
+        { kicker: 'Periodo', title: '1992–1994: la crisi del sistema dei partiti', desc: 'Inchieste, crisi valutaria, referendum, alternanza.', link: 'Scheda%20periodo.dc.html?id=P10' },
+        { kicker: 'Fonti', title: 'Dove si trovano gli atti parlamentari', desc: 'Camera, Senato, commissioni d’inchiesta: da dove partire.', link: 'Fonti.dc.html' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

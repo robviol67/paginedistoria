@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/dati.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html" aria-current="page">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main class="pds-apertura" style="--pds-cover:url(/assets/immagini/copertina-storia.svg);max-width:1280px;margin:0 auto;padding:var(--space-6) var(--space-6) 96px">
+
+  <h1 style="font-size:clamp(19px,2.3vw,26px);margin:0 0 var(--space-2)">Storia</h1>
+  <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch;margin:0 0 var(--space-6)">Le schede dell’edizione dati v1.15, filtrabili per periodo, tema, tipologia, fonte e stato di verifica. I filtri si combinano e restano leggibili nell’indirizzo: <code class="num">?tipo=Evento&amp;periodo=P10</code>.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:flex-start">
+
+    <form id="atlante-filtri" style="flex:1 1 262px;max-width:340px;position:sticky;top:96px;display:flex;flex-direction:column;gap:var(--space-6);border:1px solid var(--color-divider);padding:var(--space-4)">
+      <div class="field">
+        <label for="q">Ricerca libera</label>
+        <input class="input" id="q" type="search" placeholder="Titoli, sintesi, temi, id, fonti" value="{{ q }}" onInput="{{ setQ }}">
+      </div>
+
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700);padding:0;margin-bottom:var(--space-2)">Tipologia</legend>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:14px">
+          <sc-for list="{{ tipologie }}" as="t" hint-placeholder-count="6">
+            <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" checked="{{ t.attivo }}" onChange="{{ t.toggle }}"><span>{{ t.nome }} <span class="num" style="color:var(--color-neutral-600)">{{ t.n }}</span></span></label>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="fper">Periodo</label>
+        <select class="input" id="fper" value="{{ periodo }}" onChange="{{ setPeriodo }}">
+          <sc-for list="{{ periodi }}" as="p" hint-placeholder-count="8"><option value="{{ p.id }}">{{ p.label }}</option></sc-for>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="ftema">Tema</label>
+        <select class="input" id="ftema" value="{{ tema }}" onChange="{{ setTema }}">
+          <sc-for list="{{ temi }}" as="t" hint-placeholder-count="8"><option>{{ t }}</option></sc-for>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="ffonte">Fonte citata</label>
+        <select class="input" id="ffonte" value="{{ fonte }}" onChange="{{ setFonte }}">
+          <sc-for list="{{ fonti }}" as="f" hint-placeholder-count="8"><option value="{{ f.id }}">{{ f.label }}</option></sc-for>
+        </select>
+      </div>
+
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700);padding:0;margin-bottom:var(--space-2)">Stato di verifica</legend>
+        <div class="seg" role="group" aria-label="Stato di verifica" style="width:100%">
+          <label class="seg-opt" style="flex:1"><input type="radio" name="stato" checked="{{ statoTutte }}" onChange="{{ setStatoTutte }}"><span>Tutte</span></label>
+          <label class="seg-opt" style="flex:1"><input type="radio" name="stato" checked="{{ statoVerificate }}" onChange="{{ setStatoVerificate }}"><span>Verificate</span></label>
+          <label class="seg-opt" style="flex:1"><input type="radio" name="stato" checked="{{ statoRevisione }}" onChange="{{ setStatoRevisione }}"><span>In revisione</span></label>
+        </div>
+      </fieldset>
+
+      <label style="display:flex;align-items:flex-start;gap:8px;font-size:14px"><input type="checkbox" checked="{{ soloDoc }}" onChange="{{ toggleSoloDoc }}"><span>Solo schede con almeno un documento preciso</span></label>
+
+      <div style="display:flex;gap:var(--space-2);border-top:1px solid var(--color-divider);padding-top:var(--space-4)">
+        <button class="btn btn-primary" type="button" onClick="{{ azzera }}">Azzera i filtri</button>
+      </div>
+    </form>
+
+    <div style="flex:2 1 440px;min-width:0">
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-3);margin-bottom:var(--space-4)">
+        <p class="num" style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:17px">{{ conteggio }}</p>
+        <div style="display:flex;gap:var(--space-2);margin-left:auto;flex-wrap:wrap">
+          <button class="btn btn-secondary" type="button" onClick="{{ cambiaOrdine }}">{{ ordineLabel }}</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--space-4);align-items:center">
+        <span style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Filtri attivi</span>
+        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="2">
+          <button class="btn btn-secondary" type="button" style="font-size:12px" onClick="{{ c.rimuovi }}">{{ c.label }} ×</button>
+        </sc-for>
+        <sc-if value="{{ nessunFiltro }}"><span style="font-size:12px;color:var(--color-neutral-700)">nessuno</span></sc-if>
+      </div>
+
+      <sc-if value="{{ vuoto }}">
+        <div style="border:1px solid var(--color-text);padding:var(--space-6)">
+          <p style="display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:20px">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><circle cx="10" cy="10" r="6"></circle><g stroke="currentColor"><path d="M15 15l6 6"></path></g></g></svg>
+            Nessuna scheda con questi filtri
+          </p>
+          <p style="margin:0 0 var(--space-4);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:58ch;color:var(--color-neutral-800)">{{ messaggioVuoto }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--space-6)">
+            <button class="btn btn-secondary" type="button" onClick="{{ azzera }}">Azzera i filtri</button>
+            <a class="btn btn-secondary" href="Cronologia.dc.html" style="text-decoration:none">Sfoglia la cronologia</a>
+          </div>
+          <div style="border-top:1px solid var(--color-text);padding-top:var(--space-4);display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center">
+            <p style="margin:0;font-size:14px;max-width:44ch">Se la scheda dovrebbe esistere e non c’è, è una lacuna dell’atlante: segnalala e finisce nella lista delle priorità.</p>
+            <a class="btn btn-primary" href="Segnala.dc.html" style="margin-left:auto;text-decoration:none">Segnala una lacuna</a>
+          </div>
+        </div>
+      </sc-if>
+
+      <div id="atlante-app" data-vb-skip style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:var(--space-4)">
+        <sc-for list="{{ risultati }}" as="r" hint-placeholder-count="6">
+          <article style="border:1px solid var(--color-divider);border-left:4px solid var(--color-text);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)">
+            <div style="display:flex;align-items:center;gap:var(--space-2)">
+              <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600">{{ r.tipo }}</span>
+              <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">{{ r.anni }}</span>
+            </div>
+            <h2 style="font-size:20px;margin:0"><a href="{{ r.link }}" style="color:var(--color-text);text-decoration:none">{{ r.titolo }}</a></h2>
+            <p style="margin:0;font-size:13px;color:var(--color-neutral-800)">{{ r.sintesi }}</p>
+            <p style="margin:0;display:flex;flex-wrap:wrap;gap:4px">
+              <sc-for list="{{ r.temi }}" as="tm" hint-placeholder-count="2"><span class="tag tag-neutral">{{ tm }}</span></sc-for>
+            </p>
+            <p class="num" style="margin:0;display:flex;gap:var(--space-3);border-top:1px solid var(--color-divider);padding-top:var(--space-2);font-size:11px;color:var(--color-neutral-700)"><span>{{ r.meta }}</span><span style="margin-left:auto">{{ r.stato }}</span></p>
+          </article>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ altre }}">
+        <div style="display:flex;justify-content:center;gap:var(--space-2);margin-top:var(--space-8)">
+          <button class="btn btn-secondary" type="button" onClick="{{ mostraAltre }}">{{ altreLabel }}</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="margin-top:96px;border-top:1px solid var(--color-divider);padding-top:var(--space-6)">
+    <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-4)">Mockup · filtri su telefono e raccolta</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:var(--space-6)">
+      <div>
+        <p style="font-size:12px;color:var(--color-neutral-700);margin-bottom:var(--space-2)">A 360 px i filtri stanno in un pannello a comparsa: intestazione fissa, corpo scorrevole, due azioni sempre visibili in basso.</p>
+        <div style="width:340px;max-width:100%;border:1px solid var(--color-text);background:var(--color-bg)">
+          <div style="display:flex;align-items:center;gap:var(--space-2);border-bottom:1px solid var(--color-divider);padding:var(--space-3)">
+            <strong style="font-family:var(--font-heading);font-size:15px">Filtri</strong>
+            <span class="num" style="font-size:12px;color:var(--color-neutral-700)">2 attivi</span>
+            <button class="btn btn-icon btn-secondary" type="button" aria-label="Chiudi" style="margin-left:auto"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M5 5l14 14M19 5 5 19"></path><g stroke="currentColor"></g></g></svg></button>
+          </div>
+          <div style="padding:var(--space-3);display:flex;flex-direction:column;gap:var(--space-3);max-height:260px;overflow:hidden">
+            <input class="input" type="search" placeholder="Ricerca libera">
+            <div>
+              <p style="margin:0 0 6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Tipologia</p>
+              <div style="display:flex;flex-wrap:wrap;gap:4px">
+                <span class="tag" style="border:1px solid var(--color-text)">Evento ×</span>
+                <span class="tag tag-neutral">Periodo</span>
+                <span class="tag tag-neutral">Nesso</span>
+              </div>
+            </div>
+            <div>
+              <p style="margin:0 0 6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Periodo</p>
+              <div style="display:flex;flex-wrap:wrap;gap:4px">
+                <span class="tag" style="border:1px solid var(--color-text)">1992–1994 ×</span>
+                <span class="tag tag-neutral">1994–1996</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-2);border-top:1px solid var(--color-divider);padding:var(--space-3)">
+            <button class="btn btn-primary" type="button" style="flex:1;min-height:44px">Mostra 12 schede</button>
+            <button class="btn btn-secondary" type="button" style="min-height:44px">Azzera</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:12px;color:var(--color-neutral-700);margin-bottom:var(--space-2)">La raccolta è una barra fissa in basso: conta gli elementi messi da parte e li esporta in Markdown o negli appunti.</p>
+        <div style="border:1px solid var(--color-text);background:var(--color-neutral-100);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)">
+          <div style="display:flex;align-items:center;gap:var(--space-3)">
+            <span style="font-family:var(--font-heading);font-weight:600;font-size:15px">Raccolta</span>
+            <span class="num" style="font-size:12px;color:var(--color-neutral-700)">5 schede · 9 fonti</span>
+            <button class="btn btn-ghost" type="button" style="margin-left:auto">Svuota</button>
+          </div>
+          <ul class="num" style="list-style:none;margin:0;padding:0;font-size:13px;display:flex;flex-direction:column;gap:4px">
+            <li style="display:flex;gap:var(--space-2);border-bottom:1px solid var(--color-divider);padding-bottom:4px"><span style="color:var(--color-neutral-700)">E48</span><span>Mani Pulite e Tangentopoli</span></li>
+            <li style="display:flex;gap:var(--space-2);border-bottom:1px solid var(--color-divider);padding-bottom:4px"><span style="color:var(--color-neutral-700)">M24</span><span>Trattato di Maastricht e parametri</span></li>
+            <li style="display:flex;gap:var(--space-2)"><span style="color:var(--color-neutral-700)">CAM</span><span>Camera dei deputati — seduta 29/04/1993</span></li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+            <button class="btn btn-primary" type="button">Scarica in Markdown</button>
+            <button class="btn btn-secondary" type="button">Copia negli appunti</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;senzaRisultati&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stato&quot;,&quot;label&quot;:&quot;Nessun risultato&quot;}}">
+class Component extends DCLogic {
+  state = { q: '', tipi: [], periodo: '', tema: '', fonte: '', stato: 'Tutte', soloDoc: false, ordine: 'anno', limite: 12 };
+
+  attendiDati(conSchede) {
+    const pronto = () => window.AT && (!conSchede || window.AT.schede);
+    if (pronto()) return;
+    const t = setInterval(() => { if (pronto()) { clearInterval(t); this.forceUpdate(); } }, 60);
+    setTimeout(() => clearInterval(t), 8000);
+  }
+  componentDidMount() {
+    this.attendiDati(false);
+    const p = new URLSearchParams(location.search), s = {};
+    const SLUG = { evento: 'Evento', periodo: 'Periodo', tema: 'Tema', personaggio: 'Personaggio', mondo: 'Accade nel mondo', nesso: 'Nesso' };
+    if (p.get('q')) s.q = p.get('q');
+    if (p.get('tipo')) s.tipi = [SLUG[p.get('tipo').toLowerCase()] || p.get('tipo')];
+    if (p.get('periodo')) s.periodo = p.get('periodo').toUpperCase();
+    if (p.get('tema')) s.tema = p.get('tema');
+    if (p.get('fonte')) s.fonte = p.get('fonte').toUpperCase();
+    if (p.get('stato')) { const v = p.get('stato').toLowerCase(); s.stato = v.indexOf('rev') === 0 ? 'In revisione' : (v.indexOf('ver') === 0 ? 'Verificate' : 'Tutte'); }
+    if (p.get('doc')) s.soloDoc = true;
+    if (Object.keys(s).length) this.setState(s);
+  }
+
+  aggiorna(patch) {
+    this.setState(Object.assign({ limite: 12 }, patch), () => {
+      const s = this.state, p = new URLSearchParams();
+      if (s.q.trim()) p.set('q', s.q.trim());
+      if (s.tipi.length === 1) p.set('tipo', s.tipi[0]);
+      if (s.periodo) p.set('periodo', s.periodo);
+      if (s.tema) p.set('tema', s.tema);
+      if (s.fonte) p.set('fonte', s.fonte);
+      if (s.stato !== 'Tutte') p.set('stato', s.stato);
+      if (s.soloDoc) p.set('doc', '1');
+      const qs = p.toString();
+      history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+    });
+  }
+
+  renderVals() {
+    const D = window.AT;
+    if (!D) return { conteggio: 'Caricamento dei dati…', risultati: [], chips: [], tipologie: [], periodi: [], temi: [], fonti: [] };
+
+    const s = this.state;
+    const q = s.q.trim().toLowerCase();
+    const forzaVuoto = this.props.senzaRisultati === true;
+
+    const testo = r => (r.id + ' ' + r.titolo + ' ' + (r.sintesi || '') + ' ' + (r.temi || []).join(' ') + ' ' + r.tipologia + ' ' + D.anni(r) + ' ' + (r.etichette || []).join(' ')).toLowerCase();
+    const citaFonte = r => { const f = D.schedaPer && D.schedaPer[r.id]; if (f) return (f.fonti || []).some(v => v.fonte_id === s.fonte); const u = D.usi && D.usi[s.fonte]; return u ? u.indexOf(r.id) !== -1 : (D.fontePer[s.fonte] || {}).id === undefined; };
+
+    const passa = r => {
+      if (q && testo(r).indexOf(q) === -1) return false;
+      if (s.tipi.length && s.tipi.indexOf(r.tipologia) === -1) return false;
+      if (s.periodo && (r.periodi || []).indexOf(s.periodo) === -1) return false;
+      if (s.tema && (r.temi || []).indexOf(s.tema) === -1) return false;
+      if (s.fonte && !citaFonte(r)) return false;
+      if (s.stato === 'Verificate' && r.stato !== 'verificata') return false;
+      if (s.stato === 'In revisione' && r.stato === 'verificata') return false;
+      if (s.soloDoc && !(r.n_doc > 0)) return false;
+      return true;
+    };
+
+    let filtrate = forzaVuoto ? [] : D.indice.filter(passa);
+    filtrate = filtrate.slice().sort((a, b) => s.ordine === 'anno'
+      ? (parseInt(a.inizio, 10) - parseInt(b.inizio, 10)) || a.titolo.localeCompare(b.titolo, 'it')
+      : a.titolo.localeCompare(b.titolo, 'it'));
+
+    const tipologie = D.tassonomie.tipologie.map(t => ({
+      nome: t.id, n: D.indice.filter(r => r.tipologia === t.id).length, attivo: s.tipi.indexOf(t.id) !== -1,
+      toggle: () => { const cur = s.tipi.slice(); const i = cur.indexOf(t.id); if (i === -1) cur.push(t.id); else cur.splice(i, 1); this.aggiorna({ tipi: cur }); }
+    })).filter(x => x.n > 0);
+
+    const periodi = [{ id: '', label: 'Tutti i periodi' }].concat(D.tassonomie.periodi.map(p => ({ id: p.id, label: p.inizio + '–' + p.fine + ' · ' + p.titolo })));
+    const temi = [''].concat(Array.from(new Set(D.indice.reduce((a, r) => a.concat(r.temi || []), []))).sort((a, b) => a.localeCompare(b, 'it')));
+    const fonti = [{ id: '', label: 'Tutte le fonti' }].concat(D.fonti.slice().sort((a, b) => a.titolo.localeCompare(b.titolo, 'it')).map(f => ({ id: f.id, label: f.titolo + ' · ' + f.n_schede })));
+
+    const chips = [];
+    if (s.q.trim()) chips.push({ label: '“' + s.q.trim() + '”', rimuovi: () => this.aggiorna({ q: '' }) });
+    s.tipi.forEach(n => chips.push({ label: n, rimuovi: () => this.aggiorna({ tipi: s.tipi.filter(x => x !== n) }) }));
+    if (s.periodo) chips.push({ label: (D.periodoPer[s.periodo] || {}).titolo || s.periodo, rimuovi: () => this.aggiorna({ periodo: '' }) });
+    if (s.tema) chips.push({ label: s.tema, rimuovi: () => this.aggiorna({ tema: '' }) });
+    if (s.fonte) chips.push({ label: 'Fonte: ' + ((D.fontePer[s.fonte] || {}).titolo || s.fonte), rimuovi: () => this.aggiorna({ fonte: '' }) });
+    if (s.stato !== 'Tutte') chips.push({ label: s.stato, rimuovi: () => this.aggiorna({ stato: 'Tutte' }) });
+    if (s.soloDoc) chips.push({ label: 'Con documento preciso', rimuovi: () => this.aggiorna({ soloDoc: false }) });
+
+    const visibili = filtrate.slice(0, s.limite).map(r => ({
+      tipo: r.tipologia, anni: D.anni(r), titolo: r.titolo, sintesi: r.sintesi || '',
+      temi: (r.temi || []).slice(0, 2), link: D.pagina(r.id),
+      meta: r.n_fonti + ' fonti · ' + r.n_doc + ' documenti',
+      stato: r.stato === 'verificata' ? 'Verificata' : 'In revisione'
+    }));
+    const resto = filtrate.length - visibili.length;
+
+    return {
+      q: s.q, periodo: s.periodo, tema: s.tema, fonte: s.fonte, soloDoc: s.soloDoc,
+      tipologie: tipologie, periodi: periodi, temi: temi, fonti: fonti,
+      statoTutte: s.stato === 'Tutte', statoVerificate: s.stato === 'Verificate', statoRevisione: s.stato === 'In revisione',
+      setQ: e => this.aggiorna({ q: e.target.value }),
+      setPeriodo: e => this.aggiorna({ periodo: e.target.value }),
+      setTema: e => this.aggiorna({ tema: e.target.value }),
+      setFonte: e => this.aggiorna({ fonte: e.target.value }),
+      setStatoTutte: () => this.aggiorna({ stato: 'Tutte' }),
+      setStatoVerificate: () => this.aggiorna({ stato: 'Verificate' }),
+      setStatoRevisione: () => this.aggiorna({ stato: 'In revisione' }),
+      toggleSoloDoc: () => this.aggiorna({ soloDoc: !s.soloDoc }),
+      azzera: () => this.aggiorna({ q: '', tipi: [], periodo: '', tema: '', fonte: '', stato: 'Tutte', soloDoc: false }),
+      cambiaOrdine: () => this.setState({ ordine: s.ordine === 'anno' ? 'titolo' : 'anno' }),
+      ordineLabel: s.ordine === 'anno' ? 'Ordine: cronologico' : 'Ordine: alfabetico',
+      conteggio: filtrate.length + (filtrate.length === 1 ? ' scheda' : ' schede') + ' su ' + D.indice.length,
+      nessunFiltro: chips.length === 0,
+      chips: chips,
+      vuoto: filtrate.length === 0,
+      messaggioVuoto: chips.length ? 'Nessuna scheda soddisfa insieme ' + chips.map(c => c.label).join(' + ') + '. Togli un filtro per allargare la ricerca.' : 'Nessuna scheda disponibile.',
+      risultati: visibili,
+      altre: resto > 0,
+      altreLabel: 'Mostra altre ' + resto,
+      mostraAltre: () => this.setState({ limite: s.limite + 12 })
+    };
+  }
+}
+</script>
+</body>
+</html>

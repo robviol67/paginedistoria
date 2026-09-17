@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main style="max-width:1080px;margin:0 auto;padding:var(--space-8) var(--space-6) 96px">
+  <h1 style="font-size:clamp(19px,2.6vw,29px);max-width:24ch;margin:0 0 var(--space-3)">Quindici file, un sistema visivo, una nota tecnica</h1>
+  <p style="font-size:16px;line-height:1.65;font-family:var(--font-reading);max-width:62ch;margin:0 0 var(--space-8)">Apri i file da questo indice. Ogni pagina ha l’interruttore chiaro/scuro in alto a destra e il proprio foglio di stampa; la Scheda cambia variante dal pannello delle props (<code>tipologia</code>, <code>statoVerifica</code> — compreso lo stato «documentazione insufficiente»), l’Atlante ha la prop <code>senzaRisultati</code> per lo stato vuoto dei filtri.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;background:var(--color-divider);border:1px solid var(--color-divider)">
+    <a href="Sistema.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">01 · Sistema visivo</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Componenti e marche</span><span style="font-size:13px;color:var(--color-neutral-800)">Sei tipologie, card, Cautela, verdetto, fonte con localizzatore.</span></a>
+    <a href="Home.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">02 · index.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Home</span><span style="font-size:13px;color:var(--color-neutral-800)">Ricerca, linea del tempo, Nessi, Taccuino.</span></a>
+    <a href="Atlante.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">03 · atlante.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Atlante</span><span style="font-size:13px;color:var(--color-neutral-800)">Filtri, risultati, mockup mobile e raccolta.</span></a>
+    <a href="Cronologia.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">04 · cronologia.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Cronologia</span><span style="font-size:13px;color:var(--color-neutral-800)">Due corsie Italia / Accade nel mondo.</span></a>
+    <a href="Scheda.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">05 · scheda-&lt;id&gt;.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Scheda · 6 varianti</span><span style="font-size:13px;color:var(--color-neutral-800)">Periodo, Tema, Personaggio, Evento, Accade nel mondo, Nesso.</span></a>
+    <a href="Fonti.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">06 · fonti.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Repertorio delle fonti</span><span style="font-size:13px;color:var(--color-neutral-800)">Natura, ambito, accesso, esito della verifica.</span></a>
+    <a href="Fonte.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">07 · fonte-&lt;id&gt;.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Scheda fonte</span><span style="font-size:13px;color:var(--color-neutral-800)">Autorevolezza, limiti, localizzatore, schede collegate.</span></a>
+    <a href="Metodo.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">08 · metodo.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Metodo</span><span style="font-size:13px;color:var(--color-neutral-800)">Filtro politico, gradi di prova, scala dei verdetti.</span></a>
+    <a href="Segnala.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">09 · segnala.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Segnala una correzione</span><span style="font-size:13px;color:var(--color-neutral-800)">Modulo con consenso e fonte proposta.</span></a>
+    <a href="Taccuino.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">10 · blog.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Taccuino · indice</span><span style="font-size:13px;color:var(--color-neutral-800)">Categorie, post in evidenza, paginazione.</span></a>
+    <a href="Taccuino post.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">11 · blog/NNN-slug.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Taccuino · post</span><span style="font-size:13px;color:var(--color-neutral-800)">Lettura lunga, citazione di documento, schede collegate.</span></a>
+    <a href="Taccuino%20categoria.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">12 · blog-categoria-&lt;slug&gt;.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Taccuino · categoria</span><span style="font-size:13px;color:var(--color-neutral-800)">Quattro varianti: Nessi, Accadde oggi, Dentro le fonti, Aggiornamenti.</span></a>
+    <a href="Taccuino post 2.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">13 · blog/NNN-slug.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Taccuino · post 2</span><span style="font-size:13px;color:var(--color-neutral-800)">Variante «Dentro le fonti»: lettura di documento, localizzatore canonico.</span></a>
+    <a href="Privacy.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">14 · privacy.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Privacy</span><span style="font-size:13px;color:var(--color-neutral-800)">Dati raccolti, conservazione, attribuzione delle segnalazioni, diritti.</span></a>
+    <a href="Media.dc.html" style="background:var(--color-bg);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">15 · media.html</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Media</span><span style="font-size:13px;color:var(--color-neutral-800)">Quindici momenti mediali del periodo, con documento audiovisivo e stato di verifica.</span></a>
+    <a href="NOTA-VB.md" style="background:var(--color-neutral-100);padding:var(--space-4);text-decoration:none;color:var(--color-text);display:flex;flex-direction:column;gap:4px;border:1px solid var(--color-text)"><span class="num" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Nota tecnica</span><span style="font-family:var(--font-heading);font-weight:600;font-size:19px">Marcatori VB LITE</span><span style="font-size:13px;color:var(--color-neutral-800)">Dove stanno data-vb-skip, -nav, -list, -form; cosa resta al sito.</span></a>
+  </div>
+
+  <section style="margin-top:var(--space-8);border-top:1px solid var(--color-text);padding-top:var(--space-6);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6)">
+    <div>
+      <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-2)">Identità applicata · kit v1</h2>
+      <ol style="margin:0;padding-left:1.2em;font-size:15px;display:flex;flex-direction:column;gap:8px">
+        <li>Marchio <strong>Pagine di Storia</strong> (logo essenziale in testa, completo nel piede); nel menu <strong>Storia</strong> sostituisce “Atlante”.</li>
+        <li>Poppins per l’interfaccia, Libre Baskerville per aperture, testi lunghi e citazioni. Carta #F5F2EB, inchiostro #20211F, rosso mattone #B83A2C; sul fondo scuro corallo #FF8C79.</li>
+        <li>Filetti 1 px per separare, 4 px solo per accenti e stati. Il colore non porta mai da solo l’informazione: sempre etichetta e forma.</li>
+      </ol>
+    </div>
+    <div>
+      <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-2)">Non incluso, per scelta</h2>
+      <p style="margin:0;font-size:15px;max-width:52ch">Le app di ricerca, cronologia, fonti e raccolta vanno in <code>assets/atlante.js</code> con i punti di aggancio già predisposti; la generazione delle ~200 pagine scheda e i dati strutturati JSON-LD restano allo script del sito.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+</body>
+</html>

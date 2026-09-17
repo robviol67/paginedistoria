@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/dati.js"></script>
+  <script src="assets/dati-schede.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html" aria-current="page">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main style="max-width:900px;margin:0 auto;padding:var(--space-6) var(--space-6) 96px" data-print-urls>
+
+  <nav aria-label="Percorso" style="display:flex;gap:8px;font-size:12px;color:var(--color-neutral-700);margin-bottom:var(--space-6)">
+    <a href="Fonti.dc.html">Fonti</a><span>›</span><span>{{ f.natura }}</span><span>›</span><span class="num">{{ f.id }}</span>
+  </nav>
+
+  <div data-vb-skip>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;margin-bottom:var(--space-3)">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ f.etichetta }}</span>
+      <span class="tag" style="border:1px solid var(--color-divider);font-size:10px;letter-spacing:0.04em;text-transform:uppercase">{{ f.lingua }}</span>
+      <span class="tag" style="border:1px solid var(--color-divider);font-size:10px;letter-spacing:0.04em;text-transform:uppercase">{{ f.ambito }}</span>
+      <span class="tag" style="border:1px solid var(--color-divider);font-size:10px;letter-spacing:0.04em;text-transform:uppercase">{{ f.accessoTag }}</span>
+      <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-600)">{{ f.id }}</span>
+    </div>
+
+    <h1 style="font-size:clamp(19px,2.3vw,24px);max-width:26ch;margin:0 0 var(--space-2)">{{ f.titolo }}</h1>
+    <p style="font-size:16px;color:var(--color-neutral-800);margin:0 0 var(--space-6)">{{ f.sottotitolo }}</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-6)">
+      <a class="btn btn-primary" href="{{ f.url }}" target="_blank" rel="noopener" style="text-decoration:none">Apri la fonte</a>
+      <a class="btn btn-secondary" href="{{ f.archivio }}" target="_blank" rel="noopener" style="text-decoration:none">Copia archiviata · {{ f.dataArchivio }}</a>
+      <button class="btn btn-secondary" type="button">Cita</button>
+    </div>
+
+    <hr class="hr" style="margin:0 0 var(--space-6)">
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-6);margin-bottom:var(--space-8)">
+      <section>
+        <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-2)">Perché è affidabile</h2>
+        <p style="margin:0;font-size:15px">{{ f.affidabile }}</p>
+      </section>
+      <section>
+        <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-2)">Limiti</h2>
+        <p style="margin:0;font-size:15px">{{ f.limiti }}</p>
+      </section>
+    </div>
+
+    <section style="margin-bottom:var(--space-8)">
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Scheda tecnica</h2>
+      <dl class="num" style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-2) var(--space-6);font-size:14px;border-top:1px solid var(--color-divider);padding-top:var(--space-3);overflow-wrap:anywhere">
+        <dt style="color:var(--color-neutral-700)">Natura</dt><dd style="margin:0">{{ f.naturaEstesa }}</dd>
+        <dt style="color:var(--color-neutral-700)">Ambito</dt><dd style="margin:0">{{ f.ambitoEsteso }}</dd>
+        <dt style="color:var(--color-neutral-700)">Copertura</dt><dd style="margin:0">{{ f.copertura }}</dd>
+        <dt style="color:var(--color-neutral-700)">Accesso</dt><dd style="margin:0">{{ f.accessoEsteso }}</dd>
+        <dt style="color:var(--color-neutral-700)">Indirizzo</dt><dd style="margin:0"><a href="{{ f.url }}" target="_blank" rel="noopener">{{ f.urlLabel }}</a></dd>
+        <dt style="color:var(--color-neutral-700)">Copia archiviata</dt><dd style="margin:0"><a href="{{ f.archivio }}" target="_blank" rel="noopener">{{ f.archivioLabel }}</a></dd>
+        <dt style="color:var(--color-neutral-700)">Verifica</dt><dd style="margin:0">{{ f.verificaEstesa }}</dd>
+      </dl>
+    </section>
+
+    <section style="margin-bottom:var(--space-8)">
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Come usarla</h2>
+      <p style="margin:0 0 var(--space-3);font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">{{ f.uso }}</p>
+      <p class="num" style="margin:0;border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:14px">{{ f.esempio }}</p>
+    </section>
+
+    <section style="margin-bottom:var(--space-8)">
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Documenti precisi citati <span class="num">{{ f.conteggioDoc }}</span></h2>
+      <sc-if value="{{ senzaDocumenti }}" hint-placeholder-val="{{ true }}">
+        <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch;border:2px dashed var(--color-divider);padding:var(--space-3)">Nessun documento preciso è ancora agganciato a questa fonte: nelle schede compare come punto di partenza e non conta per i minimi di verifica.</p>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ documenti }}" as="d" hint-placeholder-count="3">
+          <div data-print-block style="border:1px solid var(--color-divider);padding:var(--space-3) var(--space-4)">
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:baseline;margin-bottom:6px">
+              <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ d.tipo }}</span>
+              <span class="num" style="font-size:12px;color:var(--color-neutral-700)">{{ d.data }}</span>
+              <a class="num" href="{{ d.linkScheda }}" style="margin-left:auto;font-size:12px">{{ d.scheda }}</a>
+            </div>
+            <p class="num" style="margin:0 0 6px;border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:14px">{{ d.citazione }}</p>
+            <p style="margin:0 0 6px;font-size:14px;max-width:70ch;color:var(--color-neutral-800)">{{ d.descrizione }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center">
+              <sc-if value="{{ d.haUrl }}" hint-placeholder-val="{{ true }}">
+                <a class="btn btn-secondary" href="{{ d.url }}" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap">Apri il documento</a>
+              </sc-if>
+              <a class="btn btn-secondary" href="{{ d.archivio }}" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap">Copia archiviata · {{ d.dataArchivio }}</a>
+              <span class="num" style="font-size:12px;color:var(--color-neutral-700)">verificato il {{ d.verificata }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Schede che la usano <span class="num">{{ f.conteggioUsi }}</span></h2>
+      <ul style="list-style:none;margin:0;padding:0;border-top:1px solid var(--color-divider)">
+        <sc-for list="{{ schede }}" as="s" hint-placeholder-count="4">
+          <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:baseline">
+            <span class="num" style="width:52px;color:var(--color-neutral-700);font-size:12px">{{ s.id }}</span>
+            <span style="flex:1 1 220px;min-width:0"><a href="{{ s.link }}" style="color:var(--color-text);font-weight:600">{{ s.titolo }}</a><span class="num" style="display:block;font-size:12px;color:var(--color-neutral-700)">{{ s.localizzatore }}</span></span>
+            <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">{{ s.ruolo }}</span>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:980,&quot;height&quot;:1200}}">
+class Component extends DCLogic {
+  attendiDati(conSchede) {
+    const pronto = () => {
+      const D = window.AT;
+      if (!D) return false;
+      if (conSchede && !D.schede && window.AT_SCHEDE && window.AT_MONTA_SCHEDE) window.AT_MONTA_SCHEDE(D);
+      return !conSchede || !!D.schede;
+    };
+    if (pronto()) return;
+    const t = setInterval(() => { if (pronto()) { clearInterval(t); this.forceUpdate(); } }, 60);
+    setTimeout(() => clearInterval(t), 15000);
+  }
+  componentDidMount() { this.attendiDati(true); }
+
+  renderVals() {
+    const D = window.AT;
+    if (!D || !D.schede) return { f: { titolo: 'Caricamento…', natura: '', id: '' }, schede: [], documenti: [] };
+    const q = new URLSearchParams(location.search);
+    const id = (q.get('id') || this.props.fonte || 'CAM').toUpperCase();
+    const base = D.fontePer[id] || D.fonti[0];
+    const ESITO = { raggiungibile: 'raggiungibile', spostata: 'spostata', irraggiungibile: 'irraggiungibile', 'a pagamento': 'a pagamento' };
+    const dataIt = s => s ? s.split('-').reverse().join('/') : '—';
+    const libro = base.categoria === 'Libro';
+    const edizione = [base.editore, base.anno].filter(Boolean).join(', ') + (base.isbn ? ' · ISBN ' + base.isbn : '');
+    const cop = base.copertura && base.copertura.inizio ? base.copertura.inizio + '–' + (base.copertura.fine || 'oggi') : '—';
+    const documenti = D.documentiDi(base.id);
+    const usi = (D.usi[base.id] || []).map(sid => {
+      const sc = D.schedaPer[sid] || D.perId[sid] || {};
+      const v = ((sc.fonti || []).find(x => x.fonte_id === base.id)) || {};
+      const doc = (D.locPer[sid + '|' + base.id] || [])[0] || {};
+      return {
+        id: sid, titolo: sc.titolo || sid, ruolo: v.ruolo || '—', link: D.pagina(sid),
+        localizzatore: v.localizzatore || doc.citazione || doc.descrizione || (libro ? edizione : 'Localizzatore da indicare in revisione')
+      };
+    });
+    const f = {
+      id: base.id, titolo: base.titolo,
+      etichetta: base.categoria || base.natura,
+      lingua: (base.lingua || 'it').toUpperCase(),
+      ambito: base.ambito === 'internazionale' ? 'Internazionale' : 'Italiana',
+      accessoTag: base.accesso || '—',
+      natura: base.natura.charAt(0).toUpperCase() + base.natura.slice(1),
+      naturaEstesa: base.natura + (base.categoria ? ' · ' + base.categoria.toLowerCase() : ''),
+      ambitoEsteso: (base.ambito === 'internazionale' ? 'Internazionale' : 'Italiana') + ' · ' + (base.paese || 'IT') + ' · ' + (base.lingua || 'it'),
+      sottotitolo: [base.autore_ente, libro ? edizione : null, cop !== '—' ? 'copertura ' + cop : null].filter(Boolean).join(' · '),
+      accessoEsteso: (base.accesso || '—') + (base.accesso_nota ? ' — ' + base.accesso_nota : ''),
+      copertura: cop,
+      url: base.url || '', urlLabel: (base.url || '').replace(/^https?:\/\//, '').replace(/\/$/, '') || '—',
+      archivio: D.wb(base.url) || '', archivioLabel: 'web.archive.org · ' + D.WB_DATA, dataArchivio: D.WB_DATA,
+      affidabile: base.autorevolezza || (libro ? 'Opera storiografica con edizione identificata: ' + edizione + '.' : 'Motivazione dell’autorevolezza da scrivere in revisione.'),
+      limiti: base.limiti || 'Limiti da dichiarare in revisione.',
+      uso: base.come_usarla || 'Indicazioni d’uso da scrivere in revisione.',
+      esempio: documenti.length ? 'Esempio di localizzatore: ' + (documenti[0].citazione || documenti[0].descrizione) : 'Nessun localizzatore accertato: da compilare in revisione.',
+      verificaEstesa: dataIt(base.verifica_data) + ' · ' + (ESITO[base.esito] || base.esito || '—') + ' · ' + (base.riscontrato ? 'contenuto riscontrato' : 'solo controllo tecnico'),
+      conteggioUsi: usi.length,
+      conteggioDoc: documenti.length
+    };
+    return { f: f, schede: usi, documenti: documenti, senzaDocumenti: documenti.length === 0 };
+  }
+}
+
+</script>
+</body>
+</html>

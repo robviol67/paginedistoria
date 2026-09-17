@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html" aria-current="page">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main style="max-width:760px;margin:0 auto;padding:var(--space-8) var(--space-6) 96px" data-print-urls>
+
+  <nav aria-label="Percorso" style="display:flex;gap:8px;font-size:12px;color:var(--color-neutral-700);margin-bottom:var(--space-6)">
+    <a href="Taccuino.dc.html">Taccuino</a><span>›</span><a href="Taccuino%20categoria.dc.html">{{ categoria }}</a>
+  </nav>
+
+  <p class="num" style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent-700)"><a href="Taccuino%20categoria.dc.html" style="color:var(--color-accent-700)">{{ categoria }}</a> · {{ data }} · {{ lettura }}</p>
+  <h1 style="font-size:clamp(19px,2.9vw,29px);line-height:1.06;margin:0 0 var(--space-4)">{{ titolo }}</h1>
+  <p style="font-size:17px;line-height:1.6;margin:0 0 var(--space-4);color:var(--color-neutral-800);font-family:var(--font-reading)">{{ occhiello }}</p>
+  <p style="margin:0 0 var(--space-6);font-size:13px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-text);padding-bottom:var(--space-4)">Redazione dell’atlante</p>
+
+  <div style="display:flex;flex-direction:column;gap:var(--space-4);font-size:17px;line-height:1.66;font-family:var(--font-reading)">
+    <sc-for list="{{ apertura }}" as="par" hint-placeholder-count="2">
+      <p style="margin:0">{{ par.testo }}</p>
+    </sc-for>
+
+    <blockquote class="num" style="margin:var(--space-2) 0;border-left:4px solid var(--color-text);padding:var(--space-2) 0 var(--space-2) var(--space-4);font-size:16px">
+      <p style="margin:0 0 6px">{{ citazione }}</p>
+      <footer style="margin-top:6px;font-size:12px;color:var(--color-neutral-700)">{{ citazioneFonte }} <a href="{{ citazioneUrl }}" target="_blank" rel="noopener" style="color:var(--color-accent-700)">{{ citazioneDominio }}</a></footer>
+    </blockquote>
+
+    <sc-for list="{{ centro }}" as="par" hint-placeholder-count="1">
+      <p style="margin:0">{{ par.testo }}</p>
+    </sc-for>
+
+    <h2 style="font-family:var(--font-heading);font-size:21px;margin:var(--space-4) 0 0">{{ sottotitolo }}</h2>
+    <sc-for list="{{ chiusura }}" as="par" hint-placeholder-count="2">
+      <p style="margin:0">{{ par.testo }}</p>
+    </sc-for>
+
+    <aside style="border:1px solid var(--color-text);background:var(--color-neutral-100);padding:var(--space-4);margin:var(--space-4) 0">
+      <p style="margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Nota di metodo</p>
+      <p style="margin:0;font-size:15px">{{ nota }}</p>
+    </aside>
+  </div>
+
+  <section style="border:1px solid var(--color-accent);padding:var(--space-4);margin-top:var(--space-8)">
+    <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">Schede dell’atlante collegate</p>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <sc-for list="{{ schede }}" as="s" hint-placeholder-count="2">
+        <a href="{{ s.link }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);border:1px solid var(--color-divider);padding:var(--space-3);text-decoration:none;color:var(--color-text)">
+          <span style="flex:none;width:26px;height:26px;display:grid;place-items:center;background:var(--color-accent);color:#fff"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg></span>
+          <span style="font-weight:600">{{ s.titolo }}</span>
+          <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">{{ s.nota }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-8);border-top:1px solid var(--color-divider);padding-top:var(--space-4)" data-print-hide>
+    <a class="btn btn-secondary" href="Taccuino.dc.html" style="text-decoration:none">← Torna al Taccuino</a>
+    <a class="btn btn-secondary" href="Segnala.dc.html" style="text-decoration:none">Segnala un errore</a>
+  </div>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:860,&quot;height&quot;:1200}}">
+const POST = {
+  yuppismo: {
+    categoria: 'Nessi', data: '12 settembre 2026', lettura: '7 minuti',
+    titolo: 'Chi viene prima: lo yuppismo o il berlusconismo?',
+    occhiello: 'Il senso comune fa derivare gli yuppie italiani dal berlusconismo. Le date dicono un’altra cosa, e la domanda va riscritta.',
+    apertura: [
+      { testo: 'Il modello yuppie nasce negli Stati Uniti nei primi anni ottanta e in Italia prende forma a metà decennio: nel 1985 «Milano da bere» è già uno slogan pubblicitario, non una previsione. Il berlusconismo politico, invece, comincia nel 1994, con la nascita di Forza Italia e la prima campagna elettorale televisiva.' },
+      { testo: 'Fra i due c’è un terzo termine, che il senso comune confonde con il secondo: Berlusconi imprenditore televisivo, Canale 5 dal 1980, i decreti del 1984, il duopolio consolidato dalla legge Mammì nel 1990. È lì che si costruisce l’infrastruttura culturale, dentro il clima della modernizzazione craxiana.' }
+    ],
+    citazione: '«Il dibattito sulle emittenti private occupa la seduta per l’intera giornata.»',
+    citazioneFonte: 'Camera dei deputati, seduta del 4 ottobre 1984.',
+    citazioneUrl: 'https://storia.camera.it/', citazioneDominio: 'storia.camera.it',
+    centro: [{ testo: 'La direzione temporale, da sola, non risolve il problema: un antecedente non è una causa, ma non è neppure un dettaglio. Se un’offerta politica trova un immaginario già formato, la domanda utile non è «chi ha creato che cosa», ma che cosa viene mobilitato, da chi, con quali strumenti.' }],
+    sottotitolo: 'Perché non basta dirlo',
+    chiusura: [
+      { testo: 'Nella scheda dell’atlante questa argomentazione si riduce a sei righe, un test cronologico, due prove a favore, due prove contro e un verdetto graduato. Qui si può discutere; lì bisogna provare. È una differenza di regime, non di tono.' },
+      { testo: 'Resta un esito politico, e per questo il Nesso entra nell’atlante: il linguaggio del successo individuale diventa una risorsa di consenso, riconoscibile nella comunicazione del 1994. Su questo le fonti ci sono, e sono citabili.' }
+    ],
+    nota: 'Questo post contiene un’ipotesi dichiarata. Non è una scheda dell’atlante e non ha superato il protocollo di verifica delle fonti.',
+    schede: [{ link: 'Scheda%20nesso.dc.html?id=N01', titolo: 'N01 · Lo yuppismo deriva dal berlusconismo?', nota: 'Verdetto: antecedente' }, { link: 'Scheda.dc.html', titolo: 'E74 · Legge Mammì e duopolio televisivo', nota: '1990' }]
+  },
+  maastricht: {
+    categoria: 'Accadde oggi', data: '7 febbraio', lettura: '5 minuti',
+    titolo: 'Maastricht, la firma e il suo uso interno',
+    occhiello: 'Che cosa firmò l’Italia nel 1992 e come il vincolo esterno diventò argomento di governo.',
+    apertura: [
+      { testo: 'Il 7 febbraio 1992 i dodici firmano a Maastricht il trattato sull’Unione europea. Per l’Italia il passaggio decisivo non è la firma ma la ratifica, e soprattutto i parametri: deficit al 3 per cento, debito al 60, un calendario che vale come scadenza politica.' },
+      { testo: 'Nei mesi successivi quei numeri entrano nel linguaggio interno. Non sono solo un obbligo europeo: diventano la giustificazione di manovre, di una stagione di governi tecnici e di una riscrittura della spesa pubblica.' }
+    ],
+    citazione: '«Il Governo intende rispettare gli impegni assunti in sede comunitaria.»',
+    citazioneFonte: 'Camera dei deputati, dibattito sulla ratifica, 1992.',
+    citazioneUrl: 'https://storia.camera.it/', citazioneDominio: 'storia.camera.it',
+    centro: [{ testo: 'La distinzione utile è fra ciò che il trattato impone e ciò che viene attribuito al trattato. Molte scelte di bilancio degli anni novanta sono presentate come necessarie per l’Europa: alcune lo erano, altre erano decisioni politiche che trovavano nel vincolo esterno un argomento comodo.' }],
+    sottotitolo: 'Come lo trattiamo nell’atlante',
+    chiusura: [
+      { testo: 'La scheda registra la data, il testo firmato e i passaggi parlamentari di ratifica. L’uso retorico del vincolo, invece, è materia da Nesso: va istruito con fonti e non dato per scontato.' }
+    ],
+    nota: 'Le date e i testi del trattato sono verificati; l’interpretazione politica resta oggetto di discussione ed è segnalata come tale.',
+    schede: [{ titolo: 'E118 · Firma del trattato di Maastricht', nota: '1992' }, { link: 'Scheda.dc.html?tipo=evento&titolo=E118%20%C2%B7%20Firma%20del%20trattato%20di%20Maastricht', titolo: 'N07 · Vincolo esterno e spesa pubblica', nota: 'Da istruire' }]
+  },
+  revisione: {
+    categoria: 'Aggiornamenti', data: '1 settembre 2026', lettura: '3 minuti',
+    titolo: '24 schede in revisione: stato dei lavori',
+    occhiello: 'Priorità, fonti sostituite, prime correzioni recepite dalle segnalazioni.',
+    apertura: [
+      { testo: 'Ventiquattro schede sono in revisione. La priorità è data ai casi in cui la fonte citata era di seconda mano: dove esiste un atto parlamentare, una sentenza o un documento d’archivio consultabile, la citazione secondaria viene sostituita.' },
+      { testo: 'Otto correzioni arrivano da segnalazioni esterne: tre date, due attribuzioni, un numero di legge, due refusi nei nomi. Ogni intervento resta tracciato nella cronologia della scheda.' }
+    ],
+    citazione: '«La segnalazione va accolta: la data indicata è quella della promulgazione, non dell’approvazione.»',
+    citazioneFonte: 'Registro delle correzioni dell’atlante, agosto 2026.',
+    citazioneUrl: 'Metodo.dc.html', citazioneDominio: 'Metodo',
+    centro: [{ testo: 'Una scheda in revisione resta pubblica, con l’avviso in testa. Nascondere il lavoro in corso darebbe un’impressione di solidità che i dati non hanno ancora.' }],
+    sottotitolo: 'Che cosa cambia nelle prossime settimane',
+    chiusura: [
+      { testo: 'Chiudiamo prima il blocco 1943–1948, dove la densità di fonti primarie è più alta, poi i Nessi che dipendono da quelle schede. I candidati ancora non istruiti restano fuori dall’atlante.' }
+    ],
+    nota: 'Questo post è un rendiconto di lavoro, non una fonte. Le modifiche effettive sono leggibili nella cronologia di ciascuna scheda.',
+    schede: [{ link: 'Metodo.dc.html', titolo: 'Metodo · Protocollo di verifica', nota: 'v1.1' }, { link: 'Segnala.dc.html', titolo: 'Segnala · Correzioni aperte', nota: '8 recepite' }]
+  },
+  riflusso: {
+    categoria: 'Nessi', data: '22 agosto 2026', lettura: '6 minuti',
+    titolo: 'Il «riflusso» e la fine della solidarietà nazionale',
+    occhiello: 'Un candidato Nesso che per ora non supera il test cronologico.',
+    apertura: [
+      { testo: 'L’ipotesi è semplice: la fine della solidarietà nazionale, nel 1979, avrebbe prodotto il riflusso nel privato che caratterizza il decennio successivo. Ordinata così, la sequenza sembra convincente.' },
+      { testo: 'Il test cronologico però non regge. Le prime letture del riflusso circolano già nel 1977, prima della crisi del quadro politico, e riguardano il disinvestimento dalla militanza più che il ricambio parlamentare.' }
+    ],
+    citazione: '«Il tema del rientro nella sfera privata è discusso già prima della crisi di governo.»',
+    citazioneFonte: 'Rassegna stampa dell’atlante, 1977–1979.',
+    citazioneUrl: 'Fonti.dc.html', citazioneDominio: 'Fonti',
+    centro: [{ testo: 'Un antecedente sbagliato non falsifica l’intero nesso: sposta la domanda. Se il riflusso precede il 1979, la fine della solidarietà nazionale può averlo accelerato, non generato — e va misurata su indicatori diversi, come iscrizioni ai partiti e affluenza.' }],
+    sottotitolo: 'Perché resta fuori',
+    chiusura: [
+      { testo: 'Finché non esiste una serie di dati sull’affluenza e sul tesseramento comparabile anno per anno, il candidato resta in stato «da istruire». Pubblicarlo come Nesso sarebbe post hoc.' }
+    ],
+    nota: 'Nesso non verificato. Non compare nell’atlante e non va citato come esito.',
+    schede: [{ link: 'Scheda.dc.html?tipo=evento&titolo=N09%20%C2%B7%20Riflusso%20e%20crisi%20dei%20partiti', titolo: 'N09 · Riflusso e crisi dei partiti', nota: 'Da istruire' }, { link: 'Scheda.dc.html', titolo: 'E63 · Fine della solidarietà nazionale', nota: '1979' }]
+  },
+  frus: {
+    categoria: 'Dentro le fonti', data: '9 agosto 2026', lettura: '7 minuti',
+    titolo: 'Un telegramma del FRUS, riga per riga',
+    occhiello: 'Chi scrive, a chi, che cosa sa e che cosa omette.',
+    apertura: [
+      { testo: 'I Foreign Relations of the United States raccolgono documenti diplomatici desecretati. Un telegramma non è la verità dei fatti: è ciò che un funzionario riferisce a Washington in una certa data, con le informazioni e gli interessi che ha.' },
+      { testo: 'Si leggono prima gli elementi formali: mittente, destinatario, data e ora, livello di classificazione, eventuale nota dell’editor. Metà degli errori di citazione nasce dal saltare questa parte.' }
+    ],
+    citazione: '«The Embassy believes the situation remains fluid.»',
+    citazioneFonte: 'FRUS, volume sull’Italia, telegramma dell’ambasciata.',
+    citazioneUrl: 'https://history.state.gov/historicaldocuments', citazioneDominio: 'history.state.gov',
+    centro: [{ testo: 'Il corpo del testo va distinto in tre registri: fatti osservati, informazioni riferite da terzi, valutazioni dell’estensore. Nell’atlante solo il primo registro può sostenere un dato; gli altri due sostengono al massimo un’ipotesi.' }],
+    sottotitolo: 'Che cosa prova davvero',
+    chiusura: [
+      { testo: 'Un telegramma prova che una certa lettura circolava in un certo giorno. Per provare un evento serve un atto: una seduta, un decreto, un verbale. Le due cose vanno citate insieme e tenute separate.' }
+    ],
+    nota: 'Le traduzioni dei passaggi citati sono redazionali; in scheda si riporta sempre anche l’originale.',
+    schede: [{ link: 'Fonti.dc.html', titolo: 'Fonti · FRUS e archivi diplomatici', nota: 'Guida' }, { link: 'Metodo.dc.html', titolo: 'Metodo · Gerarchia delle prove', nota: 'v1.1' }]
+  },
+  duegiugno: {
+    categoria: 'Accadde oggi', data: '2 giugno', lettura: '4 minuti',
+    titolo: 'Il referendum del 1946 e la festa che ne è nata',
+    occhiello: 'Dal voto istituzionale alla costruzione di una ricorrenza.',
+    apertura: [
+      { testo: 'Il 2 e 3 giugno 1946 si vota per la forma istituzionale dello Stato e per l’Assemblea costituente. È il primo voto a suffragio universale pieno: votano le donne, e l’affluenza è altissima.' },
+      { testo: 'La proclamazione dei risultati arriva giorni dopo, tra ricorsi e contestazioni sul computo delle schede. La data che ricordiamo è quella dell’apertura delle urne, non quella della decisione definitiva.' }
+    ],
+    citazione: '«La Corte di cassazione proclama i risultati del referendum istituzionale.»',
+    citazioneFonte: 'Gazzetta Ufficiale, giugno 1946.',
+    citazioneUrl: 'https://www.gazzettaufficiale.it/', citazioneDominio: 'gazzettaufficiale.it',
+    centro: [{ testo: 'La festa nazionale nasce dopo, e la sua storia è discontinua: celebrata, ridimensionata, sospesa nella forma della parata, ripristinata. Una ricorrenza è un fatto politico a sua volta, con date proprie.' }],
+    sottotitolo: 'Due date da non confondere',
+    chiusura: [
+      { testo: 'Nell’atlante il referendum e l’istituzione della festa sono due schede distinte, collegate. Tenerle insieme farebbe passare per automatico un percorso che è stato deciso.' }
+    ],
+    nota: 'I dati di affluenza sono riportati dalle fonti ufficiali dell’epoca, con le differenze fra prime e successive rilevazioni indicate in scheda.',
+    schede: [{ link: 'Scheda.dc.html?tipo=evento&titolo=E04%20%C2%B7%20Referendum%20istituzionale', titolo: 'E04 · Referendum istituzionale', nota: '1946' }, { link: 'Scheda.dc.html', titolo: 'E11 · Istituzione della festa della Repubblica', nota: 'Cronologia' }]
+  }
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    let slug = 'revisione';
+    try {
+      const q = new URLSearchParams(location.search).get('post');
+      if (q && POST[q]) slug = q;
+    } catch (e) {}
+    return POST[slug];
+  }
+}
+</script>
+</body>
+</html>

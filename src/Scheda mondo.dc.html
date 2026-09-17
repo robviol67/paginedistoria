@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/styles.css">
+  <link rel="stylesheet" href="assets/atlante.css">
+  <link rel="stylesheet" href="assets/pds.css">
+  <link rel="icon" href="assets/favicon/favicon.svg">
+  <script src="assets/_ds/modernist-bb15d954-80f7-48b1-bb72-c0675383f820/_ds_bundle.js"></script>
+  <script src="assets/dati.js"></script>
+  <script src="assets/dati-schede.js"></script>
+  <script src="assets/tema.js"></script>
+</helmet>
+
+<header class="pds-header" data-print-hide>
+  <a class="pds-brand" href="Home.dc.html" aria-label="Pagine di Storia — L’Italia dalla caduta del fascismo all’euro">
+    <img class="logo-chiaro" src="assets/logo/essenziale-chiaro.svg" alt="Pagine di Storia">
+    <img class="logo-scuro" src="assets/logo/essenziale-scuro.svg" alt="">
+  </a>
+  <nav class="pds-nav" data-vb-nav aria-label="Navigazione principale">
+    <a href="Home.dc.html">Home</a>
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Media.dc.html">Media</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+  </nav>
+  <button class="btn btn-secondary pds-tema" type="button" data-tema-toggle><span data-tema-label>Scuro</span></button>
+</header>
+
+<main style="max-width:1120px;margin:0 auto;padding:var(--space-6) var(--space-6) 96px">
+
+  <div data-print-only style="justify-content:space-between;align-items:baseline;gap:12pt;border-bottom:3px solid var(--color-text);padding-bottom:6pt;margin-bottom:12pt">
+    <span style="font-family:var(--font-heading);font-weight:600;font-size:10pt;letter-spacing:0.08em;text-transform:uppercase">Pagine di Storia 1943–2002</span>
+    <span class="num" style="font-size:9pt">Scheda {{ idScheda }} · {{ tipoLabel }} · {{ anni }}</span>
+  </div>
+
+  <nav aria-label="Percorso" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:var(--color-neutral-700);margin-bottom:var(--space-6)">
+    <a href="Atlante.dc.html">Storia</a><span>›</span>
+    <a href="Atlante.dc.html">{{ tipoLabel }}</a><span>›</span>
+    <a href="Cronologia.dc.html">{{ periodoLabel }}</a>
+  </nav>
+
+  <div data-vb-skip style="display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:flex-start">
+
+    <article style="flex:1 1 440px;min-width:0">
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4)">
+        <sc-if value="{{ isPeriodo }}"><span style="flex:none;width:30px;height:30px;display:grid;place-items:center;background:var(--color-text);color:var(--color-bg)"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16"></rect><path d="M3 10h18M7 3v5M17 3v5"></path><g stroke="currentColor"><path d="M7 15h10M7 18h6"></path></g></g></svg></span></sc-if>
+        <sc-if value="{{ isTema }}"><span style="flex:none;width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--color-text)"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><g stroke="currentColor"><rect x="14" y="14" width="7" height="7"></rect></g></g></svg></span></sc-if>
+        <sc-if value="{{ isPersonaggio }}"><span style="flex:none;width:30px;height:30px;display:grid;place-items:center;border:2px dashed var(--color-text)"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="7" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2"></path><g stroke="currentColor"><path d="M9 20h6"></path></g></g></svg></span></sc-if>
+        <sc-if value="{{ isEvento }}" hint-placeholder-val="{{ true }}"><span style="flex:none;width:30px;height:30px;display:grid;place-items:center;border:2px dotted var(--color-text)"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M6 21V3h13l-3 4 3 4H6"></path><g stroke="currentColor"><path d="M3 21h9"></path></g></g></svg></span></sc-if>
+        <sc-if value="{{ isMondo }}"><span style="flex:none;width:30px;height:30px;display:grid;place-items:center;border:4px double var(--color-text)"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c-6 6-6 12 0 18M12 3c6 6 6 12 0 18"></path><g stroke="currentColor"><path d="M6 6h12"></path></g></g></svg></span></sc-if>
+        <sc-if value="{{ isNesso }}"><span style="flex:none;width:30px;height:30px;display:grid;place-items:center;background:var(--color-accent);color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 5h11M3 19h11M8 5v14M14 5l5 7-5 7"></path><g stroke="currentColor"><circle cx="19" cy="12" r="2"></circle></g></g></svg></span></sc-if>
+        <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600">{{ tipoLabel }}</span>
+        <span class="num" style="font-size:13px;color:var(--color-neutral-700);border-left:1px solid var(--color-divider);padding-left:var(--space-3)">{{ anni }}</span>
+        <span class="num" style="font-size:12px;color:var(--color-neutral-600);margin-left:auto">Scheda {{ idScheda }}</span>
+      </div>
+
+      <h1 style="font-size:clamp(19px,2.6vw,28px);max-width:24ch;margin:0 0 var(--space-4)">{{ titolo }}</h1>
+
+      <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;line-height:1.6;max-width:64ch;margin:0 0 var(--space-4)">{{ sintesi }}</p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--space-6)">
+        <sc-for list="{{ temi }}" as="tema" hint-placeholder-count="2">
+          <a class="tag tag-neutral" href="Atlante.dc.html" style="text-decoration:none">{{ tema }}</a>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ inRevisione }}">
+        <div role="status" style="border:1px solid var(--color-accent);border-left-width:6px;padding:var(--space-3) var(--space-4);background:var(--color-accent-100);margin-bottom:var(--space-6)">
+          <p style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-accent-700)">Scheda in revisione</p>
+          <p style="margin:4px 0 0;font-size:14px;color:var(--color-accent-900)">Date e attribuzioni in corso di riscontro sulle fonti. Il testo può cambiare: non citarlo come accertato.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ insufficiente }}">
+        <div role="status" data-print-block style="border:3px solid var(--color-text);padding:var(--space-4);margin-bottom:var(--space-6)">
+          <p style="display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:0.06em;text-transform:uppercase">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14"></rect><path d="M8 2l4 5 4-5M6 11h9v6H6ZM18 11v1M18 16v1"></path><g stroke="currentColor"><path d="M8 21h8"></path></g></g></svg>
+            Documentazione insufficiente
+          </p>
+          <p style="margin:0 0 var(--space-3);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:62ch">La scheda non raggiunge i minimi del metodo — due fonti primarie e un riscontro storiografico — e resta pubblicata come segnaposto: titolo, date e collegamenti sono provvisori, la sintesi non è accertata.</p>
+          <ul style="list-style:none;margin:0 0 var(--space-3);padding:0;display:flex;flex-direction:column;gap:4px;font-size:14px">
+            <li style="display:flex;gap:var(--space-2);border-bottom:1px solid var(--color-divider);padding-bottom:4px"><span class="num" style="width:76px;flex:none;color:var(--color-neutral-700)">Manca</span><span>seconda fonte primaria</span></li>
+            <li style="display:flex;gap:var(--space-2);border-bottom:1px solid var(--color-divider);padding-bottom:4px"><span class="num" style="width:76px;flex:none;color:var(--color-neutral-700)">Manca</span><span>riscontro storiografico attribuito</span></li>
+            <li style="display:flex;gap:var(--space-2)"><span class="num" style="width:76px;flex:none;color:var(--color-neutral-700)">Manca</span><span>localizzatore della seduta citata</span></li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)" data-print-hide>
+            <a class="btn btn-primary" href="Segnala.dc.html" style="text-decoration:none">Proponi una fonte</a>
+            <a class="btn btn-secondary" href="Metodo.dc.html" style="text-decoration:none">Minimi di verifica</a>
+          </div>
+        </div>
+      </sc-if>
+
+      <hr class="hr" id="corpo" style="margin:0 0 var(--space-6);scroll-margin-top:96px">
+
+      <sc-if value="{{ isEvento }}" hint-placeholder-val="{{ true }}">
+        <section style="margin-bottom:var(--space-6)">
+          <dl class="num" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-2) var(--space-4);margin:0 0 var(--space-6);font-size:14px;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:var(--space-3) 0;overflow-wrap:anywhere">
+            <dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Data</dt><dd style="margin:0">{{ anni }}</dd>
+            <dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Luogo</dt><dd style="margin:0">{{ luogo }}</dd>
+            <dt style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-neutral-700)">Istituzioni</dt><dd style="margin:0">{{ istituzioni }}</dd>
+          </dl>
+        </section>
+        <sc-if value="{{ specEventoProprio }}">
+        <section style="margin-bottom:var(--space-8)">
+          
+          <div style="border:1px solid var(--color-divider);padding:var(--space-4);margin-bottom:var(--space-6)">
+            <p style="display:flex;align-items:center;gap:8px;margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 12h18M5 5v4M12 15v5M19 5v4"></path><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><g stroke="currentColor"><circle cx="12" cy="12" r="2"></circle></g></g></svg>Svolgimento</p>
+            <div class="num" style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-text);padding-bottom:4px"><span>1992</span><span>1993</span><span>1994</span><span>1995</span></div>
+            <div style="position:relative;height:30px;background:var(--color-neutral-200);margin-bottom:var(--space-2)">
+              <span style="position:absolute;left:4.2%;width:91.6%;top:0;bottom:0;background:var(--color-text)"></span>
+              <span style="position:absolute;left:4.2%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span style="position:absolute;left:44.4%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span style="position:absolute;left:75%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+            </div>
+            <ul class="num" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-2) var(--space-4);font-size:13px">
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>17 feb 1992</strong><span style="display:block;color:var(--color-neutral-800)">Arresto di Mario Chiesa</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>29 apr 1993</strong><span style="display:block;color:var(--color-neutral-800)">Voto sulle autorizzazioni a procedere</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>27 mar 1994</strong><span style="display:block;color:var(--color-neutral-800)">Elezioni politiche e prima alternanza</span></li>
+              <li style="border-left:1px solid var(--color-text);padding-left:var(--space-2)"><strong>dic 1994</strong><span style="display:block;color:var(--color-neutral-800)">Fine della fase milanese delle inchieste</span></li>
+            </ul>
+          </div>
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">La risposta delle istituzioni</h2>
+          <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Il Parlamento discute autorizzazioni a procedere e finanziamento dei partiti; il governo Amato tenta la via del decreto sulla depenalizzazione, ritirato dopo il rinvio del Presidente della Repubblica. La Procura di Milano procede per corruzione e finanziamento illecito.</p>
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Esiti giudiziari e parlamentari</h2>
+          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+                      <table class="table num" style="margin-bottom:var(--space-3)">
+              <thead><tr><th scope="col">Procedimento</th><th scope="col">Grado</th><th scope="col">Esito</th></tr></thead>
+              <tbody>
+                <tr><td>Esempio di procedimento A</td><td>Primo grado</td><td>Condanna</td></tr>
+                <tr><td>Esempio di procedimento B</td><td>Appello</td><td>Assoluzione</td></tr>
+                <tr><td>Esempio di procedimento C</td><td>Cassazione</td><td>Prescrizione</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:12px;color:var(--color-neutral-700);max-width:64ch">Dati di prova: la tabella va compilata solo con esiti riscontrati su sentenza, indicando sempre il grado. Nessuna riga senza fonte.</p>
+        </section>
+        </sc-if>
+        <sc-if value="{{ specEventoAssente }}">
+          <section style="margin-bottom:var(--space-8);border:2px dashed var(--color-divider);padding:var(--space-4)">
+            <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Blocco non compilato</p>
+            <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Per questa scheda l’edizione dati v1.15 non contiene svolgimento, risposta delle istituzioni ed esiti giudiziari: il blocco resta vuoto in attesa della revisione. L’impaginazione di riferimento si vede sulla scheda <a href="{{ specEventoLink }}">{{ specEventoId }}</a>.</p>
+          </section>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isPeriodo }}">
+        <sc-if value="{{ specPeriodoProprio }}">
+        <section style="margin-bottom:var(--space-8)">
+          <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Mani Pulite, le stragi mafiose e la crisi della lira travolgono in ventiquattro mesi equilibri politici e fiducia pubblica. I governi Amato e Ciampi e i referendum del 1993 accompagnano risanamento e riforma elettorale; le elezioni del marzo 1994 consegnano il paese a un sistema politico diverso.</p>
+
+          <div style="border:1px solid var(--color-divider);padding:var(--space-4);margin:var(--space-6) 0">
+            <p style="display:flex;align-items:center;gap:8px;margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 12h18M5 5v4M12 15v5M19 5v4"></path><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><g stroke="currentColor"><circle cx="12" cy="12" r="2"></circle></g></g></svg>Le tre cronologie del periodo</p>
+            <div class="num" style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-text);padding-bottom:4px;margin-bottom:var(--space-3)"><span>1992</span><span>1993</span><span>1994</span><span>1995</span></div>
+            <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+              <div>
+                <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600">Giudiziaria</p>
+                <div style="position:relative;height:24px;background:var(--color-neutral-200)">
+                  <span style="position:absolute;left:4.2%;width:70%;top:0;bottom:0;background:var(--color-text)"></span>
+                  <span title="17 feb 1992 · arresto di Mario Chiesa" style="position:absolute;left:4.2%;top:-5px;bottom:-5px;width:2px;background:var(--color-accent)"></span>
+                  <span title="23 mag 1992 · strage di Capaci" style="position:absolute;left:13.1%;top:-5px;bottom:-5px;width:2px;background:var(--color-accent)"></span>
+                  <span title="19 lug 1992 · strage di via D’Amelio" style="position:absolute;left:18.3%;top:-5px;bottom:-5px;width:2px;background:var(--color-accent)"></span>
+                  <span title="1993 · stragi di Roma, Firenze e Milano" style="position:absolute;left:51.4%;top:-5px;bottom:-5px;width:2px;background:var(--color-accent)"></span>
+                </div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600">Economica</p>
+                <div style="position:relative;height:24px;background:var(--color-neutral-200)">
+                  <span style="position:absolute;left:20%;width:60%;top:0;bottom:0;background:var(--color-neutral-600)"></span>
+                  <span title="settembre 1992 · uscita della lira dallo SME" style="position:absolute;left:23.6%;top:-5px;bottom:-5px;width:2px;background:var(--color-text)"></span>
+                  <span title="1992–1994 · privatizzazioni e fine dell’IRI" style="position:absolute;left:32%;top:-5px;bottom:-5px;width:2px;background:var(--color-text)"></span>
+                </div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600">Politica</p>
+                <div style="position:relative;height:24px;background:var(--color-neutral-200)">
+                  <span style="position:absolute;left:8%;right:0;top:0;bottom:0;border:1px solid var(--color-text)"></span>
+                  <span title="aprile 1993 · referendum elettorale" style="position:absolute;left:42.5%;top:-5px;bottom:-5px;width:2px;background:var(--color-accent)"></span>
+                  <span title="27 marzo 1994 · elezioni politiche" style="position:absolute;left:74.4%;top:-5px;bottom:-5px;width:2px;background:var(--color-accent)"></span>
+                </div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-neutral-700)">Accade nel mondo</p>
+                <div style="position:relative;height:14px;background:var(--color-neutral-200)"><span title="7 feb 1992 · firma del trattato di Maastricht" style="position:absolute;left:3.3%;right:0;top:0;bottom:0;border:2px dashed var(--color-neutral-600)"></span></div>
+              </div>
+            </div>
+            <p style="margin:var(--space-3) 0 0;font-size:12px;color:var(--color-neutral-700)">Le tre cronologie vanno ricostruite separatamente prima di proporne i nessi: è la regola di lettura di questo periodo.</p>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Snodi del periodo</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;background:var(--color-divider);border:1px solid var(--color-divider)">
+            <div style="background:var(--color-bg);padding:var(--space-4)"><p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Politici</p><p style="margin:0;font-size:14px">Fine del pentapartito, governi Amato e Ciampi, referendum del 1993 e legge Mattarella.</p></div>
+            <div style="background:var(--color-bg);padding:var(--space-4)"><p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Economici</p><p style="margin:0;font-size:14px">Uscita della lira dallo SME, manovra del settembre 1992, avvio delle privatizzazioni e fine dell’IRI.</p></div>
+            <div style="background:var(--color-bg);padding:var(--space-4)"><p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Internazionali</p><p style="margin:0;font-size:14px">Maastricht come vincolo e come argomento interno; guerre jugoslave e profughi sul confine orientale.</p></div>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Schede del periodo <span class="num">(11)</span></h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6)">
+            <ul class="num" style="list-style:none;margin:0;padding:0;border-top:1px solid var(--color-divider)">
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E48</span><a href="Scheda.dc.html?id=E48" style="color:var(--color-text)">Mani Pulite e Tangentopoli</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E49</span><a href="Scheda.dc.html?id=E49" style="color:var(--color-text)">La strage di Capaci</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E50</span><a href="Scheda.dc.html?id=E50" style="color:var(--color-text)">La strage di via D’Amelio</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E51</span><a href="Scheda.dc.html?id=E52" style="color:var(--color-text)">Le stragi mafiose del 1993</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E52</span><a href="Scheda.dc.html?id=E51" style="color:var(--color-text)">Crisi della lira e uscita dallo SME</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E53</span><a href="Scheda.dc.html?id=E53" style="color:var(--color-text)">Referendum del 1993 e nuova legge elettorale</a></li>
+            </ul>
+            <ul class="num" style="list-style:none;margin:0;padding:0;border-top:1px solid var(--color-divider)">
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E54</span><a href="Scheda.dc.html?id=E55" style="color:var(--color-text)">Le elezioni del 1994 e la prima alternanza</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">E76</span><a href="Scheda.dc.html?id=E54" style="color:var(--color-text)">Privatizzazioni e fine dell’IRI</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">M24</span><a href="Scheda%20mondo.dc.html?id=M24" style="color:var(--color-text)">Trattato di Maastricht e parametri</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">B33</span><a href="Scheda%20personaggio.dc.html?id=B21" style="color:var(--color-text)">Oscar Luigi Scalfaro</a></li>
+              <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;gap:var(--space-3)"><span style="width:58px;flex:none;color:var(--color-neutral-700);font-size:12px">B28</span><a href="Scheda%20personaggio.dc.html?id=B22" style="color:var(--color-text)">Carlo Azeglio Ciampi</a></li>
+            </ul>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Domande guida</h2>
+          <ol style="margin:0;padding-left:1.2em;font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:60ch;display:flex;flex-direction:column;gap:6px">
+            <li>Quali istituzioni tengono e quali cedono, fra Quirinale, Parlamento e magistratura?</li>
+            <li>Che rapporto c’è fra cronologia giudiziaria e cronologia economica, senza dedurre l’una dall’altra?</li>
+            <li>Il 1994 è rottura del sistema politico o sua ricomposizione su basi nuove?</li>
+          </ol>
+        </section>
+        </sc-if>
+        <sc-if value="{{ specPeriodoAssente }}">
+          <section style="margin-bottom:var(--space-8);border:2px dashed var(--color-divider);padding:var(--space-4)">
+            <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Blocco non compilato</p>
+            <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Per questa scheda l’edizione dati v1.15 non contiene snodi, mini-cronologia e domande guida: il blocco resta vuoto in attesa della revisione. L’impaginazione di riferimento si vede sulla scheda <a href="{{ specPeriodoLink }}">{{ specPeriodoId }}</a>.</p>
+          </section>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isTema }}">
+        <sc-if value="{{ specTemaProprio }}">
+        <section style="margin-bottom:var(--space-8)">
+          <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">La democrazia repubblicana nasce da una nuova cornice di diritti e poteri, la cui attuazione richiede decenni: Corte costituzionale, regioni, riforma del diritto di famiglia e revisione del Titolo V cambiano per gradi il rapporto fra Stato e cittadini. Il tema segue l’attuazione, non il testo.</p>
+
+          <div style="border:1px solid var(--color-divider);padding:var(--space-4);margin:var(--space-6) 0">
+            <p style="display:flex;align-items:center;gap:8px;margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M3 12h18M5 5v4M12 15v5M19 5v4"></path><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><g stroke="currentColor"><circle cx="12" cy="12" r="2"></circle></g></g></svg>Attuazione, in scala 1943–2002</p>
+            <div class="num" style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-text);padding-bottom:4px"><span>1943</span><span>1958</span><span>1973</span><span>1988</span><span>2002</span></div>
+            <div style="position:relative;height:34px;background:var(--color-neutral-200);margin-bottom:var(--space-3)">
+              <span style="position:absolute;left:8.5%;right:0;top:0;bottom:0;background:var(--color-text)"></span>
+              <span title="1948 · la Costituzione entra in vigore" style="position:absolute;left:8.5%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span title="1956 · entra in funzione la Corte costituzionale" style="position:absolute;left:22%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span title="1970 · regioni ordinarie e Statuto dei lavoratori" style="position:absolute;left:45.8%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span title="1975 · riforma del diritto di famiglia" style="position:absolute;left:54.2%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span title="1993 · riforma elettorale" style="position:absolute;left:84.7%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+              <span title="2001 · revisione del Titolo V" style="position:absolute;left:98.3%;top:-6px;bottom:-6px;width:2px;background:var(--color-accent)"></span>
+            </div>
+            <ul class="num" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--space-2) var(--space-4);font-size:13px">
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>1948</strong><span style="display:block;color:var(--color-neutral-800)">La Costituzione entra in vigore</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>1956</strong><span style="display:block;color:var(--color-neutral-800)">Prima udienza della Corte costituzionale</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>1970</strong><span style="display:block;color:var(--color-neutral-800)">Regioni ordinarie e Statuto dei lavoratori</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>1975</strong><span style="display:block;color:var(--color-neutral-800)">Riforma del diritto di famiglia</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>1993</strong><span style="display:block;color:var(--color-neutral-800)">Riforma elettorale in senso maggioritario</span></li>
+              <li style="border-left:1px solid var(--color-accent);padding-left:var(--space-2)"><strong>2001</strong><span style="display:block;color:var(--color-neutral-800)">Revisione del Titolo V, confermata da referendum</span></li>
+            </ul>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Schede collegate, per periodo</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--space-4)">
+            <div style="border-top:1px solid var(--color-text);padding-top:var(--space-2)"><p class="num" style="margin:0 0 6px;font-size:12px;color:var(--color-neutral-700)">1943–1948</p><a href="Scheda%20periodo.dc.html?id=P01" style="color:var(--color-text);font-weight:600;display:block;margin-bottom:4px">P01 · Dalla caduta del fascismo alla Repubblica</a><a href="Scheda%20personaggio.dc.html?id=B04" style="color:var(--color-text);font-weight:600">B04 · Luigi Einaudi</a></div>
+            <div style="border-top:1px solid var(--color-text);padding-top:var(--space-2)"><p class="num" style="margin:0 0 6px;font-size:12px;color:var(--color-neutral-700)">1968–1978</p><a href="Scheda%20tema.dc.html?id=T09" style="color:var(--color-text);font-weight:600;display:block;margin-bottom:4px">T09 · Diritti civili e cittadinanza</a><a href="Scheda%20personaggio.dc.html?id=B13" style="color:var(--color-text);font-weight:600">B13 · Nilde Iotti</a></div>
+            <div style="border-top:1px solid var(--color-text);padding-top:var(--space-2)"><p class="num" style="margin:0 0 6px;font-size:12px;color:var(--color-neutral-700)">1992–1994</p><a href="Scheda.dc.html?id=E53" style="color:var(--color-text);font-weight:600;display:block;margin-bottom:4px">E53 · Referendum del 1993</a><a href="Scheda%20tema.dc.html?id=T19" style="color:var(--color-text);font-weight:600">T19 · Giustizia, corruzione e crisi politica</a></div>
+            <div style="border-top:1px solid var(--color-text);padding-top:var(--space-2)"><p class="num" style="margin:0 0 6px;font-size:12px;color:var(--color-neutral-700)">1996–2002</p><a href="Scheda.dc.html?id=E79" style="color:var(--color-text);font-weight:600;display:block;margin-bottom:4px">E79 · La Bicamerale D’Alema</a><a href="Scheda.dc.html?id=E86" style="color:var(--color-text);font-weight:600">E86 · Referendum sul Titolo V</a></div>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Domande guida</h2>
+          <ol style="margin:0;padding-left:1.2em;font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:60ch;display:flex;flex-direction:column;gap:6px">
+            <li>Quanto tempo passa fra la norma e l’istituzione che la rende effettiva?</li>
+            <li>Chi spinge l’attuazione: Parlamento, Corte, movimenti, amministrazione?</li>
+            <li>Dove la prassi ha prevalso sul testo, e con quali conseguenze?</li>
+          </ol>
+        </section>
+        </sc-if>
+        <sc-if value="{{ specTemaAssente }}">
+          <section style="margin-bottom:var(--space-8);border:2px dashed var(--color-divider);padding:var(--space-4)">
+            <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Blocco non compilato</p>
+            <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Per questa scheda l’edizione dati v1.15 non contiene sviluppo nel tempo e domande guida: il blocco resta vuoto in attesa della revisione. L’impaginazione di riferimento si vede sulla scheda <a href="{{ specTemaLink }}">{{ specTemaId }}</a>.</p>
+          </section>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isPersonaggio }}">
+        <sc-if value="{{ specPersonaggioProprio }}">
+        <section style="margin-bottom:var(--space-8)">
+          <div style="border:1px solid var(--color-divider);padding:var(--space-4);margin-bottom:var(--space-6)">
+            <p style="display:flex;align-items:center;gap:8px;margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="7" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2"></path><g stroke="currentColor"><path d="M9 20h6"></path></g></g></svg>Ruoli nel tempo</p>
+            <div class="num" style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-text);padding-bottom:4px;margin-bottom:var(--space-3)"><span>1970</span><span>1980</span><span>1990</span><span>2000</span></div>
+            <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+              <div>
+                <p style="margin:0 0 4px;font-size:12px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase">Segretario del PSI</p>
+                <div style="position:relative;height:22px;background:var(--color-neutral-200)"><span class="num" style="position:absolute;left:18.8%;width:53.1%;top:0;bottom:0;background:var(--color-text);color:var(--color-bg);font-size:11px;display:flex;align-items:center;padding-left:6px">1976–1993</span></div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:12px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--color-accent-700)">Presidente del Consiglio</p>
+                <div style="position:relative;height:22px;background:var(--color-neutral-200)"><span class="num" style="position:absolute;left:40.6%;width:12.5%;top:0;bottom:0;background:var(--color-accent);color:#fff;font-size:11px;display:flex;align-items:center;padding-left:6px;overflow:hidden">1983–87</span></div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:12px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--color-neutral-700)">Fuori dalle istituzioni</p>
+                <div style="position:relative;height:22px;background:var(--color-neutral-200)"><span class="num" style="position:absolute;left:75%;width:18.8%;top:0;bottom:0;border:2px dashed var(--color-neutral-600);font-size:11px;display:flex;align-items:center;padding-left:6px;overflow:hidden">1994–2000</span></div>
+              </div>
+            </div>
+            <p style="margin:var(--space-3) 0 0;font-size:12px;color:var(--color-neutral-700)">Asse 1970–2002. Le barre danno la sovrapposizione dei ruoli; la tabella qui sotto resta la fonte delle date esatte.</p>
+          </div>
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Ruoli istituzionali</h2>
+          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+                      <table class="table num" style="margin-bottom:var(--space-6)">
+              <thead><tr><th scope="col">Dal</th><th scope="col">Al</th><th scope="col">Ruolo</th></tr></thead>
+              <tbody>
+                <tr><td>1976</td><td>1993</td><td>Segretario del PSI</td></tr>
+                <tr><td>1983</td><td>1987</td><td>Presidente del Consiglio</td></tr>
+                <tr><td>1994</td><td>2000</td><td>Fuori dalle istituzioni · esilio a Hammamet</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Fase studiata</h2>
+          <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">La scheda si concentra sul decennio 1976–1992: costruzione della leadership socialista, governo, rapporti con DC e PCI, disinflazione e scala mobile.</p>
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Giudizi storiografici</h2>
+          <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--space-3)">
+            <li style="border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Il progetto socialista come tentativo di riequilibrare un sistema bloccato fra DC e PCI, con la leadership come strumento. <span class="num" style="color:var(--color-neutral-700)">— Colarizi e Gervasoni, <em>La cruna dell’ago</em>, Laterza 2005 [CRAX]</span></li>
+            <li style="border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Il decisionismo di governo letto insieme al finanziamento dei partiti: continuità di sistema più che anomalia personale. <span class="num" style="color:var(--color-neutral-700)">— Colarizi, <em>Storia politica della Repubblica</em>, Laterza 2007 [COL]</span></li>
+            <li style="border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Sigonella e la politica mediterranea come misura dell’autonomia diplomatica italiana. <span class="num" style="color:var(--color-neutral-700)">— da riscontrare su DDI e FRUS</span></li>
+          </ul>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin:var(--space-6) 0 var(--space-3)">Eventi collegati</h2>
+          <ul class="num" style="list-style:none;margin:0;padding:0;border-top:1px solid var(--color-divider)">
+            <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;flex-wrap:wrap;gap:var(--space-3)"><span style="width:58px;flex:none;font-size:12px;color:var(--color-neutral-700)">1984</span><a href="Scheda.dc.html?id=E40" style="color:var(--color-text);font-weight:600">Accordo di San Valentino e scala mobile</a><span style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">protagonista</span></li>
+            <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;flex-wrap:wrap;gap:var(--space-3)"><span style="width:58px;flex:none;font-size:12px;color:var(--color-neutral-700)">1985</span><a href="Scheda%20mondo.dc.html?id=M16" style="color:var(--color-text);font-weight:600">M16 · Achille Lauro e Sigonella</a><span style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">protagonista</span></li>
+            <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;flex-wrap:wrap;gap:var(--space-3)"><span style="width:58px;flex:none;font-size:12px;color:var(--color-neutral-700)">1985</span><a href="Scheda.dc.html?id=E41" style="color:var(--color-text);font-weight:600">Referendum sulla scala mobile</a><span style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">contesto</span></li>
+            <li style="border-bottom:1px solid var(--color-divider);padding:var(--space-2) 0;display:flex;flex-wrap:wrap;gap:var(--space-3)"><span style="width:58px;flex:none;font-size:12px;color:var(--color-neutral-700)">1992</span><a href="Scheda.dc.html?id=E48" style="color:var(--color-text);font-weight:600">E48 · Mani Pulite e Tangentopoli</a><span style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">conseguenza</span></li>
+          </ul>
+        </section>
+        </sc-if>
+        <sc-if value="{{ specPersonaggioAssente }}">
+          <section style="margin-bottom:var(--space-8);border:2px dashed var(--color-divider);padding:var(--space-4)">
+            <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Blocco non compilato</p>
+            <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Per questa scheda l’edizione dati v1.15 non contiene ruoli nel tempo, fase studiata e giudizi storiografici: il blocco resta vuoto in attesa della revisione. L’impaginazione di riferimento si vede sulla scheda <a href="{{ specPersonaggioLink }}">{{ specPersonaggioId }}</a>.</p>
+          </section>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isMondo }}">
+        <section style="margin-bottom:var(--space-8);display:flex;flex-direction:column;gap:2px;background:var(--color-divider);border:1px solid var(--color-divider)">
+          <sc-for list="{{ mondoSezioni }}" as="m" hint-placeholder-count="4">
+            <div style="background:var(--color-bg);padding:var(--space-4)">
+              <p class="num" style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600">{{ m.num }} · {{ m.titolo }}</p>
+              <p style="margin:0;font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">{{ m.testo }}</p>
+            </div>
+          </sc-for>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ isNesso }}">
+        <sc-if value="{{ specNessoProprio }}">
+        <section style="margin-bottom:var(--space-8)">
+          <p style="font-size:clamp(19px,1.8vw,24px);font-family:var(--font-heading);font-weight:600;line-height:1.15;border-left:4px solid var(--color-accent);padding-left:var(--space-4);margin:0 0 var(--space-6);max-width:34ch">Lo yuppismo deriva dal berlusconismo?</p>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Test cronologico</h2>
+          <div style="border:1px solid var(--color-divider);padding:var(--space-4);margin-bottom:var(--space-6)">
+            <div class="num" style="display:grid;grid-template-columns:repeat(5,1fr);font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--color-divider);padding-bottom:4px;margin-bottom:var(--space-3)">
+              <span>1980</span><span>1984</span><span>1988</span><span>1992</span><span style="text-align:right">1996</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+              <div>
+                <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600">A · Yuppismo</p>
+                <div style="height:26px;background:var(--color-neutral-200);position:relative"><span style="position:absolute;left:18%;width:44%;top:0;bottom:0;background:var(--color-text)"></span></div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">B · Berlusconismo politico</p>
+                <div style="height:26px;background:var(--color-neutral-200);position:relative"><span style="position:absolute;left:74%;right:0;top:0;bottom:0;background:var(--color-accent)"></span></div>
+              </div>
+              <div>
+                <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-neutral-700)">Contesto · Televisione commerciale Fininvest</p>
+                <div style="height:14px;background:var(--color-neutral-200);position:relative"><span style="position:absolute;left:2%;right:0;top:0;bottom:0;border:2px dashed var(--color-neutral-600)"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Meccanismo ipotizzato</h2>
+          <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch;margin-bottom:var(--space-6)">Un modello culturale di successo individuale, diffuso da televisione e pubblicità, fornirebbe il linguaggio e l’immaginario che un’offerta politica successiva mobilita come consenso.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:var(--color-divider);border:1px solid var(--color-divider);margin-bottom:var(--space-6)">
+            <div style="background:var(--color-bg);padding:var(--space-4)">
+              <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600">Prove a favore</p>
+              <ul style="margin:0;padding-left:1.1em;font-size:14px;display:flex;flex-direction:column;gap:6px"><li>Continuità di persone e linguaggi tra Fininvest e Forza Italia. <span style="color:var(--color-neutral-700)">[BER]</span></li><li>Uso pubblicitario della comunicazione politica nel 1994. <span style="color:var(--color-neutral-700)">[COL]</span></li></ul>
+            </div>
+            <div style="background:var(--color-bg);padding:var(--space-4)">
+              <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600">Prove contro</p>
+              <ul style="margin:0;padding-left:1.1em;font-size:14px;display:flex;flex-direction:column;gap:6px"><li>Il modello yuppie è statunitense e precede il 1994 di un decennio. <span style="color:var(--color-neutral-700)">[fonte da assegnare]</span></li><li>“Milano da bere” è del 1985, dentro il clima craxiano. <span style="color:var(--color-neutral-700)">[CRAX]</span></li></ul>
+            </div>
+          </div>
+
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Verdetto</h2>
+          <div style="border:1px solid var(--color-accent);padding:var(--space-4);margin-bottom:var(--space-4)">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:2px">
+              <div style="border:1px solid var(--color-divider);padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Causa</p></div>
+              <div style="border:1px solid var(--color-divider);padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Concausa</p></div>
+              <div style="border:1px solid var(--color-accent);background:var(--color-accent);color:#fff;padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Antecedente</p></div>
+              <div style="border:1px solid var(--color-divider);padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Convergenza</p></div>
+              <div style="border:1px solid var(--color-divider);padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Correlazione</p></div>
+              <div style="border:1px solid var(--color-divider);padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Nessun rapporto</p></div>
+              <div style="border:1px solid var(--color-divider);padding:6px"><p style="margin:0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Non accertabile</p></div>
+            </div>
+            <p style="margin:var(--space-3) 0 0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Lo yuppismo è un <strong>antecedente</strong> culturale che il berlusconismo politico mobilita, non una sua derivazione: la direzione temporale esclude la causalità nel senso della domanda.</p>
+          </div>
+          <div style="border-left:4px solid var(--color-accent);padding-left:var(--space-4);margin-bottom:var(--space-4)">
+            <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">Ricadute politiche</p>
+            <p style="margin:0;font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Incide sul linguaggio e sul consenso di Forza Italia: la scheda <strong>supera il filtro politico</strong>.</p>
+          </div>
+          <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Posizioni storiografiche</h2>
+          <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Da compilare in revisione, attribuendo ogni lettura al suo autore e distinguendo le tesi dai fatti su cui si appoggiano.</p>
+        </section>
+        </sc-if>
+        <sc-if value="{{ specNessoAssente }}">
+          <section style="margin-bottom:var(--space-8);border:2px dashed var(--color-divider);padding:var(--space-4)">
+            <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">Blocco non compilato</p>
+            <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">Per questa scheda l’edizione dati v1.15 non contiene test cronologico, prove e verdetto: il blocco resta vuoto in attesa della revisione. L’impaginazione di riferimento si vede sulla scheda <a href="{{ specNessoLink }}">{{ specNessoId }}</a>.</p>
+          </section>
+        </sc-if>
+      </sc-if>
+
+      <section id="perche" style="margin-bottom:var(--space-6);scroll-margin-top:96px">
+        <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Perché studiarla</h2>
+        <p style="font-size:16px;font-family:var(--font-reading);line-height:1.62;max-width:64ch">{{ percheStudiarla }}</p>
+      </section>
+
+      <aside id="cautela" data-print-block style="border:1px solid var(--color-text);background:var(--color-neutral-100);padding:var(--space-4);margin-bottom:var(--space-8);scroll-margin-top:96px">
+        <p style="display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M12 3 2 21h20Z"></path><g stroke="currentColor"><path d="M12 9v5M12 18v.1"></path></g></g></svg>
+          Fatti, atti e interpretazioni: la distinzione da tenere
+        </p>
+        <p style="margin:0;font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:60ch">{{ cautela }}</p>
+      </aside>
+
+      <section id="collegamenti" style="margin-bottom:var(--space-8);scroll-margin-top:96px">
+        <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Collegamenti</h2>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4)">
+          <sc-for list="{{ gruppiCollegamenti }}" as="gc" hint-placeholder-count="2">
+            <div>
+              <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ gc.relazione }}</p>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <sc-for list="{{ gc.voci }}" as="c" hint-placeholder-count="2">
+                  <a href="{{ c.link }}" style="display:flex;align-items:center;gap:var(--space-3);border:1px solid var(--color-divider);padding:var(--space-3);color:var(--color-text);text-decoration:none">
+                    <span class="num" style="flex:none;font-size:12px;color:var(--color-neutral-700);min-width:34px">{{ c.id }}</span>
+                    <span style="font-weight:600">{{ c.titolo }}</span>
+                    <span class="num" style="margin-left:auto;font-size:12px;color:var(--color-neutral-700)">{{ c.anni }}</span>
+                  </a>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ senzaCollegamenti }}">
+            <p style="margin:0;font-size:14px;color:var(--color-neutral-700);border:2px dashed var(--color-divider);padding:var(--space-3);max-width:60ch">Nessun collegamento confermato per questa scheda. I collegamenti si aggiungono in revisione, con la relazione dichiarata (causa, conseguenza, contesto, protagonista).</p>
+          </sc-if>
+        </div>
+      </section>
+
+      <section id="fonti" data-print-urls style="margin-bottom:var(--space-8);scroll-margin-top:96px">
+        <h2 style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:var(--space-3)">Fonti</h2>
+
+        <sc-for list="{{ gruppiFonti }}" as="g" hint-placeholder-count="2">
+          <div style="margin-bottom:var(--space-6)">
+            <p style="margin:0 0 var(--space-2);font-family:var(--font-heading);font-weight:600;font-size:15px">{{ g.nome }}</p>
+            <sc-if value="{{ g.nota }}" hint-placeholder-val="{{ true }}">
+              <p style="margin:0 0 var(--space-2);font-size:12px;color:var(--color-neutral-700);max-width:60ch">{{ g.nota }}</p>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <sc-for list="{{ g.voci }}" as="v" hint-placeholder-count="2">
+                <div data-print-block style="border:1px solid var(--color-divider);padding:var(--space-3) var(--space-4)">
+                  <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:baseline;margin-bottom:6px">
+                    <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ v.etichetta }}</span>
+                    <span class="tag" style="border:1px solid var(--color-divider);font-size:10px;letter-spacing:0.04em;text-transform:uppercase">{{ v.lingua }}</span>
+                    <span class="tag" style="border:1px solid var(--color-divider);font-size:10px;letter-spacing:0.04em;text-transform:uppercase">{{ v.ambito }}</span>
+                  </div>
+                  <p style="margin:0 0 4px;font-family:var(--font-heading);font-weight:600;font-size:16px"><a href="{{ v.linkFonte }}" style="color:var(--color-text)">{{ v.titolo }}</a></p>
+                  <p class="num" style="margin:0 0 6px;border-left:4px solid var(--color-text);padding-left:var(--space-3);font-size:14px">{{ v.localizzatore }}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center">
+                    <sc-if value="{{ v.haDoc }}" hint-placeholder-val="{{ true }}">
+                      <a class="btn btn-secondary" href="{{ v.docUrl }}" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap">{{ v.docLabel }}</a>
+                    </sc-if>
+                    <sc-if value="{{ v.senzaDoc }}">
+                      <span class="btn btn-secondary" aria-disabled="true" title="Localizzatore non ancora accertato" style="opacity:0.45;cursor:not-allowed">Documento</span>
+                    </sc-if>
+                    <a class="btn btn-secondary" href="{{ v.cercaUrl }}" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap">{{ v.cercaLabel }}</a>
+                    <a class="btn btn-secondary" href="{{ v.archivio }}" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap">Copia archiviata · {{ v.dataArchivio }}</a>
+                  </div>
+                  <sc-if value="{{ v.senzaDoc }}">
+                    <p style="margin:6px 0 0;font-size:12px;color:var(--color-neutral-700)">{{ v.avviso }}</p>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+
+        <sc-if value="{{ senzaFonti }}">
+          <div style="border:2px dashed var(--color-divider);padding:var(--space-4)">
+            <p style="margin:0 0 var(--space-2);font-size:15px;font-family:var(--font-reading);line-height:1.62;max-width:60ch">Nessuna fonte è ancora collegata a questa scheda: senza localizzatori accertati la scheda resta un segnaposto.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+              <a class="btn btn-secondary" href="Fonti.dc.html" style="text-decoration:none">Repertorio delle fonti</a>
+              <a class="btn btn-secondary" href="Segnala.dc.html" style="text-decoration:none">Segnala una fonte</a>
+            </div>
+          </div>
+        </sc-if>
+      </section>
+
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);border-top:1px solid var(--color-divider);padding-top:var(--space-4)" data-print-hide>
+        <button class="btn btn-primary" type="button">Aggiungi alla raccolta</button>
+        <button class="btn btn-secondary" type="button">Cita questa scheda</button>
+        <a class="btn btn-secondary" href="Segnala.dc.html" style="text-decoration:none">Segnala una correzione</a>
+        <button class="btn btn-secondary" type="button" onClick="{{ stampa }}">Stampa</button>
+      </div>
+
+      <p class="num" style="margin:var(--space-4) 0 0;font-size:12px;color:var(--color-neutral-700);display:flex;align-items:center;gap:6px">
+        <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><g stroke="currentColor"><path d="M7 12l3 3 7-7"></path></g></g></svg>
+        {{ statoLabel }}
+      </p>
+
+      <div data-print-only style="flex-direction:column;gap:3pt;border-top:1px solid var(--color-text);margin-top:12pt;padding-top:6pt;font-size:8.5pt">
+        <span>Scheda {{ idScheda }} · {{ statoLabel }}</span>
+        <span class="num">Consultata il {{ dataConsultazione }} · atlante1943-2002.it/scheda/{{ idScheda }} · le fonti sono stampate con l’indirizzo per esteso</span>
+      </div>
+    </article>
+
+    <aside style="flex:1 1 280px;position:sticky;top:96px;display:flex;flex-direction:column;gap:var(--space-4)" data-print-hide>
+      <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+        <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)">In questa scheda</p>
+        <nav style="display:flex;flex-direction:column;gap:6px;font-size:14px">
+          <a href="#corpo" style="color:var(--color-text)">Corpo della scheda</a>
+          <a href="#perche" style="color:var(--color-text)">Perché studiarla</a>
+          <a href="#cautela" style="color:var(--color-text)">Cautela</a>
+          <a href="#collegamenti" style="color:var(--color-text)">Collegamenti</a>
+          <a href="#fonti" style="color:var(--color-text)">Fonti</a>
+        </nav>
+      </div>
+      <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+        <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-neutral-700)">Periodo</p>
+        <a class="num" href="Cronologia.dc.html" style="font-family:var(--font-heading);font-weight:600;font-size:16px;color:var(--color-text);text-decoration:none">{{ periodoLabel }}</a>
+        <hr class="hr" style="margin:var(--space-3) 0">
+        <p style="margin:0;font-size:13px;color:var(--color-neutral-700)"><span class="num">{{ nFonti }}</span> fonti collegate · <span class="num">{{ nCollegamenti }}</span> collegamenti</p>
+      </div>
+      <div style="border:1px solid var(--color-text);padding:var(--space-4);background:var(--color-neutral-100)">
+        <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Raccolta</p>
+        <p style="margin:0 0 var(--space-3);font-size:13px">3 elementi messi da parte in questa sessione.</p>
+        <button class="btn btn-secondary btn-block" type="button">Scarica in Markdown</button>
+        <button class="btn btn-secondary btn-block" type="button">Copia negli appunti</button>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="pds-footer" data-print-hide>
+  <div>
+    <img src="assets/logo/completo-scuro.svg" alt="Pagine di Storia">
+    <p class="pds-footer-claim">Storia politica e istituzionale dell’Italia dal 1943 al 2002. Ogni scheda dichiara le fonti usate, il loro grado e i suoi limiti.</p>
+  </div>
+  <div class="pds-footer-links">
+    <a href="Atlante.dc.html">Storia</a>
+    <a href="Cronologia.dc.html">Cronologia</a>
+    <a href="Nessi.dc.html">Nessi</a>
+    <a href="Fonti.dc.html">Fonti</a>
+    <a href="Metodo.dc.html">Metodo</a>
+    <a href="Taccuino.dc.html">Taccuino</a>
+    <a href="Segnala.dc.html">Segnala una correzione</a>
+    <a href="Privacy.dc.html">Privacy</a>
+  </div>
+  <p class="pds-footer-nota"><span>Pagine di Storia · 1943–2002</span><span>edizione dati v1.15</span></p>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:1400},&quot;tipologia&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Periodo&quot;,&quot;Tema&quot;,&quot;Personaggio&quot;,&quot;Evento&quot;,&quot;Accade nel mondo&quot;,&quot;Nesso&quot;],&quot;default&quot;:&quot;Accade nel mondo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Variante&quot;},&quot;statoVerifica&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;verificata&quot;,&quot;da_verificare&quot;,&quot;documentazione_insufficiente&quot;],&quot;default&quot;:&quot;verificata&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Variante&quot;}}">
+const DATI = {
+  Periodo: {
+    idScheda: 'P10', titolo: 'La crisi della Prima Repubblica', anni: '1992–1994',
+    periodoLabel: '1992–1994 · La crisi della Prima Repubblica',
+    temi: ['Governi, Parlamento e leggi elettorali', 'Partiti e culture politiche'],
+    sintesi: 'Mani Pulite, le stragi mafiose e la crisi della lira travolgono equilibri politici e fiducia pubblica. I governi Amato e Ciampi e i referendum del 1993 accompagnano risanamento e riforma elettorale.',
+    percheStudiarla: 'Ricostruire le tre cronologie — giudiziaria, economica e politica — prima di proporne i nessi.',
+    cautela: '“Prima Repubblica” è una periodizzazione politica: non termina con l’adozione di una nuova Costituzione.',
+    nFonti: 5, nCollegamenti: 11
+  },
+  Tema: {
+    idScheda: 'T01', titolo: 'Repubblica, Costituzione e attuazione', anni: '1943–2002',
+    periodoLabel: 'Tema trasversale',
+    temi: ['Costituzione e istituzioni', 'Diritti civili e legislazione'],
+    sintesi: 'La democrazia repubblicana nasce da una nuova cornice di diritti e poteri, la cui attuazione richiede decenni: Corte costituzionale, regioni e riforme amministrative cambiano il rapporto tra Stato e cittadini.',
+    percheStudiarla: 'Tema scelto per collegare il testo costituzionale alle trasformazioni effettive delle istituzioni.',
+    cautela: 'Distinguere norma, prassi e conflitto sull’interpretazione.',
+    nFonti: 3, nCollegamenti: 12
+  },
+  Personaggio: {
+    idScheda: 'B11', titolo: 'Bettino Craxi', anni: '1976–2000',
+    periodoLabel: '1981–1987 · L’Italia di Pertini e Craxi',
+    temi: ['Partiti e culture politiche', 'Politica economica e Stato imprenditore'],
+    sintesi: 'Segretario del PSI e presidente del Consiglio dal 1983 al 1987, promuove un ruolo più forte dei socialisti, interviene sulla scala mobile e gestisce Sigonella. La sua parabola termina nella crisi di Tangentopoli.',
+    percheStudiarla: 'Studiare insieme progetto di governo, trasformazione del PSI e vicende giudiziarie specifiche.',
+    cautela: 'Distinguere valutazione politica, condanne definitive e procedimenti con altri esiti; non usare l’una per cancellare gli altri.',
+    nFonti: 6, nCollegamenti: 8
+  },
+  Evento: {
+    idScheda: 'E48', titolo: 'Mani Pulite e Tangentopoli', anni: '1992–1994',
+    periodoLabel: '1992–1994 · La crisi della Prima Repubblica',
+    temi: ['Magistratura e questione morale', 'Partiti e culture politiche', 'Informazione, RAI e potere'],
+    sintesi: 'L’arresto di Mario Chiesa il 17 febbraio 1992 avvia la sequenza milanese di inchieste nota come Mani Pulite. Le indagini sulla corruzione si ampliano e si intrecciano con la crisi dei partiti e con il mutamento dell’opinione pubblica.',
+    percheStudiarla: 'Seguire finanziamento politico, singoli procedimenti e trasformazioni elettorali come piani collegati ma distinti.',
+    cautela: 'Tangentopoli non è un unico processo. Per ogni persona distinguere accusa, condanna, assoluzione e prescrizione.',
+    nFonti: 4, nCollegamenti: 4
+  },
+  'Accade nel mondo': {
+    idScheda: 'M24', titolo: 'Trattato di Maastricht e parametri', anni: '1992–1993',
+    periodoLabel: '1992–1994 · La crisi della Prima Repubblica',
+    temi: ['Europa ed euro', 'Politica economica e Stato imprenditore'],
+    sintesi: 'Firmato il 7 febbraio 1992 ed entrato in vigore nel novembre 1993, il trattato istituisce l’Unione europea e fissa il calendario dell’unione monetaria. I criteri su deficit, debito, inflazione e tassi diventano il metro della politica economica italiana.',
+    percheStudiarla: 'Seguire come un trattato internazionale diventa un argomento centrale del dibattito politico interno.',
+    cautela: 'Il “vincolo esterno” fu anche una scelta interna: distinguere gli obblighi del trattato dal loro uso nel dibattito nazionale.',
+    nFonti: 4, nCollegamenti: 5
+  },
+  Nesso: {
+    idScheda: 'N01', titolo: 'Lo yuppismo deriva dal berlusconismo?', anni: '1983–1994',
+    periodoLabel: '1981–1987 · L’Italia di Pertini e Craxi',
+    temi: ['Società e politica', 'Informazione, RAI e potere'],
+    sintesi: 'Il modello yuppie nasce negli Stati Uniti nei primi anni ’80 e in Italia prende forma a metà decennio; il berlusconismo politico nasce nel 1994. La scheda verifica la direzione del rapporto.',
+    percheStudiarla: 'Esercizio di controllo della causalità: la cronologia smentisce il senso comune e obbliga a riformulare la domanda.',
+    cautela: 'Un’etichetta di costume non è un soggetto storico: “yuppismo” descrive comportamenti diffusi, non un attore politico.',
+    nFonti: 6, nCollegamenti: 3
+  }
+};
+
+class Component extends DCLogic {
+  attendiDati(conSchede) {
+    const pronto = () => {
+      const D = window.AT;
+      if (!D) return false;
+      if (conSchede && !D.schede && window.AT_SCHEDE && window.AT_MONTA_SCHEDE) window.AT_MONTA_SCHEDE(D);
+      return !conSchede || !!D.schede;
+    };
+    if (pronto()) return;
+    const t = setInterval(() => { if (pronto()) { clearInterval(t); this.forceUpdate(); } }, 60);
+    setTimeout(() => clearInterval(t), 15000);
+  }
+  componentDidMount() { this.attendiDati(true); }
+
+  renderVals() {
+    const D = window.AT;
+    const q = new URLSearchParams(location.search);
+    const SLUG = { evento: 'Evento', periodo: 'Periodo', tema: 'Tema', personaggio: 'Personaggio', mondo: 'Accade nel mondo', nesso: 'Nesso' };
+    const qt = q.get('tipo');
+    const id = (q.get('id') || '').toUpperCase();
+    const rec = D && D.schedaPer ? D.schedaPer[id] : null;
+    const t = (rec && rec.tipologia) || (qt && (SLUG[qt.toLowerCase()] || (DATI[qt] && qt))) || this.props.tipologia || 'Accade nel mondo';
+    const d = { ...(DATI[t] || DATI['Accade nel mondo']) };
+    let gf = [];
+    let statoRec = null;
+    if (rec) {
+      const per = D.periodoPer[rec.periodo_principale] || {};
+      const anni = rec.data_fine && rec.data_fine !== rec.data_inizio ? rec.data_inizio + '\u2013' + rec.data_fine : String(rec.data_inizio || '');
+      d.idScheda = rec.id;
+      d.titolo = rec.titolo;
+      d.anni = anni;
+      d.periodoLabel = t === 'Periodo' ? anni + ' \u00b7 ' + rec.titolo : (per.inizio ? per.inizio + '\u2013' + per.fine + ' \u00b7 ' + per.titolo : 'periodo da assegnare');
+      d.temi = rec.temi || [];
+      d.tema = (rec.temi || [])[0] || '';
+      d.sintesi = rec.sintesi || d.sintesi;
+      d.percheStudiarla = rec.perche_studiarla || d.percheStudiarla;
+      d.cautela = rec.cautela || d.cautela;
+      d.nCollegamenti = (rec.collegamenti || []).length;
+      d.istituzioni = rec.istituzioni_coinvolte || [];
+      gf = D.bloccoFonti(rec.id);
+      d.nFonti = gf.reduce((n, g) => n + g.voci.length, 0);
+      statoRec = rec.verifica && rec.verifica.stato;
+      const A = rec.accade_nel_mondo;
+      if (A) {
+        const et = [['01', 'Accade nel mondo', A.nel_mondo], ['02', 'La risposta delle istituzioni italiane', A.risposta_istituzioni_italiane], ['03', 'Ricadute sulla politica interna', A.ricadute_politica_interna], ['04', 'Che cosa cambia per l\u2019Italia', A.cosa_cambia_per_italia]];
+        d.mondoSezioni = et.filter(x => x[2]).map(x => ({ num: x[0], titolo: x[1], testo: x[2] }));
+      }
+      d.collegamenti = (rec.collegamenti || []).map(c => {
+        const alt = D.perId[c.id] || {};
+        return { id: c.id, relazione: c.relazione, titolo: alt.titolo || c.id, tipo: alt.tipologia || '', anni: alt.inizio ? D.anni(alt) : '', link: D.pagina(c.id) };
+      });
+    } else if (q.get('titolo')) {
+      d.titolo = q.get('titolo');
+      if (q.get('id')) d.idScheda = q.get('id');
+      if (q.get('anni')) d.anni = q.get('anni');
+    }
+    const ORD = ['causa', 'conseguenza', 'contesto', 'protagonista', 'parallelo internazionale', 'approfondisce'];
+    const colleg = d.collegamenti || [];
+    const gruppiCollegamenti = ORD.filter(rel => colleg.some(c => c.relazione === rel)).map(rel => ({
+      relazione: rel.charAt(0).toUpperCase() + rel.slice(1),
+      voci: colleg.filter(c => c.relazione === rel)
+    }));
+    const stato = statoRec || this.props.statoVerifica || 'verificata';
+    const etichette = {
+      verificata: rec && rec.verifica && rec.verifica.data ? 'Verificata il ' + rec.verifica.data.split('-').reverse().join('/') + ' su fonti primarie e storiografia' : 'Verificata su fonti primarie e storiografia',
+      in_revisione: 'Scheda in revisione: date e attribuzioni in corso di riscontro',
+      da_verificare: 'Verifica in corso — ultimo controllo 14/09/2026',
+      documentazione_insufficiente: 'Documentazione insufficiente — segnaposto, ultimo controllo 14/09/2026'
+    };
+    return {
+      ...d,
+      gruppiFonti: gf,
+      senzaFonti: gf.length === 0,
+      nFonti: d.nFonti,
+      specPeriodoProprio: !rec || rec.id === 'P10', specPeriodoAssente: !!rec && rec.id !== 'P10', specPeriodoId: 'P10', specPeriodoLink: 'Scheda%20periodo.dc.html?id=P10',
+      specTemaProprio: !rec || rec.id === 'T01', specTemaAssente: !!rec && rec.id !== 'T01', specTemaId: 'T01', specTemaLink: 'Scheda%20tema.dc.html?id=T01',
+      specPersonaggioProprio: !rec || rec.id === 'B11', specPersonaggioAssente: !!rec && rec.id !== 'B11', specPersonaggioId: 'B11', specPersonaggioLink: 'Scheda%20personaggio.dc.html?id=B11',
+      specEventoProprio: !rec || rec.id === 'E48', specEventoAssente: !!rec && rec.id !== 'E48', specEventoId: 'E48', specEventoLink: 'Scheda.dc.html?id=E48',
+      specNessoProprio: !rec || rec.id === 'N01', specNessoAssente: !!rec && rec.id !== 'N01', specNessoId: 'N01', specNessoLink: 'Scheda%20nesso.dc.html?id=N01',
+      luogo: d.luogo || 'Luogo da indicare in revisione',
+      istituzioni: (d.istituzioni && d.istituzioni.length) ? d.istituzioni.join(' · ') : 'Istituzioni da indicare in revisione',
+      gruppiCollegamenti: gruppiCollegamenti,
+      senzaCollegamenti: gruppiCollegamenti.length === 0,
+      tipoLabel: t,
+      isPeriodo: t === 'Periodo',
+      isTema: t === 'Tema',
+      isPersonaggio: t === 'Personaggio',
+      isEvento: t === 'Evento',
+      isMondo: t === 'Accade nel mondo',
+      isNesso: t === 'Nesso',
+      inRevisione: stato === 'da_verificare' || stato === 'in_revisione',
+      insufficiente: stato === 'documentazione_insufficiente',
+      statoLabel: etichette[stato] || etichette.verificata,
+      dataConsultazione: new Date().toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' }),
+      stampa: () => window.print()
+    };
+  }
+}
+
+</script>
+</body>
+</html>
