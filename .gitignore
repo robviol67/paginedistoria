@@ -43,3 +43,4 @@ _dist/
 # Il JSON di partenza dell'importazione: è un artefatto di `node tools/estrai_dati.js`,
 # e dopo l'import la fonte è il database.
 dati/
+deploy/mappa.conf

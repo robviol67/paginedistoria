@@ -64,11 +64,33 @@ function pds_normalizza(string $s): string {
   return preg_replace('/[^a-z0-9]+/', ' ', $s);
 }
 
+// La tabella decisa a mano vince su ogni ricerca automatica: è il posto dove
+// sta scritto perché una citazione porta lì, o perché non porta da nessuna
+// parte. Le decisioni editoriali si versionano, non si ricalcolano.
+function collegamento_deciso(string $etichetta) {
+  static $tab = null;
+  if ($tab === null) {
+    $tab = [];
+    $f = __DIR__ . '/../dati/collegamenti-taccuino.json';
+    if (is_file($f)) {
+      $j = json_decode(file_get_contents($f), true) ?: [];
+      foreach ($j['collegamenti'] ?? [] as $c) $tab[pds_normalizza($c['etichetta'])] = $c;
+    }
+  }
+  return $tab[pds_normalizza($etichetta)] ?? null;
+}
+
 function trova_scheda(string $etichetta) {
   static $tutte = null;
   if ($tutte === null) $tutte = db()->query('SELECT id, slug, titolo FROM pds_schede')->fetchAll();
   $cercata = pds_normalizza($etichetta);
   if ($cercata === '') return null;
+
+  $deciso = collegamento_deciso($etichetta);
+  if ($deciso) {
+    if (empty($deciso['scheda'])) return 'dichiarata-assente';
+    foreach ($tutte as $s) if ($s['id'] === $deciso['scheda']) return $s;
+  }
 
   foreach ($tutte as $s) if (pds_normalizza($s['titolo']) === $cercata) return $s;
 
@@ -85,7 +107,14 @@ function risolvi_schede(string $html, array &$mancanti): string {
   return preg_replace_callback('/\[\[scheda:([A-Z]{1,2}\d{2,3})\|([^\]]*)\]\]/u', function ($m) use (&$mancanti) {
     $etichetta = $m[2] !== '' ? $m[2] : $m[1];
     $s = trova_scheda($etichetta);
-    if (!$s) { $mancanti[] = $etichetta . ' (il prototipo diceva ' . $m[1] . ')'; return htmlspecialchars($etichetta, ENT_QUOTES, 'UTF-8'); }
+    // «dichiarata-assente» non è un fallimento: è una decisione presa in
+    // dati/collegamenti-taccuino.json, con la sua ragione scritta accanto.
+    if ($s === 'dichiarata-assente') {
+      $c = collegamento_deciso($etichetta);
+      $mancanti[] = $etichetta . ' — per scelta: ' . mb_substr((string)($c['perche'] ?? ''), 0, 90) . '…';
+      return htmlspecialchars($etichetta, ENT_QUOTES, 'UTF-8');
+    }
+    if (!$s) { $mancanti[] = $etichetta . ' (il prototipo diceva ' . $m[1] . ') — nessuna corrispondenza'; return htmlspecialchars($etichetta, ENT_QUOTES, 'UTF-8'); }
     return '<a href="' . atlante_url_scheda($s) . '">' . htmlspecialchars($etichetta, ENT_QUOTES, 'UTF-8') . '</a>';
   }, $html);
 }
@@ -139,8 +168,7 @@ printf("categorie    %d in tutto\n", count(blog_categories()));
 if ($pubblica) printf("pubblicati   %d post + gli indici (blog.html, blog-2.html…)\n", $pubblicati);
 else echo "non pubblicati: lanciare la pubblicazione dal pannello\n";
 if ($mancanti) {
-  echo "\n⚠ collegamenti non risolti — il testo resta, senza link:\n";
+  echo "\n⚠ citazioni senza link — il testo resta intero:\n";
   foreach (array_unique($mancanti) as $x) echo "   · $x\n";
-  echo "  Gli id dei prototipi sono segnaposto del Design: la scheda giusta va\n";
-  echo "  scelta a mano nel pannello, oppure la citazione va corretta.\n";
+  echo "  Le scelte stanno in dati/collegamenti-taccuino.json, con la ragione.\n";
 }

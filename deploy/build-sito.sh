@@ -9,8 +9,31 @@
 #   bash deploy/build-sito.sh        → rigenera _dist/
 set -euo pipefail
 cd "$(dirname "$0")/.."
+[ -f deploy/mappa.conf ] && . deploy/mappa.conf
+
+# La mappa degli indirizzi la sa il database, che sta sul server: si scarica
+# prima del build, così postbuild.js può riscrivere i link ai record. Se il
+# server non risponde si continua con l'ultima mappa scaricata.
+if [ -n "${MAPPA_URL:-}" ]; then
+  mkdir -p dati
+  if curl -fsS -m 60 "$MAPPA_URL&v=$(date +%s)" -o dati/mappa.json.nuova 2>/dev/null; then
+    mv dati/mappa.json.nuova dati/mappa.json
+    echo "  ✓ mappa degli indirizzi aggiornata dal server"
+  else
+    rm -f dati/mappa.json.nuova
+    echo "  ! mappa non scaricata: uso quella locale, se c'è"
+  fi
+fi
+
+# L'indice pubblicato del Taccuino dice gli indirizzi veri dei post: si legge
+# in HTTPS, che risponde anche quando l'FTP è fermo.
+if [ -n "${SITO_URL:-}" ]; then
+  curl -fsS -m 30 "$SITO_URL/blog.html?v=$(date +%s)" -o dati/indice-taccuino.html 2>/dev/null \
+    && echo "  ✓ indice del Taccuino aggiornato" || echo "  ! indice del Taccuino non letto: uso l'ultimo"
+fi
 
 node build/build.js >/dev/null
+node build/postbuild.js
 
 DIST=_dist
 rm -rf "$DIST"

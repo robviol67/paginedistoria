@@ -1,0 +1,5 @@
+# Indirizzo da cui build-sito.sh scarica la mappa degli indirizzi (id → pagina).
+# La chiave è MIGRATION_KEY di config.php. File non versionato: copialo in
+# deploy/mappa.conf e mettici la chiave vera.
+MAPPA_URL="https://www.paginedistoria.it/tools/esporta_mappa.php?key=LA-TUA-CHIAVE"
+SITO_URL="https://www.paginedistoria.it"
