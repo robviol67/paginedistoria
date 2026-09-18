@@ -169,6 +169,60 @@ function pds_jsonld(array $r, string $url): string {
   return '<script type="application/ld+json">' . json_encode($articolo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "</script>\n";
 }
 
+// ── il Nesso: scala dei verdetti e corpo ─────────────────────────────────────
+function pds_scala_verdetti(?string $attivo): string {
+  $h = '<div class="pds-verdetto-scala">';
+  foreach (atlante_tassonomia('verdetto') as $v)
+    $h .= '<div' . ($v['codice'] === $attivo ? ' class="attivo" aria-current="true"' : '') . '>'
+        . pesc(mb_strtoupper(mb_substr($v['etichetta'], 0, 1)) . mb_substr($v['etichetta'], 1)) . '</div>';
+  return $h . '</div>';
+}
+
+// Le parti del corpo di un Nesso, con le etichette del Design (pagina Nessi).
+const PDS_PARTI_NESSO = [
+  'test' => 'Test cronologico', 'meccanismo' => 'Meccanismo ipotizzato',
+  'favore' => 'Prove da cercare a favore', 'contro' => 'Prove da cercare contro',
+  'rischio' => 'Rischio di fallacia', 'ricadute' => 'Ricadute politiche da verificare',
+  'fonti_da_acquisire' => 'Fonti da acquisire',
+];
+
+function pds_nesso_corpo(array $r, bool $conProvenienza = true): string {
+  $v = fn(string $k) => trim((string)($r['nesso_' . $k] ?? ''));
+  $h = '';
+
+  if ($v('a_testo') !== '' || $v('b_testo') !== '') {
+    $h .= '<div class="pds-nesso-corsie">'
+        . '<div><p class="pds-nesso-et">Corsia A · il fenomeno</p><p class="num pds-nesso-data">' . pesc($v('a_data')) . '</p><p>' . pesc($v('a_testo')) . '</p></div>'
+        . '<div><p class="pds-nesso-et">Corsia B · l’esito politico</p><p class="num pds-nesso-data">' . pesc($v('b_data')) . '</p><p>' . pesc($v('b_testo')) . '</p></div>'
+        . '</div>';
+  }
+  $coppia = function (string $a, string $b, string $classe = 'pds-nesso-due') use ($v) {
+    $out = '';
+    foreach ([$a, $b] as $k) if ($v($k) !== '')
+      $out .= '<div class="pds-nesso-' . $k . '"><p class="pds-nesso-et">' . PDS_PARTI_NESSO[$k] . '</p><p>' . pesc($v($k)) . '</p></div>';
+    return $out !== '' ? '<div class="' . $classe . '">' . $out . '</div>' : '';
+  };
+  $h .= $coppia('test', 'meccanismo');
+  $h .= $coppia('favore', 'contro', 'pds-nesso-prove');
+  $coda = '';
+  foreach (['rischio', 'ricadute', 'fonti_da_acquisire'] as $k) if ($v($k) !== '')
+    $coda .= '<div><p class="pds-nesso-et">' . PDS_PARTI_NESSO[$k] . '</p><p' . ($k === 'fonti_da_acquisire' ? ' class="num"' : '') . '>' . pesc($v($k)) . '</p></div>';
+  if ($coda !== '') $h .= '<div class="pds-nesso-coda">' . $coda . '</div>';
+
+  // Ciò che manca si dichiara, parte per parte: un Nesso a metà non deve
+  // sembrare completo.
+  $mancano = [];
+  foreach (['test', 'meccanismo', 'favore', 'contro'] as $k) if ($v($k) === '') $mancano[] = mb_strtolower(PDS_PARTI_NESSO[$k]);
+  if ($mancano) {
+    $h .= '<section class="pds-non-compilato"><p>' . ($h === '' ? 'Blocco non compilato' : 'Parti non compilate') . '</p><p>Per questo Nesso l’edizione dati v1.15 non contiene '
+        . implode(', ', $mancano) . ': ' . ($h === '' ? 'il blocco resta vuoto' : 'restano vuote') . ' in attesa della revisione.</p></section>';
+  }
+  if ($conProvenienza && $v('provenienza') !== '') {
+    $h .= '<p class="pds-nesso-provenienza">Corpo del Nesso tratto da ' . pesc($v('provenienza')) . '.</p>';
+  }
+  return $h !== '' ? '<section class="pds-nesso">' . $h . "</section>\n" : '';
+}
+
 // ── la pagina ───────────────────────────────────────────────────────────────
 function pds_scheda_render_doc(string $id): ?string {
   $r = atlante_scheda($id);
@@ -250,24 +304,21 @@ function pds_scheda_render_doc(string $id): ?string {
         $h .= '<div><p class="num pds-mondo-titolo">' . $n . ' · ' . pesc($tit) . '</p><p>' . pesc($testo) . '</p></div>';
       $h .= "</section>\n";
     }
-  } elseif ($t === 'Nesso' && !empty($r['verdetto'])) {
-    // Il verdetto c'è (viene dall'indice dei Nessi): la scala lo mostra al suo
-    // posto fra i sette. Prove e test cronologico restano da compilare.
-    $h .= '<section class="pds-verdetto"><h2 class="pds-relazione" style="font-size:13px">Verdetto provvisorio</h2><div class="pds-verdetto-scala">';
-    foreach (atlante_tassonomia('verdetto') as $v)
-      $h .= '<div' . ($v['codice'] === $r['verdetto'] ? ' class="attivo" aria-current="true"' : '') . '>' . pesc(mb_strtoupper(mb_substr($v['etichetta'], 0, 1)) . mb_substr($v['etichetta'], 1)) . '</div>';
-    $h .= '</div>';
-    if ($r['verdetto_nota']) $h .= '<p class="pds-lettura-breve">' . pesc($r['verdetto_nota']) . '</p>';
-    $h .= "</section>\n";
-    $h .= '<section class="pds-non-compilato"><p>Blocco non compilato</p><p>Per questa scheda l’edizione dati v1.15 non contiene test cronologico e prove: il verdetto qui sopra è provvisorio e il blocco resta vuoto in attesa della revisione.</p></section>' . "\n";
-  }
-  if (isset(PDS_BLOCCHI_MANCANTI[$t]) && !($t === 'Nesso' && !empty($r['verdetto']))) {
+  } elseif ($t === 'Nesso') {
+    // Il verdetto (dalla scala a sette) e il corpo del Nesso: corsie A e B,
+    // test, meccanismo, prove, rischio, ricadute. Lo stesso blocco disegna le
+    // voci della pagina Nessi (pds_nesso_corpo), così non ne esistono due.
+    if (!empty($r['verdetto'])) {
+      $h .= '<section class="pds-verdetto"><h2 class="pds-relazione" style="font-size:13px">Verdetto provvisorio</h2>' . pds_scala_verdetti($r['verdetto']);
+      if ($r['verdetto_nota']) $h .= '<p class="pds-lettura-breve">' . pesc($r['verdetto_nota']) . '</p>';
+      $h .= "</section>\n";
+    }
+    $h .= pds_nesso_corpo($r);
+  } elseif (isset(PDS_BLOCCHI_MANCANTI[$t])) {
     $h .= '<section class="pds-non-compilato"><p>Blocco non compilato</p><p>Per questa scheda l’edizione dati v1.15 non contiene '
         . PDS_BLOCCHI_MANCANTI[$t] . ': il blocco resta vuoto in attesa della revisione.</p></section>' . "\n";
   }
 
-  // rilevanza politica: 23 schede la hanno. Il prototipo non le dà un posto
-  // proprio, ma è un testo dei dati, e nasconderlo sarebbe perderlo.
   if (trim((string)$r['rilevanza_politica']) !== '') {
     $h .= '<section class="pds-sezione" id="rilevanza"><h2>Rilevanza politica</h2><p class="pds-lettura-breve">' . pesc($r['rilevanza_politica']) . "</p></section>\n";
   }

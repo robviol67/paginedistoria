@@ -2,7 +2,7 @@
  *
  * Tre applicazioni nello stesso file, ciascuna si accende solo se trova il suo
  * punto d'aggancio nella pagina: #atlante-filtri (Storia), #fonti-app (Fonti),
- * #cronologia-app (Cronologia).
+ * #cronologia-app (Cronologia), #pds-nessi (Nessi).
  *
  * La logica NON è inventata: è quella dei componenti dei prototipi
  * (Atlante.dc.html, Fonti.dc.html, Cronologia.dc.html), portata in JavaScript
@@ -500,6 +500,47 @@
     }).catch(function (e) { erroreDati(radice, e); });
   }
 
+
+  // ════════════════════════════════════════════════════════════════════════
+  // NESSI — tema e verdetto, da prop di prototipo a filtri veri (§5.7, §7.5)
+  // ════════════════════════════════════════════════════════════════════════
+  // L'elenco lo scrive il server dal database (inc/pds_nessi.php): qui si
+  // restringe e basta. Non servono i dati: bastano gli attributi delle voci.
+  function nessi(sezione) {
+    var voci = [].slice.call(sezione.querySelectorAll('.pds-nessi-voce'));
+    var selTema = sezione.querySelector('#ntema'), selVer = sezione.querySelector('#nverdetto');
+    var conto = sezione.querySelector('[data-nessi-conto]'), vuoto = sezione.querySelector('[data-nessi-vuoto]');
+    if (!selTema || !selVer) return;
+    var coda = conto.textContent.replace(/^\d+ su \d+/, '');
+
+    var p = new URLSearchParams(location.search);
+    var scegli = function (sel, v) {
+      if (!v) return;
+      var o = [].slice.call(sel.options).find(function (x) { return (x.value || x.textContent).toLowerCase() === v.toLowerCase(); });
+      if (o) sel.value = o.value || o.textContent;
+    };
+    scegli(selTema, p.get('tema'));
+    scegli(selVer, p.get('verdetto'));
+
+    function applica() {
+      var tema = selTema.value, ver = selVer.value, n = 0;
+      voci.forEach(function (v) {
+        var ok = (!tema || (v.getAttribute('data-temi') || '').split('|').indexOf(tema) !== -1) &&
+                 (!ver || v.getAttribute('data-verdetto') === ver);
+        v.hidden = !ok; if (ok) n++;
+      });
+      conto.textContent = n + ' su ' + voci.length + coda;
+      vuoto.hidden = n !== 0;
+      var u = new URLSearchParams(location.search);
+      if (tema) u.set('tema', tema); else u.delete('tema');
+      if (ver) u.set('verdetto', ver); else u.delete('verdetto');
+      scriviUrl(u);
+    }
+    selTema.addEventListener('change', applica);
+    selVer.addEventListener('change', applica);
+    applica();
+  }
+
   // ── accensione ────────────────────────────────────────────────────────────
   function avvia() {
     var f = document.getElementById('atlante-filtri');
@@ -508,6 +549,8 @@
     if (fo) fonti(fo);
     var c = document.getElementById('cronologia-app');
     if (c) cronologia(c);
+    var n = document.getElementById('pds-nessi');
+    if (n) nessi(n);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', avvia);
   else avvia();

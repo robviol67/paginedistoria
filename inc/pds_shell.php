@@ -65,7 +65,11 @@ function pds_head(string $titolo, string $descrizione = '', string $percorso = '
   // Il foglio del design system ha un nome con identificativo: si legge da
   // index.html invece di inchiodarlo qui, così una consegna nuova non rompe
   // le pagine generate.
-  $ds = preg_match('/href="(assets\/_ds\/[^"]+\.css)"/', pds_index_html(), $m) ? $m[1] : '';
+  // ⚠ Con l'impronta (?v=…) nell'indirizzo, la vecchia ricerca «[^"]+\.css"»
+  // non trovava più niente, e tutte le pagine generate uscivano SENZA il
+  // design system. Si cerca il percorso fino a .css, impronta facoltativa.
+  $ds = preg_match('/href="(assets\/_ds\/[^"?]+\.css)(?:\?[^"]*)?"/', pds_index_html(), $m) ? $m[1] : '';
+  if ($ds === '') error_log('pds_head: foglio del design system non trovato in index.html');
 
   $h  = "<!DOCTYPE html>\n<html lang=\"it\">\n<head>\n<meta charset=\"utf-8\">\n";
   $h .= "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
@@ -81,7 +85,7 @@ function pds_head(string $titolo, string $descrizione = '', string $percorso = '
   if ($canonico) $h .= '<meta property="og:url" content="' . pesc($canonico) . "\">\n";
   if ($og) $h .= '<meta property="og:image" content="' . pesc($og) . "\">\n";
   $h .= '<meta name="twitter:card" content="summary_large_image">' . "\n";
-  if ($ds) $h .= '<link rel="stylesheet" href="' . pesc(pds_asset(preg_replace('/\\?.*$/', '', $ds))) . "\">\n";
+  if ($ds) $h .= '<link rel="stylesheet" href="' . pesc(pds_asset($ds)) . "\">\n";
   $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/atlante.css') . "\">\n";
   $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/pds.css') . "\">\n";
   $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/pds-generate.css') . "\">\n";

@@ -7,6 +7,11 @@
 'use strict';
 const BASE = (process.argv[2] || 'https://www.paginedistoria.it').replace(/\/$/, '');
 const visti = new Set(), rotti = new Map(), coda = ['/'];
+// Oltre ai link, ogni pagina deve caricare i tre fogli del kit: il design
+// system, atlante.css e pds.css. Se ne manca uno la pagina «funziona» ma si
+// vede sbagliata — è successo a tutte le schede per un'espressione regolare.
+const FOGLI = [/assets\/_ds\/[^"]+styles\.css/, /assets\/atlante\.css/, /assets\/pds\.css/];
+const senzaStile = new Map();
 const PARALLELI = 4;   // gentile con l'hosting: non è l'FTP, ma resta condiviso
 
 function interni(html, da) {
@@ -35,12 +40,17 @@ async function visita(p) {
     esiti.forEach((e, i) => {
       const p = lotto[i];
       if (e.stato !== 200) { rotti.set(p, { stato: e.stato, da: provenienza.get(p) }); return; }
+      const mancano = FOGLI.filter(re => !re.test(e.html)).map(re => re.source.replace(/\\/g, ''));
+      if (mancano.length) senzaStile.set(p, mancano);
       for (const l of interni(e.html, p)) {
         if (!visti.has(l) && !coda.includes(l)) { coda.push(l); if (!provenienza.has(l)) provenienza.set(l, p); }
       }
     });
   }
   console.log(`pagine visitate: ${visti.size}`);
+  console.log(`pagine senza un foglio del kit: ${senzaStile.size}`);
+  for (const [p, m] of [...senzaStile].slice(0, 10)) console.log(`  ${p}   manca: ${m.join(', ')}`);
+  if (senzaStile.size) process.exitCode = 1;
   if (!rotti.size) { console.log('link rotti: 0'); return; }
   console.log(`link rotti: ${rotti.size}`);
   for (const [p, r] of rotti) console.log(`  ${r.stato}  ${p}   ← da ${r.da || '?'}`);

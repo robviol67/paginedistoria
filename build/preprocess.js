@@ -1,0 +1,71 @@
+// Pagine di Storia — ripulisce i file del Design PRIMA del build.
+//
+//   src/*.dc.html  →  src-clean/*.dc.html  →  node build/build.js
+//
+// Perché prima e non dopo: il build produce due cose, la pagina (dist/) e il
+// modello che il pannello usa per ripubblicarla quando si cambia un testo
+// (inc/tpl/). Correggere solo la pagina lasciava il modello com'era: una
+// modifica dal pannello avrebbe riportato online i mockup del Design e i link
+// al prototipo. Correggendo il sorgente, pagina e modello nascono puliti.
+//
+// Che cosa fa, e solo questo:
+//   1. toglie le sezioni «Mockup ·», materiale di consegna con dati finti;
+//   2. nella pagina Nessi sostituisce l'elenco scritto a mano con un punto
+//      d'aggancio vuoto (#pds-nessi, data-vb-skip): l'elenco lo scrive il
+//      database (inc/pds_nessi.php), e il pannello non deve mostrare 269 campi
+//      di un elenco che non esiste più.
+// I sorgenti in src/ restano quelli consegnati: si possono sempre confrontare.
+'use strict';
+const fs = require('fs');
+const path = require('path');
+
+const RADICE = path.resolve(__dirname, '..');
+const SRC = path.join(RADICE, 'src');
+const OUT = path.join(RADICE, 'src-clean');
+
+// Toglie l'elemento <tag> che si apre all'indice `inizio`, bilanciando i tag
+// annidati dello stesso nome: una regex «pigra» si fermerebbe alla prima
+// chiusura interna e taglierebbe a metà.
+function fineBilanciata(html, inizio, tag) {
+  const re = new RegExp('<' + tag + '\\b|</' + tag + '>', 'gi');
+  re.lastIndex = inizio;
+  let prof = 0, m;
+  while ((m = re.exec(html))) {
+    if (m[0][1] === '/') { if (--prof === 0) return re.lastIndex; } else prof++;
+  }
+  return -1;
+}
+
+function togliSezioni(html, prova) {
+  let fatti = 0, da = 0;
+  for (;;) {
+    const i = html.indexOf('<section', da);
+    if (i === -1) break;
+    const f = fineBilanciata(html, i, 'section');
+    if (f === -1) break;
+    const blocco = html.slice(i, f);
+    const r = prova(blocco);
+    if (r !== null) { html = html.slice(0, i) + r + html.slice(f); fatti++; da = i + r.length; }
+    else da = i + 8;
+  }
+  return { html, fatti };
+}
+
+fs.mkdirSync(OUT, { recursive: true });
+let totMockup = 0;
+for (const nome of fs.readdirSync(SRC).filter(f => f.endsWith('.dc.html'))) {
+  let html = fs.readFileSync(path.join(SRC, nome), 'utf8');
+
+  const m = togliSezioni(html, b => /<h2\b[^>]*>\s*Mockup\s*·/.test(b) ? '' : null);
+  html = m.html; totMockup += m.fatti;
+
+  if (nome === 'Nessi.dc.html') {
+    const n = togliSezioni(html, b => />\s*Candidati\s*<\/h2>/.test(b)
+      ? '<section id="pds-nessi" data-vb-skip style="margin-bottom:var(--space-8)"></section>' : null);
+    html = n.html;
+    if (!n.fatti) console.warn('  ! Nessi: la sezione «Candidati» non c\'è più nel Design: controllare');
+  }
+
+  fs.writeFileSync(path.join(OUT, nome), html, 'utf8');
+}
+console.log(`  ✓ preprocess: sorgenti puliti in src-clean/ (${totMockup} mockup tolti)`);

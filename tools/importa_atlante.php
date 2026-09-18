@@ -81,7 +81,10 @@ try {
   $campiS = ['slug','tipologia','titolo','data_inizio','data_fine','periodo_principale',
              'sintesi','perche_studiarla','cautela','verdetto','verdetto_nota','stato','n_doc','ordine',
              'verifica_data','verifica_note','verifica_requisiti','rilevanza_politica',
-             'mondo_nel_mondo','mondo_risposta','mondo_ricadute','mondo_cosa_cambia'];
+             'mondo_nel_mondo','mondo_risposta','mondo_ricadute','mondo_cosa_cambia',
+             'nesso_arco','nesso_a_data','nesso_a_testo','nesso_b_data','nesso_b_testo','nesso_test',
+             'nesso_meccanismo','nesso_favore','nesso_contro','nesso_rischio','nesso_ricadute',
+             'nesso_fonti_da_acquisire','nesso_provenienza'];
   $selS = $pdo->prepare('SELECT 1 FROM pds_schede WHERE id=?');
   $insS = $pdo->prepare('INSERT INTO pds_schede (id,' . implode(',', $campiS) . ') VALUES (?' . str_repeat(',?', count($campiS)) . ')');
   $updS = $pdo->prepare('UPDATE pds_schede SET ' . implode('=?, ', $campiS) . '=? WHERE id=?');

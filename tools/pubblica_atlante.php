@@ -14,6 +14,7 @@ require_once __DIR__ . '/../inc/db.php';
 require_once __DIR__ . '/../inc/pds_scheda.php';
 require_once __DIR__ . '/../inc/pds_fonte.php';
 require_once __DIR__ . '/../inc/pds_dati.php';
+require_once __DIR__ . '/../inc/pds_nessi.php';
 
 $daRiga = PHP_SAPI === 'cli';
 if (!$daRiga) {
@@ -35,6 +36,10 @@ if ($e['errori']) { echo "errori:\n"; foreach ($e['errori'] as $x) echo "  ✗ $
 // perché ricerca e conteggi mentano.
 $d = pds_pubblica_dati();
 printf("dati filtri:    %d schede, %d fonti (%.0f KB)\n", $d['schede'], $d['fonti'], $d['byte'] / 1024);
+
+// La pagina Nessi si ricompone sempre: il suo elenco sono schede.
+try { $n = pds_pubblica_nessi(); printf("pagina Nessi:   %d candidati\n", $n['nessi']); }
+catch (Throwable $e) { echo "  ✗ pagina Nessi: " . $e->getMessage() . "\n"; }
 
 // Le fonti si rigenerano tutte quando si rigenera tutto: una scheda cambiata
 // cambia l'elenco «Schede che la usano» di ogni fonte che cita.

@@ -197,6 +197,22 @@ try {
     // `copertura` resta il testo da mostrare («1943–2003», «1970–oggi»).
     ['pds_fonti', 'copertura_inizio', 'SMALLINT NULL'],
     ['pds_fonti', 'copertura_fine', 'SMALLINT NULL'],
+    // Il corpo di un Nesso, con i nomi del Design (pagina Nessi e Scheda
+    // nesso). Nel prototipo stava scritto a mano nella pagina Nessi; ora è
+    // della scheda, e la pagina lo legge da qui.
+    ['pds_schede', 'nesso_arco', 'VARCHAR(32) NULL'],
+    ['pds_schede', 'nesso_a_data', 'VARCHAR(64) NULL'],      // corsia A · il fenomeno
+    ['pds_schede', 'nesso_a_testo', 'TEXT NULL'],
+    ['pds_schede', 'nesso_b_data', 'VARCHAR(64) NULL'],      // corsia B · l'esito politico
+    ['pds_schede', 'nesso_b_testo', 'TEXT NULL'],
+    ['pds_schede', 'nesso_test', 'TEXT NULL'],               // test cronologico
+    ['pds_schede', 'nesso_meccanismo', 'TEXT NULL'],
+    ['pds_schede', 'nesso_favore', 'TEXT NULL'],             // prove da cercare a favore
+    ['pds_schede', 'nesso_contro', 'TEXT NULL'],             // prove da cercare contro
+    ['pds_schede', 'nesso_rischio', 'TEXT NULL'],            // rischio di fallacia
+    ['pds_schede', 'nesso_ricadute', 'TEXT NULL'],           // ricadute politiche da verificare
+    ['pds_schede', 'nesso_fonti_da_acquisire', 'TEXT NULL'],
+    ['pds_schede', 'nesso_provenienza', 'VARCHAR(160) NULL'],// da quale file del Design viene il corpo
   ];
   foreach ($aggiunte as [$t, $c, $def]) {
     echo (db_add_col($t, $c, $def) ? "OK  + $t.$c\n" : "SKIP $t.$c (già presente)\n");

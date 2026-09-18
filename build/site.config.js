@@ -11,42 +11,47 @@ const SITE = {
   accent: '#B83A2C', // rosso mattone del kit v1
 };
 
-// Le pagine che nascono da un file Design. Le schede (~172), le pagine fonte
+// Le pagine che nascono da un file Design, letto da src-clean/: i sorgenti
+// ripuliti da build/preprocess.js (niente mockup, elenchi dati sganciati). Le schede (~172), le pagine fonte
 // (157) e i post del Taccuino NON stanno qui: le genera lo script dei dati.
 const PAGES = [
-  { src: 'src/Home.dc.html', out: 'index.html',
+  { src: 'src-clean/Home.dc.html', out: 'index.html',
     title: 'Pagine di Storia — l\'Italia dalla caduta del fascismo all\'euro',
     desc: 'Portale di ricerca sulla storia politica e istituzionale italiana dal 1943 al 2002: schede, fonti con localizzatore, cronologia e nessi.' },
 
-  { src: 'src/Atlante.dc.html', out: 'atlante.html',
+  { src: 'src-clean/Atlante.dc.html', out: 'atlante.html',
     title: 'Storia — Pagine di Storia',
     desc: 'Cerca fra 172 schede fra periodi, temi, personaggi, eventi e nessi, con sette filtri componibili.' },
 
-  { src: 'src/Cronologia.dc.html', out: 'cronologia.html',
+  { src: 'src-clean/Cronologia.dc.html', out: 'cronologia.html',
     title: 'Cronologia — Pagine di Storia',
     desc: 'La linea del tempo dal 1943 al 2002 su due corsie: Italia e quel che accade nel mondo.' },
 
-  { src: 'src/Fonti.dc.html', out: 'fonti.html',
+  { src: 'src-clean/Fonti.dc.html', out: 'fonti.html',
     title: 'Fonti — Pagine di Storia',
     desc: '157 fonti con localizzatore preciso e verifica datata: atti parlamentari, sentenze, archivi, libri, audio e video.' },
 
-  { src: 'src/Nessi.dc.html', out: 'nessi.html',
+  // Nessi: il build ne fa il MODELLO (modelli/nessi.html), non la pagina.
+  // La pagina la compone inc/pds_nessi.php mettendo nel modello l'elenco preso
+  // dal database. Se il build scrivesse nessi.html, ogni deploy la
+  // riporterebbe a un elenco vuoto fino alla pubblicazione successiva.
+  { src: 'src-clean/Nessi.dc.html', out: 'modelli/nessi.html',
     title: 'Nessi — Pagine di Storia',
     desc: 'I collegamenti fra eventi, con il verdetto sul grado di prova e le fonti che lo sostengono.' },
 
-  { src: 'src/Media.dc.html', out: 'media.html',
+  { src: 'src-clean/Media.dc.html', out: 'media.html',
     title: 'Media — Pagine di Storia',
     desc: 'Audio e video d\'archivio: Rai Teche, RaiPlay Sound, podcast e documentari.' },
 
-  { src: 'src/Metodo.dc.html', out: 'metodo.html',
+  { src: 'src-clean/Metodo.dc.html', out: 'metodo.html',
     title: 'Metodo — Pagine di Storia',
     desc: 'Come sono scelte le fonti, come si misura il grado di prova e che cosa significano i verdetti.' },
 
-  { src: 'src/Segnala.dc.html', out: 'segnala.html', form: true,
+  { src: 'src-clean/Segnala.dc.html', out: 'segnala.html', form: true,
     title: 'Segnala una correzione — Pagine di Storia',
     desc: 'Segnala un errore, una fonte mancante o una precisazione su una scheda.' },
 
-  { src: 'src/Privacy.dc.html', out: 'privacy.html',
+  { src: 'src-clean/Privacy.dc.html', out: 'privacy.html',
     title: 'Privacy — Pagine di Storia',
     desc: 'Informativa sul trattamento dei dati personali.' },
 

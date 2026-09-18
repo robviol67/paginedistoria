@@ -759,7 +759,9 @@ function buildPage(page) {
   body = staticFormToModule(body); // <form data-vb-form> statico -> punta a forms.php (modulo)
 
   const doc = assembleDoc(page, body, head, hoverRules);
-  fs.mkdirSync(OUT, { recursive: true });
+  // La cartella di uscita della PAGINA, non solo di dist/: una pagina può
+  // uscire in una sottocartella (es. modelli/nessi.html). Da riportare al motore.
+  fs.mkdirSync(path.dirname(path.join(OUT, page.out)), { recursive: true });
   fs.writeFileSync(path.join(OUT, page.out), doc, 'utf8');
 
   // CMS: template tokenizzato + campi editabili nel manifest
@@ -808,7 +810,7 @@ function buildPage(page) {
   tplDoc = replaceNavBlock(tplDoc, '<!--VBNAV-->'); // il menu verrà reso dal DB (nav.php)
   tplDoc = replaceMarkedBlock(tplDoc, 'data-vb-nav-mobile', '<!--VBNAVMOBILE-->'); // menu mobile dal DB
   tplDoc = replaceFooterInner(tplDoc);              // il footer verrà dal DB (footer.php)
-  fs.mkdirSync(path.join(OUT, 'inc', 'tpl'), { recursive: true });
+  fs.mkdirSync(path.dirname(path.join(OUT, 'inc', 'tpl', slug + '.html')), { recursive: true });
   fs.writeFileSync(path.join(OUT, 'inc', 'tpl', slug + '.html'), tplDoc, 'utf8');
   const listKeys = Object.keys(listRes.lists);
   CMS_PAGES_MANIFEST.pages[slug] = { title: page.title, out: page.out, slug, fields: [...seoFields, ...fields], hasProducts: !!page.products, lists: listKeys };

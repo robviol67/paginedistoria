@@ -32,6 +32,7 @@ if [ -n "${SITO_URL:-}" ]; then
     && echo "  ✓ indice del Taccuino aggiornato" || echo "  ! indice del Taccuino non letto: uso l'ultimo"
 fi
 
+node build/preprocess.js
 node build/build.js >/dev/null
 node build/postbuild.js
 
@@ -74,6 +75,10 @@ Options -Indexes
 
 # inc/ è la libreria del pannello: la include il server, non il browser.
 RedirectMatch 403 ^/inc/
+
+# modelli/ sono le pagine-modello da cui il PHP compone quelle vere (Nessi):
+# non si servono, si leggono.
+RedirectMatch 403 ^/modelli/
 
 # dati/ (alla radice) è il JSON di partenza dell'importazione: lo legge il
 # server. Ancorata con ^: senza, la regola colpiva anche assets/dati/, cioè il

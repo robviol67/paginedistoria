@@ -24,6 +24,21 @@ const MAPPA = path.join(RADICE, 'dati', 'mappa.json');
 const INDICE_TACCUINO = path.join(RADICE, 'dati', 'indice-taccuino.html');
 const MANCANTI = path.join(RADICE, 'dati', 'schede-mancanti.json');
 
+// I file su cui si lavora: le pagine (dist/*.html), i modelli con cui il
+// pannello le ripubblica (dist/inc/tpl/*.html) e quelli da cui il PHP compone
+// pagine a partire dal database (dist/modelli/*.html). Correggere solo le
+// pagine lasciava i modelli sbagliati, e una modifica dal pannello avrebbe
+// riportato indietro tutto.
+function fileHtml() {
+  const out = [];
+  for (const d of ['', 'inc/tpl', 'inc/tpl/modelli', 'modelli']) {
+    const dir = path.join(DIST, d);
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) if (f.endsWith('.html')) out.push({ nome: f, file: path.join(dir, f), cartella: d });
+  }
+  return out;
+}
+
 const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/[^a-z0-9]+/g, ' ').trim();
 
@@ -130,8 +145,7 @@ function indirizzoPer(href, testo) {
 
 // ── applicazione ────────────────────────────────────────────────────────────
 let toccati = 0;
-for (const nome of fs.readdirSync(DIST).filter(f => f.endsWith('.html'))) {
-  const file = path.join(DIST, nome);
+for (const { file } of fileHtml()) {
   const prima = fs.readFileSync(file, 'utf8');
 
   // Si lavora sull'ANCORA intera, non sul solo href: per sciogliere un link
@@ -188,7 +202,7 @@ if (mancanti.size) {
 //     che vengano dai dati.
 const PAGINE = { 'Home': 'index.html', 'Atlante': 'atlante.html', 'Cronologia': 'cronologia.html', 'Fonti': 'fonti.html',
   'Nessi': 'nessi.html', 'Media': 'media.html', 'Metodo': 'metodo.html', 'Segnala': 'segnala.html', 'Privacy': 'privacy.html', 'Taccuino': 'blog.html' };
-const CON_APP = new Set(['atlante.html', 'cronologia.html', 'fonti.html']);
+const CON_APP = new Set(['atlante.html', 'cronologia.html', 'fonti.html', 'nessi.html']);
 
 // I conteggi: dal server se la mappa li porta, altrimenti dai dati estratti.
 let CONTI = M.conti || null;
@@ -201,8 +215,9 @@ if (!CONTI) {
 }
 
 let mockup = 0, script = 0, azioni = 0, contatori = 0;
-for (const nome of fs.readdirSync(DIST).filter(f => f.endsWith('.html'))) {
-  const file = path.join(DIST, nome);
+for (const { nome: nomeFile, file, cartella } of fileHtml()) {
+  // Nei modelli del pannello il nome è lo slug (home.html per index.html).
+  const nome = cartella === 'inc/tpl' && nomeFile === 'home.html' ? 'index.html' : nomeFile;
   let h = fs.readFileSync(file, 'utf8');
   const prima = h;
 
@@ -249,8 +264,7 @@ function impronta(rel) {
   return impronte.get(rel);
 }
 let versionati = 0;
-for (const nome of fs.readdirSync(DIST).filter(f => f.endsWith('.html'))) {
-  const file = path.join(DIST, nome);
+for (const { file } of fileHtml()) {
   const prima = fs.readFileSync(file, 'utf8');
   const dopo = prima.replace(/(href|src)="(assets\/[^"?#]+\.(?:css|js|svg))(?:\?v=[a-f0-9]+)?"/g, (tutto, attr, rel) => {
     const h = impronta(rel);

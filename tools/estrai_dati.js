@@ -168,6 +168,61 @@ for (const r of (indiceEsempio.schede || [])) {
   nessi++;
 }
 
+
+// ── il corpo dei Nessi ──────────────────────────────────────────────────────
+// Nei dati del Design i Nessi arrivano senza corpo. Ma il corpo esiste: sta
+// scritto a mano nella pagina Nessi (const NESSI, dieci candidati N03–N12) e,
+// per N01, nell'esempio di impaginazione di «Scheda nesso.dc.html». Qui lo si
+// porta nelle schede, dichiarando da dove viene: nesso_provenienza.
+const SRC = path.join(RADICE, 'src');
+function corpiNessi() {
+  const out = {};
+  const pagina = fs.readFileSync(path.join(SRC, 'Nessi.dc.html'), 'utf8');
+  const js = (pagina.match(/<script[^>]*data-dc-script[^>]*>([\s\S]*?)<\/script>/) || [])[1] || '';
+  const i = js.indexOf('const NESSI');
+  if (i !== -1) {
+    const NESSI = new Function(js.slice(i, js.indexOf('class Component')) + ';return NESSI;')();
+    for (const n of NESSI) out[n.id] = {
+      nesso_arco: n.arco || null,
+      nesso_a_data: n.aData || null, nesso_a_testo: n.aTesto || null,
+      nesso_b_data: n.bData || null, nesso_b_testo: n.bTesto || null,
+      nesso_test: n.test || null, nesso_meccanismo: n.meccanismo || null,
+      nesso_favore: n.favore || null, nesso_contro: n.contro || null,
+      nesso_rischio: n.rischio || null, nesso_ricadute: n.ricadute || null,
+      nesso_fonti_da_acquisire: n.fonti || null,
+      nesso_provenienza: 'prototipi/Nessi.dc.html',
+      // Il verdetto della pagina Nessi porta il numero sulla scala («03 ·
+      // Antecedente»): il database tiene il codice della tassonomia.
+      _verdetto: String(n.verdetto || '').replace(/^\d+\s*·\s*/, '').toLowerCase() || null,
+    };
+  }
+
+  // N01: il blocco d'esempio della Scheda nesso è scritto su N01 («Lo
+  // yuppismo deriva dal berlusconismo?»). Le prove sono elenchi con la sigla
+  // della fonte fra quadre: si tengono come testo, sigla compresa.
+  const sn = fs.readFileSync(path.join(SRC, 'Scheda nesso.dc.html'), 'utf8').replace(/\s+/g, ' ');
+  const blocco = (sn.match(/specNessoProprio \}\}">([\s\S]*?)<\/sc-if> <sc-if value="\{\{ specNessoAssente/) || [])[1];
+  if (blocco) {
+    const testo = (h) => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const dopo = (titolo) => { const m = new RegExp('>' + titolo + '</h2>\\s*<p[^>]*>([\\s\\S]*?)</p>').exec(blocco); return m ? testo(m[1]) : null; };
+    const elenco = (titolo) => {
+      const m = new RegExp('>' + titolo + '</p>\\s*<ul[^>]*>([\\s\\S]*?)</ul>').exec(blocco);
+      return m ? [...m[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map(x => testo(x[1])).join(' · ') : null;
+    };
+    const verdettoNota = (blocco.match(/>Verdetto<\/h2>[\s\S]*?<\/div>\s*<p[^>]*>([\s\S]*?)<\/p>/) || [])[1];
+    const ricadute = (blocco.match(/>Ricadute politiche<\/p>\s*<p[^>]*>([\s\S]*?)<\/p>/) || [])[1];
+    out.N01 = Object.assign(out.N01 || {}, {
+      nesso_meccanismo: dopo('Meccanismo ipotizzato'),
+      nesso_favore: elenco('Prove a favore'), nesso_contro: elenco('Prove contro'),
+      nesso_ricadute: ricadute ? testo(ricadute) : null,
+      _verdetto_nota: verdettoNota ? testo(verdettoNota) : null,
+      nesso_provenienza: 'prototipi/Scheda nesso.dc.html (esempio d’impaginazione, scritto su N01)',
+    });
+  }
+  return out;
+}
+const CORPI_NESSI = corpiNessi();
+
 // ── fonti ───────────────────────────────────────────────────────────────────
 const fonti = (D.fonti || []).map(f => ({
   id: f.id, titolo: f.titolo, autore_ente: f.autore_ente || null, natura: f.natura || null,
@@ -213,6 +268,20 @@ for (const [nome, righe, ammessi] of [['fonti', fonti, []], ['schede', schede, [
   }
 }
 
+const CAMPI_NESSO = ['nesso_arco', 'nesso_a_data', 'nesso_a_testo', 'nesso_b_data', 'nesso_b_testo', 'nesso_test',
+  'nesso_meccanismo', 'nesso_favore', 'nesso_contro', 'nesso_rischio', 'nesso_ricadute', 'nesso_fonti_da_acquisire', 'nesso_provenienza'];
+let corpiApplicati = 0; const verdettiDiversi = [];
+for (const sc of schede) {
+  for (const c of CAMPI_NESSO) if (!(c in sc)) sc[c] = null;
+  const corpo = CORPI_NESSI[sc.id];
+  if (!corpo) continue;
+  for (const c of CAMPI_NESSO) if (corpo[c] != null) sc[c] = corpo[c];
+  if (corpo._verdetto_nota && !sc.verdetto_nota) sc.verdetto_nota = corpo._verdetto_nota;
+  // Due fonti per lo stesso verdetto: se non concordano lo si dice, non si sceglie.
+  if (corpo._verdetto && sc.verdetto && corpo._verdetto !== sc.verdetto) verdettiDiversi.push(`${sc.id}: indice «${sc.verdetto}», pagina Nessi «${corpo._verdetto}»`);
+  corpiApplicati++;
+}
+
 const fuori = new Set(fonti.map(f => f.id));
 const orfane = [];
 for (const s of schede) for (const f of s.fonti) if (!fuori.has(f.fonte_id)) orfane.push(s.id + '→' + f.fonte_id);
@@ -230,10 +299,12 @@ fs.writeFileSync(USCITA, JSON.stringify(uscita, null, 1), 'utf8');
 
 const conLoc = schede.reduce((n, s) => n + s.fonti.length, 0);
 console.log(`edizione dati ${uscita.edizione}`);
-console.log(`  schede          ${schede.length}  (di cui ${nessi} Nessi senza corpo, dall'indice)`);
+console.log(`  schede          ${schede.length}  (di cui ${nessi} Nessi, che arrivano dall'indice)`);
 console.log(`  fonti           ${fonti.length}`);
 console.log(`  localizzatori   ${conLoc}`);
 console.log(`  documenti       ${documenti.length}`);
+console.log(`  corpi dei Nessi ${corpiApplicati} (dalla pagina Nessi e dalla Scheda nesso)`);
+if (verdettiDiversi.length) console.log(`  ⚠ verdetti che non concordano: ${verdettiDiversi.join('; ')}`);
 console.log(`  collegamenti    ${schede.reduce((n, s) => n + s.collegamenti.length, 0)}`);
 console.log(`  mondo           ${schede.filter(s => s.mondo_nel_mondo).length} schede con le quattro sezioni`);
 console.log(`  tassonomie      ${tass.length}`);
