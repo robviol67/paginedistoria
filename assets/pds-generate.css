@@ -424,3 +424,21 @@ body.pds-con-raccolta { padding-bottom: 96px; }
 .pds-segmento:hover, .pds-segmento:focus-visible { background: var(--color-neutral-400) !important; }
 .pds-periodo-riga:hover, .pds-periodo-riga:focus-visible { background: var(--color-neutral-200); }
 [data-pds-vista-blocco][hidden] { display: none; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   COLONNA — intestazione e piè di pagina allineati al corpo
+   ════════════════════════════════════════════════════════════════════════
+   Nel kit, intestazione e piè di pagina si allargano a tutto lo schermo con
+   un margine fisso: su un monitor largo il logo finiva all'estrema sinistra e
+   il menu all'estrema destra, lontanissimi dal corpo, che sta in una colonna
+   di 1180 px (la larghezza della maggior parte delle pagine del Design).
+   Fondo e filetto restano a tutta larghezza; il CONTENUTO si allinea ai bordi
+   della colonna. Sotto i 1180 px la formula ricade sul margine del kit. */
+:root { --pds-colonna: 1180px; }
+.pds-header,
+.pds-footer {
+  padding-left: max(var(--space-6), calc((100% - var(--pds-colonna)) / 2 + var(--space-6)));
+  padding-right: max(var(--space-6), calc((100% - var(--pds-colonna)) / 2 + var(--space-6)));
+}
+.pds-raccolta-testa,
+.pds-raccolta-elenco { max-width: calc(var(--pds-colonna) - 2 * var(--space-6)); }
