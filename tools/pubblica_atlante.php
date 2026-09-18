@@ -13,6 +13,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../inc/db.php';
 require_once __DIR__ . '/../inc/pds_scheda.php';
 require_once __DIR__ . '/../inc/pds_fonte.php';
+require_once __DIR__ . '/../inc/pds_dati.php';
 
 $daRiga = PHP_SAPI === 'cli';
 if (!$daRiga) {
@@ -29,6 +30,11 @@ $t0 = microtime(true);
 $e = pds_pubblica_schede($ids);
 printf("schede scritte: %d in %.1f s\n", $e['scritte'], microtime(true) - $t0);
 if ($e['errori']) { echo "errori:\n"; foreach ($e['errori'] as $x) echo "  ✗ $x\n"; }
+
+// Il file dati dei filtri si rigenera SEMPRE: basta una scheda cambiata
+// perché ricerca e conteggi mentano.
+$d = pds_pubblica_dati();
+printf("dati filtri:    %d schede, %d fonti (%.0f KB)\n", $d['schede'], $d['fonti'], $d['byte'] / 1024);
 
 // Le fonti si rigenerano tutte quando si rigenera tutto: una scheda cambiata
 // cambia l'elenco «Schede che la usano» di ogni fonte che cita.

@@ -81,14 +81,27 @@ function pds_head(string $titolo, string $descrizione = '', string $percorso = '
   if ($canonico) $h .= '<meta property="og:url" content="' . pesc($canonico) . "\">\n";
   if ($og) $h .= '<meta property="og:image" content="' . pesc($og) . "\">\n";
   $h .= '<meta name="twitter:card" content="summary_large_image">' . "\n";
-  if ($ds) $h .= '<link rel="stylesheet" href="' . pesc($ds) . "\">\n";
-  $h .= "<link rel=\"stylesheet\" href=\"assets/atlante.css\">\n";
-  $h .= "<link rel=\"stylesheet\" href=\"assets/pds.css\">\n";
-  $h .= "<link rel=\"stylesheet\" href=\"assets/pds-generate.css\">\n";
-  $h .= "<link rel=\"icon\" href=\"assets/favicon/favicon.svg\">\n";
-  $h .= "<script src=\"assets/tema.js\" defer></script>\n";
+  if ($ds) $h .= '<link rel="stylesheet" href="' . pesc(pds_asset(preg_replace('/\\?.*$/', '', $ds))) . "\">\n";
+  $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/atlante.css') . "\">\n";
+  $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/pds.css') . "\">\n";
+  $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/pds-generate.css') . "\">\n";
+  $h .= "<link rel=\"icon\" href=\"" . pds_asset('assets/favicon/favicon.svg') . "\">\n";
+  $h .= "<script src=\"" . pds_asset('assets/tema.js') . "\" defer></script>\n";
   $h .= "</head>\n<body>\n";
   return $h;
 }
 
 function pds_chiudi(): string { return "\n</body>\n</html>\n"; }
+
+// L'indirizzo di un file statico con l'impronta del suo contenuto.
+// Senza, il browser tiene la copia vecchia di un foglio di stile anche dopo
+// che è cambiato: è successo con pds-generate.css, e le schede si vedevano
+// senza impaginazione. Cambia il file, cambia l'indirizzo, niente cache vecchia.
+function pds_asset(string $percorso): string {
+  static $cache = [];
+  if (!isset($cache[$percorso])) {
+    $f = __DIR__ . '/../' . $percorso;
+    $cache[$percorso] = is_file($f) ? $percorso . '?v=' . substr(md5_file($f), 0, 10) : $percorso;
+  }
+  return $cache[$percorso];
+}

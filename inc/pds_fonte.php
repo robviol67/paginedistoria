@@ -45,7 +45,7 @@ function pds_fonte_render_doc(string $id): ?string {
 
   $h  = pds_head($f['titolo'] . ' — Fonte ' . $f['id'] . ' | Pagine di Storia',
                  mb_substr(trim((string)($f['come_usarla'] ?: $sotto)), 0, 180), $pagina);
-  $h  = str_replace('</head>', "<script src=\"assets/scheda.js\" defer></script>\n</head>", $h);
+  $h  = str_replace('</head>', "<script src=\"" . pds_asset('assets/scheda.js') . "\" defer></script>\n</head>", $h);
   $h .= pds_header('fonti.html');
   $h .= '<main class="pds-fonte" data-print-urls>' . "\n";
   $h .= '<nav class="pds-percorso" aria-label="Percorso"><a href="fonti.html">Fonti</a><span>›</span><span>'

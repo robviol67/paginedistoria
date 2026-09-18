@@ -194,7 +194,7 @@ function pds_scheda_render_doc(string $id): ?string {
 
   $h  = pds_head($r['titolo'] . ' — Scheda ' . $r['id'] . ' | Pagine di Storia',
                  mb_substr((string)$r['sintesi'], 0, 180), $url);
-  $h  = str_replace("</head>", pds_jsonld($r, $url) . "<script src=\"assets/scheda.js\" defer></script>\n</head>", $h);
+  $h  = str_replace("</head>", pds_jsonld($r, $url) . "<script src=\"" . pds_asset('assets/scheda.js') . "\" defer></script>\n</head>", $h);
   $h .= pds_header('atlante.html');
 
   $h .= '<main class="pds-scheda">' . "\n";

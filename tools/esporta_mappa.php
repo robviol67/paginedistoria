@@ -36,4 +36,12 @@ foreach (blog_posts_public() as $p) {
   $mappa['post'][$p['title']] = blog_route($p);
 }
 
+// I conteggi della Home: dal database, non scritti a mano (§5.1).
+$mappa['conti'] = [
+  'schede' => (int)db()->query('SELECT COUNT(*) FROM pds_schede WHERE pubblicata=1')->fetchColumn(),
+  'fonti' => (int)db()->query('SELECT COUNT(*) FROM pds_fonti')->fetchColumn(),
+  'periodi' => (int)db()->query("SELECT COUNT(*) FROM pds_tassonomie WHERE tipo='periodo'")->fetchColumn(),
+  'riferimenti' => (int)db()->query('SELECT COUNT(*) FROM pds_documenti')->fetchColumn(),
+];
+
 echo json_encode($mappa, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

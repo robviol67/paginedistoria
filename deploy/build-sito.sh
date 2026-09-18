@@ -73,18 +73,27 @@ Options -Indexes
 </FilesMatch>
 
 # inc/ è la libreria del pannello: la include il server, non il browser.
-RedirectMatch 403 (?i)/inc/
+RedirectMatch 403 ^/inc/
 
-# dati/ è il JSON di partenza dell'importazione: lo legge il server. Quello che
-# serve al browser è l'indice generato, che sta in assets/.
-RedirectMatch 403 (?i)/dati/
+# dati/ (alla radice) è il JSON di partenza dell'importazione: lo legge il
+# server. Ancorata con ^: senza, la regola colpiva anche assets/dati/, cioè il
+# file che i filtri del browser DEVONO leggere, e Storia restava vuota.
+RedirectMatch 403 ^/dati/
 
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   # Font e immagini del kit sono immutabili: si cachano a lungo.
-  <FilesMatch "\.(woff2|woff|svg|png|jpg|webp)$">
+  <FilesMatch "\.(woff2|woff|png|jpg|webp)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # Stili, script, pagine e dati invece cambiano a ogni pubblicazione. Senza
+  # un'istruzione esplicita il browser tiene la copia vecchia «a occhio» per
+  # ore: è successo, e le schede si vedevano senza impaginazione. no-cache non
+  # vuol dire «non tenere»: vuol dire «ricontrolla», e con l'ETag la risposta è
+  # un 304 di pochi byte.
+  <FilesMatch "\.(css|js|json|html|svg)$">
+    Header set Cache-Control "no-cache"
   </FilesMatch>
 </IfModule>
 HT

@@ -174,3 +174,90 @@ if (mancanti.size) {
   }, null, 1), 'utf8');
   console.log(`  · elenco delle schede mancanti in dati/schede-mancanti.json (${elenco.length})`);
 }
+
+// ── pulizia: ciò che è del prototipo non va in pubblico ─────────────────────
+// 1 · Le sezioni «Mockup ·» sono materiale di consegna del Design (come si
+//     vedono i filtri a 360 px, com'è la raccolta), con dati finti: «5 schede
+//     · 9 fonti», «Mani Pulite». Erano pubblicate su Storia e Cronologia.
+// 2 · I vecchi file dati (dati.js, dati-schede.js, fonti-reg.js, indice.json)
+//     erano la sorgente del prototipo. La fonte ora è il database: tenerli
+//     online vorrebbe dire servire dati che invecchiano senza che nessuno lo veda.
+// 3 · Il modulo di ricerca della Home inviava a «Atlante.dc.html»: 404. LINKMAP
+//     riscrive gli href, non gli action.
+// 4 · I contatori della Home erano scritti a mano («170 schede»): §5.1 vuole
+//     che vengano dai dati.
+const PAGINE = { 'Home': 'index.html', 'Atlante': 'atlante.html', 'Cronologia': 'cronologia.html', 'Fonti': 'fonti.html',
+  'Nessi': 'nessi.html', 'Media': 'media.html', 'Metodo': 'metodo.html', 'Segnala': 'segnala.html', 'Privacy': 'privacy.html', 'Taccuino': 'blog.html' };
+const CON_APP = new Set(['atlante.html', 'cronologia.html', 'fonti.html']);
+
+// I conteggi: dal server se la mappa li porta, altrimenti dai dati estratti.
+let CONTI = M.conti || null;
+if (!CONTI) {
+  try {
+    const A = JSON.parse(fs.readFileSync(path.join(RADICE, 'dati', 'atlante.json'), 'utf8'));
+    CONTI = { schede: A.schede.length, fonti: A.fonti.length,
+      periodi: A.tassonomie.filter(t => t.tipo === 'periodo').length, riferimenti: (A.documenti || []).length };
+  } catch (e) { CONTI = null; }
+}
+
+let mockup = 0, script = 0, azioni = 0, contatori = 0;
+for (const nome of fs.readdirSync(DIST).filter(f => f.endsWith('.html'))) {
+  const file = path.join(DIST, nome);
+  let h = fs.readFileSync(file, 'utf8');
+  const prima = h;
+
+  h = h.replace(/<section\b[^>]*>\s*<h2\b[^>]*>\s*Mockup\b[\s\S]*?<\/section>\s*(?=<\/main>|<section|<div)/g, () => { mockup++; return ''; });
+
+  h = h.replace(/\s*<script src="assets\/(dati|dati-schede|fonti-reg)\.js[^"]*"><\/script>/g, () => { script++; return ''; });
+  if (CON_APP.has(nome) && !h.includes('assets/atlante.js')) {
+    h = h.replace('</head>', '<script src="assets/atlante.js" defer></script>\n</head>');
+  }
+
+  h = h.replace(/action="([^"]*?)\.dc\.html"/g, (tutto, pag) => {
+    const dest = PAGINE[decodeURIComponent(pag)];
+    if (!dest) return tutto;
+    azioni++;
+    return `action="${dest}"`;
+  });
+
+  if (nome === 'index.html' && CONTI) {
+    for (const [etichetta, chiave] of [['Schede', 'schede'], ['Fonti', 'fonti'], ['Periodi', 'periodi'], ['Riferimenti', 'riferimenti']]) {
+      const re = new RegExp('(<dt[^>]*>' + etichetta + '</dt><dd[^>]*>)\\d+(</dd>)');
+      if (re.test(h)) { h = h.replace(re, '$1' + CONTI[chiave] + '$2'); contatori++; }
+    }
+  }
+
+  if (h !== prima) fs.writeFileSync(file, h, 'utf8');
+}
+for (const vecchio of ['dati.js', 'dati-schede.js', 'dati-fonti.js', 'fonti-reg.js', 'indice.json']) {
+  const f = path.join(DIST, 'assets', vecchio);
+  if (fs.existsSync(f)) fs.unlinkSync(f);
+}
+console.log(`  ✓ tolti ${mockup} mockup del Design e ${script} script dei vecchi dati; ${azioni} moduli riparati; ${contatori} contatori dai dati`);
+
+// ── impronte sui file statici ───────────────────────────────────────────────
+// Stessa regola delle pagine generate (pds_asset in inc/pds_shell.php): ogni
+// foglio di stile e script locale si chiama con l'impronta del contenuto.
+// Cambia il file, cambia l'indirizzo, e nessun browser resta indietro.
+const crypto = require('crypto');
+const impronte = new Map();
+function impronta(rel) {
+  if (!impronte.has(rel)) {
+    const f = path.join(DIST, rel);
+    impronte.set(rel, fs.existsSync(f) ? crypto.createHash('md5').update(fs.readFileSync(f)).digest('hex').slice(0, 10) : null);
+  }
+  return impronte.get(rel);
+}
+let versionati = 0;
+for (const nome of fs.readdirSync(DIST).filter(f => f.endsWith('.html'))) {
+  const file = path.join(DIST, nome);
+  const prima = fs.readFileSync(file, 'utf8');
+  const dopo = prima.replace(/(href|src)="(assets\/[^"?#]+\.(?:css|js|svg))(?:\?v=[a-f0-9]+)?"/g, (tutto, attr, rel) => {
+    const h = impronta(rel);
+    if (!h) return tutto;
+    versionati++;
+    return `${attr}="${rel}?v=${h}"`;
+  });
+  if (dopo !== prima) fs.writeFileSync(file, dopo, 'utf8');
+}
+console.log(`  ✓ impronte su ${versionati} riferimenti a stili, script e icone`);
