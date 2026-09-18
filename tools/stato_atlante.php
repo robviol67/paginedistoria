@@ -30,6 +30,15 @@ if ($una !== '') {
 }
 $uno = fn(string $sql) => (int)db()->query($sql)->fetchColumn();
 
+// Utenti del pannello: solo i nomi, mai le password. Serve a capire perché
+// l'accesso di primo avvio (CMS_ADMIN_PASS) non vale: vale solo a tabella vuota.
+try {
+  $ut = db()->query('SELECT username, role, created_at FROM cms_users ORDER BY id')->fetchAll();
+  echo "UTENTI DEL PANNELLO: " . count($ut) . ($ut ? '' : ' (vale la password di primo accesso)') . "\n";
+  foreach ($ut as $u) printf("  %-30s %-8s %s\n", $u['username'], $u['role'], $u['created_at']);
+  echo "\n";
+} catch (Throwable $e) { echo "UTENTI DEL PANNELLO: tabella assente\n\n"; }
+
 echo "SCHEDE per tipologia\n";
 foreach ($q('SELECT tipologia, COUNT(*) n FROM pds_schede GROUP BY tipologia ORDER BY n DESC') as $r)
   printf("  %-20s %3d\n", $r['tipologia'], $r['n']);

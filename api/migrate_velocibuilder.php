@@ -30,18 +30,12 @@ try {
   );
   echo "OK  cms_messages\n";
 
-  // Utenti admin di default VelociBuilder LITE — creati SEMPRE (INSERT IGNORE:
-  // idempotente, li aggiunge anche se esistono già altri utenti, senza duplicare
-  // né sovrascrivere le password di utenti esistenti). Login: username = email.
-  $defaults = ['robviol@insertsrl.com', 'diealp@gmail.com', 'supporto@marketingstart.it'];
-  $ins = db()->prepare('INSERT IGNORE INTO cms_users (username, pass_hash, name, role, created_at) VALUES (?,?,?,?,NOW())');
-  $created = 0;
-  foreach ($defaults as $email) {
-    $ins->execute([$email, password_hash('testlite', PASSWORD_DEFAULT), ucfirst(explode('@', $email)[0]), 'admin']);
-    if ($ins->rowCount() > 0) { $created++; echo "OK  utente admin: $email  (password: testlite)\n"; }
-    else echo "utente admin già presente: $email\n";
-  }
-  echo "$created nuovi utenti admin creati (password comune: testlite).\n";
+  // Pagine di Storia: qui il motore creava SEMPRE tre amministratori con una
+  // password comune scritta in questo file — e il repository è pubblico. Chi
+  // lo leggeva poteva entrare nel pannello. Tolto: gli utenti si creano dal
+  // pannello (Utenti), e a tabella vuota vale CMS_ADMIN_PASS di config.php,
+  // che nel repository non c'è. Da riportare al motore.
+  echo "Utenti: nessuno creato in automatico (si creano da /admin/utenti.php).\n";
   echo "\nFatto.\n";
 } catch (Throwable $e) {
   http_response_code(500);
