@@ -56,6 +56,12 @@ let totMockup = 0;
 for (const nome of fs.readdirSync(SRC).filter(f => f.endsWith('.dc.html'))) {
   let html = fs.readFileSync(path.join(SRC, nome), 'utf8');
 
+  // Una colonna sola per tutto il sito: 1180 px, la stessa di intestazione e
+  // piè di pagina (--pds-colonna in pds-generate.css). Il Design usava 820,
+  // 1000, 1080, 1180, 1280 a seconda della pagina, e su uno schermo largo il
+  // bordo del corpo non coincideva con quello del logo.
+  html = html.replace(/(<main\b[^>]*style="[^"]*?)max-width:\s*\d+px/, '$1max-width:1180px');
+
   const m = togliSezioni(html, b => /<h2\b[^>]*>\s*Mockup\s*·/.test(b) ? '' : null);
   html = m.html; totMockup += m.fatti;
 

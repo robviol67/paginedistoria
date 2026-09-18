@@ -442,3 +442,10 @@ body.pds-con-raccolta { padding-bottom: 96px; }
 }
 .pds-raccolta-testa,
 .pds-raccolta-elenco { max-width: calc(var(--pds-colonna) - 2 * var(--space-6)); }
+
+
+/* Una colonna per tutte le pagine generate: 1180 px, come il Design delle
+   pagine principali. Nei post la misura del testo resta corta (lettura, §8),
+   ma allineata a sinistra sulla colonna: il bordo coincide con il logo. */
+.pds-scheda, .pds-elenco, .pds-fonte, .pds-lettura { max-width: var(--pds-colonna); }
+.pds-lettura > * { max-width: 760px; }
