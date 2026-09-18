@@ -18,7 +18,7 @@ $check = isset($_GET['check']);
 
 try {
   $tabelle = ['pds_schede', 'pds_tassonomie', 'pds_scheda_periodo', 'pds_scheda_tema',
-              'pds_fonti', 'pds_scheda_fonte', 'pds_scheda_relazione', 'pds_documenti'];
+              'pds_fonti', 'pds_scheda_fonte', 'pds_scheda_relazione', 'pds_documenti', 'pds_media'];
 
   if ($check) {
     // Verifica in-process: una query su information_schema, nessun HTTP interno.
@@ -175,6 +175,33 @@ try {
       INDEX fonte_id (fonte_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
   echo "OK  pds_documenti\n";
+
+  // ── Il repertorio mediale (pagina Media, §5.8) ────────────────────────────
+  // Un momento radiofonico o televisivo: che cosa è andato in onda, dove si
+  // trova il documento, che cosa prova. Il rimando a una scheda è facoltativo
+  // e deciso a mano (dati/collegamenti-media.json): scheda_prototipo tiene
+  // l'id che il Design aveva scritto, sbagliato quasi sempre, per memoria.
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_media (
+      id VARCHAR(8) NOT NULL PRIMARY KEY,
+      ordine INT NOT NULL DEFAULT 0,
+      data_testo VARCHAR(64) NULL,
+      anno SMALLINT NULL,
+      mezzo VARCHAR(48) NULL,
+      categoria VARCHAR(64) NULL,
+      titolo VARCHAR(255) NOT NULL,
+      programma VARCHAR(255) NULL,
+      perche TEXT NULL,
+      documento TEXT NULL,
+      stato VARCHAR(32) NULL,
+      scheda_id VARCHAR(12) NULL,
+      scheda_prototipo VARCHAR(12) NULL,
+      evidenza TINYINT NOT NULL DEFAULT 0,
+      evidenza_testo TEXT NULL,
+      pubblicata TINYINT NOT NULL DEFAULT 1,
+      INDEX categoria (categoria),
+      INDEX scheda_id (scheda_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_media\n";
 
   // ── Campi che alla prima importazione erano rimasti fuori ────────────────
   // Aggiunti a posteriori, quindi con db_add_col: idempotente su MySQL e

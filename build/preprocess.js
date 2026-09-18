@@ -10,7 +10,7 @@
 //
 // Che cosa fa, e solo questo:
 //   1. toglie le sezioni «Mockup ·», materiale di consegna con dati finti;
-//   2. nella pagina Nessi sostituisce l'elenco scritto a mano con un punto
+//   2. nelle pagine Nessi e Media sostituisce gli elenchi scritti a mano con un punto
 //      d'aggancio vuoto (#pds-nessi, data-vb-skip): l'elenco lo scrive il
 //      database (inc/pds_nessi.php), e il pannello non deve mostrare 269 campi
 //      di un elenco che non esiste più.
@@ -64,6 +64,20 @@ for (const nome of fs.readdirSync(SRC).filter(f => f.endsWith('.dc.html'))) {
       ? '<section id="pds-nessi" data-vb-skip style="margin-bottom:var(--space-8)"></section>' : null);
     html = n.html;
     if (!n.fatti) console.warn('  ! Nessi: la sezione «Candidati» non c\'è più nel Design: controllare');
+  }
+
+  if (nome === 'Media.dc.html') {
+    // «In evidenza» (markup fisso, rimandi sbagliati) e il repertorio (array
+    // scritto a mano) diventano un solo aggancio: li scrive inc/pds_media.php.
+    let messo = false;
+    const r = togliSezioni(html, b => {
+      if (!/>\s*(In evidenza|Repertorio dei momenti mediali)\s*<\/h2>/.test(b)) return null;
+      if (messo) return '';
+      messo = true;
+      return '<section id="pds-media" data-vb-skip></section>';
+    });
+    html = r.html;
+    if (r.fatti !== 2) console.warn(`  ! Media: attese 2 sezioni dati, trovate ${r.fatti}: controllare il Design`);
   }
 
   fs.writeFileSync(path.join(OUT, nome), html, 'utf8');

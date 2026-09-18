@@ -39,7 +39,9 @@ const PAGES = [
     title: 'Nessi — Pagine di Storia',
     desc: 'I collegamenti fra eventi, con il verdetto sul grado di prova e le fonti che lo sostengono.' },
 
-  { src: 'src-clean/Media.dc.html', out: 'media.html',
+  // Media: come Nessi, il build ne fa il modello; la pagina la compone
+  // inc/pds_media.php con il repertorio preso da pds_media.
+  { src: 'src-clean/Media.dc.html', out: 'modelli/media.html',
     title: 'Media — Pagine di Storia',
     desc: 'Audio e video d\'archivio: Rai Teche, RaiPlay Sound, podcast e documentari.' },
 

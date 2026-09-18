@@ -541,6 +541,69 @@
     applica();
   }
 
+
+  // ════════════════════════════════════════════════════════════════════════
+  // MEDIA — categoria, mezzo, solo in revisione (§5.8) + esportazione
+  // ════════════════════════════════════════════════════════════════════════
+  function media(radice) {
+    var voci = [].slice.call(radice.querySelectorAll('.pds-media-voce'));
+    var cat = radice.querySelector('#mcat'), mez = radice.querySelector('#mmezzo'), rev = radice.querySelector('#mrev');
+    var conto = radice.querySelector('[data-media-conto]'), vuoto = radice.querySelector('[data-media-vuoto]');
+    if (!cat || !mez || !rev) return;
+    var coda = conto.textContent.replace(/^\d+ voci su \d+/, '');
+
+    var p = new URLSearchParams(location.search);
+    var scegli = function (sel, v) {
+      if (!v) return;
+      var o = [].slice.call(sel.options).find(function (x) { return x.textContent.toLowerCase().indexOf(v.toLowerCase()) === 0; });
+      if (o) sel.value = o.value || o.textContent;
+    };
+    scegli(cat, p.get('categoria')); scegli(mez, p.get('mezzo'));
+    rev.checked = !!p.get('revisione');
+
+    function visibili() { return voci.filter(function (v) { return !v.hidden; }); }
+    function applica() {
+      var c = cat.value, m = mez.value, r = rev.checked, n = 0;
+      voci.forEach(function (v) {
+        // «Radio e TV» rientra sia in Radio sia in Televisione, come nel
+        // prototipo (includes): è un'unica trasmissione su due mezzi.
+        var mezzo = v.getAttribute('data-mezzo') || '';
+        var ok = (!c || v.getAttribute('data-categoria') === c) &&
+                 (!m || mezzo.indexOf(m) !== -1 || (m === 'Televisione' && mezzo.indexOf('TV') !== -1)) &&
+                 (!r || v.getAttribute('data-stato') === 'In revisione');
+        v.hidden = !ok; if (ok) n++;
+      });
+      conto.textContent = n + ' voci su ' + voci.length + coda;
+      vuoto.hidden = n !== 0;
+      var u = new URLSearchParams(location.search);
+      if (c) u.set('categoria', c); else u.delete('categoria');
+      if (m) u.set('mezzo', m); else u.delete('mezzo');
+      if (r) u.set('revisione', '1'); else u.delete('revisione');
+      scriviUrl(u);
+    }
+    [cat, mez, rev].forEach(function (el) { el.addEventListener('change', applica); });
+
+    // Esporta ciò che si vede (i filtri valgono anche qui) in CSV: si apre in
+    // qualunque foglio di calcolo, con il separatore italiano.
+    radice.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-media-esporta]')) return;
+      var q = function (s) { return '"' + String(s || '').replace(/"/g, '""') + '"'; };
+      var righe = [['id', 'data', 'mezzo', 'categoria', 'titolo', 'programma', 'documento', 'stato', 'scheda'].join(';')];
+      visibili().forEach(function (v) {
+        var sc = v.getAttribute('data-scheda');
+        righe.push([v.dataset.id, v.dataset.data, v.dataset.mezzo, v.dataset.categoria, v.dataset.titolo, v.dataset.programma, v.dataset.documento, v.dataset.stato,
+          sc ? location.origin + '/' + sc : ''].map(q).join(';'));
+      });
+      var blob = new Blob(['﻿' + righe.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'pagine-di-storia-repertorio-media.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
+    applica();
+  }
+
   // ── accensione ────────────────────────────────────────────────────────────
   function avvia() {
     var f = document.getElementById('atlante-filtri');
@@ -551,6 +614,8 @@
     if (c) cronologia(c);
     var n = document.getElementById('pds-nessi');
     if (n) nessi(n);
+    var m = document.getElementById('pds-media');
+    if (m && m.querySelector('.pds-media-voce')) media(m);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', avvia);
   else avvia();
