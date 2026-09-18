@@ -4,6 +4,10 @@
 //   php tools/importa_atlante.php                    (da riga di comando)
 //   https://…/tools/importa_atlante.php?key=…        (dal browser)
 //
+// Con --nuove (riga di comando) o &nuove=1 (browser) legge invece
+// dati/schede-nuove.json: le schede scritte dopo l'edizione v1.15, con le loro
+// fonti, i documenti e i momenti della pagina Media che vi rimandano.
+//
 // Regola di prudenza, e non è un dettaglio: di default questo script NON tocca
 // i record già presenti. Dopo l'importazione iniziale la fonte unica è il
 // database, e le correzioni fatte nel pannello valgono più del file di
@@ -28,17 +32,23 @@ $forza = $daRiga
   ? in_array('--forza', $argv ?? [], true)
   : isset($_GET['forza']);
 
-$file = __DIR__ . '/../dati/atlante.json';
-if (!is_file($file)) exit("✗ manca dati/atlante.json: lancia prima `node tools/estrai_dati.js`\n");
+$nuove = $daRiga
+  ? in_array('--nuove', $argv ?? [], true)
+  : isset($_GET['nuove']);
+
+$file = __DIR__ . '/../dati/' . ($nuove ? 'schede-nuove.json' : 'atlante.json');
+if (!is_file($file)) exit('✗ manca dati/' . basename($file) . ($nuove ? "\n" : ": lancia prima `node tools/estrai_dati.js`\n"));
 $D = json_decode(file_get_contents($file), true);
-if (!$D) exit("✗ dati/atlante.json non è JSON valido\n");
+if (!$D) exit('✗ dati/' . basename($file) . " non è JSON valido\n");
+$D += ['tassonomie' => [], 'fonti' => [], 'schede' => []];
 
 echo "Edizione dati {$D['edizione']} · estratta il {$D['generato']}\n";
 echo $forza ? "Modo: SOVRASCRIVO i record esistenti\n\n" : "Modo: aggiungo i mancanti, non tocco gli esistenti\n\n";
 
 $pdo = db();
 $n = ['tass_nuove' => 0, 'tass_agg' => 0, 'fonti_nuove' => 0, 'fonti_agg' => 0,
-      'schede_nuove' => 0, 'schede_agg' => 0, 'saltate' => 0, 'loc' => 0, 'rel' => 0, 'doc' => 0];
+      'schede_nuove' => 0, 'schede_agg' => 0, 'saltate' => 0, 'loc' => 0, 'rel' => 0, 'doc' => 0, 'media' => 0];
+$inserite = [];   // le schede nate in questo giro: i loro documenti vanno scritti comunque
 
 try {
   $pdo->beginTransaction();
@@ -108,7 +118,7 @@ try {
     if ($esiste && !$forza) { $n['saltate']++; continue; }
 
     if ($esiste) { $updS->execute(array_merge($vals, [$s['id']])); $n['schede_agg']++; }
-    else { $insS->execute(array_merge([$s['id']], $vals)); $n['schede_nuove']++; }
+    else { $insS->execute(array_merge([$s['id']], $vals)); $n['schede_nuove']++; $inserite[$s['id']] = true; }
 
     // I collegati si riscrivono in blocco: sono la fotografia della scheda,
     // non righe con vita propria.
@@ -134,17 +144,36 @@ try {
   // ── documenti (AT_LOC) ────────────────────────────────────────────────────
   // Stessa prudenza delle schede: si scrivono se la tabella è vuota (prima
   // importazione) o se si chiede di sovrascrivere. Altrimenti restano quelli
-  // del database, che potrebbero essere stati corretti nel pannello.
+  // del database, che potrebbero essere stati corretti nel pannello. Fanno
+  // eccezione le schede appena inserite: i loro documenti non esistono ancora.
   $senzaDocumenti = $pdo->query('SELECT COUNT(*) FROM pds_documenti')->fetchColumn() == 0;
-  if ($forza || $senzaDocumenti) {
+  $tutti = $forza || $senzaDocumenti;
+  if ($tutti || $inserite) {
     $delD = $pdo->prepare('DELETE FROM pds_documenti WHERE scheda_id=?');
-    foreach (array_unique(array_column($D['documenti'] ?? [], 'scheda_id')) as $sid) $delD->execute([$sid]);
+    $daScrivere = array_filter($D['documenti'] ?? [], fn($d) => $tutti || isset($inserite[$d['scheda_id']]));
+    foreach (array_unique(array_column($daScrivere, 'scheda_id')) as $sid) $delD->execute([$sid]);
     $insD = $pdo->prepare('INSERT INTO pds_documenti (scheda_id, fonte_id, descrizione, citazione, tipo_documento, data_documento, url, verificata_il, ordine) VALUES (?,?,?,?,?,?,?,?,?)');
-    foreach ($D['documenti'] ?? [] as $d) {
+    foreach ($daScrivere as $d) {
       $insD->execute([$d['scheda_id'], $d['fonte_id'], $d['descrizione'], $d['citazione'], $d['tipo_documento'],
                       $d['data_documento'], $d['url'], $d['verificata_il'], $d['ordine']]);
       $n['doc']++;
     }
+  }
+
+  // ── momenti della pagina Media che ora hanno una scheda ──────────────────
+  // Si riempie solo un rimando vuoto: un collegamento scelto nel pannello non
+  // si sovrascrive, nemmeno con «forza».
+  if (!empty($D['media'])) {
+    $updM = $pdo->prepare('UPDATE pds_media SET scheda_id=? WHERE id=? AND scheda_id IS NULL AND EXISTS (SELECT 1 FROM pds_schede WHERE id=?)');
+    foreach ($D['media'] as $m) { $updM->execute([$m['scheda_id'], $m['id'], $m['scheda_id']]); $n['media'] += $updM->rowCount(); }
+  }
+  // Correzioni puntuali ai momenti (date, affermazioni smentite dai documenti):
+  // un campo cambia solo se contiene ancora il testo di partenza.
+  foreach ($D['media_correzioni'] ?? [] as $c) {
+    if (!in_array($c['campo'], ['data_testo', 'perche', 'programma', 'evidenza_testo'], true)) continue;
+    $updC = $pdo->prepare("UPDATE pds_media SET {$c['campo']}=? WHERE id=? AND {$c['campo']}=?");
+    $updC->execute([$c['dopo'], $c['id'], $c['prima']]);
+    $n['media_corr'] = ($n['media_corr'] ?? 0) + $updC->rowCount();
   }
 
   // La data dell'istantanea Wayback è un valore solo: sta nelle impostazioni
@@ -174,5 +203,7 @@ printf("schede       +%d nuove, %d aggiornate, %d lasciate stare\n", $n['schede_
 printf("citazioni    %d righe scheda×fonte\n", $n['loc']);
 printf("collegamenti %d fra schede\n", $n['rel']);
 printf("documenti    %d atti localizzati\n", $n['doc']);
+if (!empty($D['media'])) printf("media        %d momenti collegati a una scheda\n", $n['media']);
+if (!empty($D['media_correzioni'])) printf("media        %d correzioni applicate su %d\n", $n['media_corr'] ?? 0, count($D['media_correzioni']));
 echo "\nFatto. Da qui in avanti la fonte è il database: le pagine si rigenerano\n";
 echo "dal pannello, e questo file torna utile solo alla prossima edizione dati.\n";
