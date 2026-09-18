@@ -374,6 +374,7 @@ function pds_scheda_render_doc(string $id): ?string {
 
   // azioni: la raccolta arriverà con assets/atlante.js; qui solo ciò che funziona già
   $h .= '<div class="pds-azioni" data-print-hide>'
+      . '<button class="btn btn-primary" type="button" data-raccogli data-tipo="scheda" data-id="' . pesc($r['id']) . '" data-titolo="' . pesc($r['titolo']) . '" data-url="' . pesc($url) . '" data-nota="' . pesc($t . ($anni !== '' ? ', ' . $anni : '')) . '">Aggiungi alla raccolta</button>'
       . '<button class="btn btn-secondary" type="button" data-cita data-cita-testo="' . pesc('«' . $r['titolo'] . '», scheda ' . $r['id'] . ', in Pagine di Storia, ' . $dominio . '/' . $url) . '">Cita questa scheda</button>'
       . '<a class="btn btn-secondary" href="segnala.html?scheda=' . pesc($r['id']) . '">Segnala una correzione</a>'
       . '<button class="btn btn-secondary" type="button" data-stampa>Stampa</button></div>' . "\n";
@@ -390,6 +391,8 @@ function pds_scheda_render_doc(string $id): ?string {
       . '<a href="' . pesc($url) . '#collegamenti">Collegamenti</a><a href="' . pesc($url) . '#fonti">Fonti</a></nav></div>'
       . '<div><p class="pds-lato-titolo">Periodo</p><a class="num pds-lato-periodo" href="cronologia.html' . ($r['periodo_principale'] ? '?periodo=' . pesc($r['periodo_principale']) : '') . '">' . pesc($periodoLabel) . '</a>'
       . '<hr class="hr"><p class="pds-lato-conti"><span class="num">' . $nFonti . '</span> fonti collegate · <span class="num">' . $nColl . '</span> collegamenti</p></div>'
+      . '<div class="pds-lato-raccolta"><p class="pds-lato-titolo">Raccolta</p><p data-raccolta-conto>Nessun elemento messo da parte.</p>'
+      . '<button class="btn btn-secondary" type="button" data-r-md>Scarica in Markdown</button><button class="btn btn-secondary" type="button" data-r-copia>Copia negli appunti</button></div>'
       . "</aside>\n";
 
   $h .= "</div>\n</main>\n" . pds_footer() . pds_chiudi();

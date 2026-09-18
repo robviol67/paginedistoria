@@ -395,3 +395,24 @@
 .pds-media-programma { margin: 0 0 6px; font-size: 12px; color: var(--color-neutral-700); }
 .pds-media-perche { margin: 0; font-size: 14px; color: var(--color-neutral-800); }
 .pds-media-stato { margin: 0; font-size: 12px; color: var(--color-neutral-700); }
+
+
+/* ════════════════════════════════════════════════════════════════════════
+   RACCOLTA — la barra fissa in basso (mockup di Atlante.dc.html)
+   ════════════════════════════════════════════════════════════════════════ */
+.pds-raccolta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; border-top: 1px solid var(--color-text); background: var(--color-neutral-100); padding: var(--space-3) var(--space-6); }
+.pds-raccolta-testa { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.pds-raccolta-titolo { font-family: var(--font-heading); font-weight: 600; font-size: 15px; background: none; border: 0; padding: 0; cursor: pointer; color: var(--color-text); text-decoration: underline; text-underline-offset: 3px; }
+.pds-raccolta-conto { font-size: 12px; color: var(--color-neutral-700); }
+.pds-raccolta-azioni { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-left: auto; }
+.pds-raccolta-elenco { max-width: 1280px; margin: var(--space-3) auto 0; list-style: none; padding: 0; font-size: 13px; display: flex; flex-direction: column; gap: 4px; max-height: 40vh; overflow: auto; }
+.pds-raccolta-elenco li { display: flex; gap: var(--space-2); align-items: baseline; border-bottom: 1px solid var(--color-divider); padding-bottom: 4px; }
+.pds-raccolta-elenco .id { color: var(--color-neutral-700); min-width: 44px; }
+.pds-raccolta-elenco a { color: var(--color-text); }
+.pds-raccolta-togli { margin-left: auto; background: none; border: 0; cursor: pointer; font-size: 16px; line-height: 1; color: var(--color-neutral-700); min-width: 32px; min-height: 32px; }
+/* La barra copre il fondo della pagina: le si fa posto, così il piè di pagina resta leggibile. */
+body.pds-con-raccolta { padding-bottom: 96px; }
+.pds-lato-raccolta { border: 1px solid var(--color-text) !important; background: var(--color-neutral-100); }
+.pds-lato-raccolta p { margin: 0 0 var(--space-3); font-size: 13px; }
+.pds-lato-raccolta .btn { width: 100%; margin-top: var(--space-2); }
+@media print { .pds-raccolta { display: none; } body.pds-con-raccolta { padding-bottom: 0; } }

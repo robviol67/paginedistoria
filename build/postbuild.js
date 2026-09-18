@@ -224,6 +224,13 @@ for (const { nome: nomeFile, file, cartella } of fileHtml()) {
   h = h.replace(/<section\b[^>]*>\s*<h2\b[^>]*>\s*Mockup\b[\s\S]*?<\/section>\s*(?=<\/main>|<section|<div)/g, () => { mockup++; return ''; });
 
   h = h.replace(/\s*<script src="assets\/(dati|dati-schede|fonti-reg)\.js[^"]*"><\/script>/g, () => { script++; return ''; });
+  // La raccolta vive su ogni pagina: la barra compare dovunque ci sia
+  // qualcosa messo da parte.
+  if (!h.includes('assets/raccolta.js')) h = h.replace('</head>', '<script src="assets/raccolta.js" defer></script>\n</head>');
+  // Gli stili della raccolta (e delle parti generate) stanno in
+  // pds-generate.css: tutte regole con prefisso pds-, quindi innocue sulle
+  // pagine del Design. Va dopo pds.css, che rimappa i token del kit.
+  if (!h.includes('assets/pds-generate.css')) h = h.replace(/(<link rel="stylesheet" href="assets\/pds\.css[^"]*">)/, '$1\n<link rel="stylesheet" href="assets/pds-generate.css">');
   if (CON_APP.has(nome) && !h.includes('assets/atlante.js')) {
     h = h.replace('</head>', '<script src="assets/atlante.js" defer></script>\n</head>');
   }

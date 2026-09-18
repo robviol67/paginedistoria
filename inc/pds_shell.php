@@ -91,6 +91,7 @@ function pds_head(string $titolo, string $descrizione = '', string $percorso = '
   $h .= "<link rel=\"stylesheet\" href=\"" . pds_asset('assets/pds-generate.css') . "\">\n";
   $h .= "<link rel=\"icon\" href=\"" . pds_asset('assets/favicon/favicon.svg') . "\">\n";
   $h .= "<script src=\"" . pds_asset('assets/tema.js') . "\" defer></script>\n";
+  $h .= "<script src=\"" . pds_asset('assets/raccolta.js') . "\" defer></script>\n";
   $h .= "</head>\n<body>\n";
   return $h;
 }

@@ -62,6 +62,7 @@ function pds_fonte_render_doc(string $id): ?string {
   $h .= '<div class="pds-fonte-azioni" data-print-hide>';
   if ($url) $h .= '<a class="btn btn-primary" href="' . pesc($url) . '" target="_blank" rel="noopener">Apri la fonte</a>';
   if ($archivio) $h .= '<a class="btn btn-secondary" href="' . pesc($archivio) . '" target="_blank" rel="noopener">Copia archiviata · ' . pesc($dataArchivio) . '</a>';
+  $h .= '<button class="btn btn-secondary" type="button" data-raccogli data-tipo="fonte" data-id="' . pesc($f['id']) . '" data-titolo="' . pesc($f['titolo']) . '" data-url="' . pesc($pagina) . '" data-nota="' . pesc((string)$f['autore_ente']) . '">Aggiungi alla raccolta</button>';
   $h .= '<button class="btn btn-secondary" type="button" data-cita data-cita-testo="' . pesc($f['titolo'] . ($f['autore_ente'] ? ', ' . $f['autore_ente'] : '') . ($url ? ', ' . $url : '')) . '">Cita</button>';
   $h .= "</div>\n<hr class=\"hr\">\n";
 
