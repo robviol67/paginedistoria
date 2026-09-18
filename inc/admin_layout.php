@@ -11,6 +11,9 @@ function nc_admin_top($active = '', $title = '') {
     ['dashboard', 'index.php',    'Dashboard', 'ti-layout-dashboard'],
     ['pagine',    'pagine.php',   'Pagine',    'ti-file-text'],
     ['blog',      'blog.php',     'Blog',      'ti-news'],
+    // Pagine di Storia: l'atlante (schede, fonti, repertorio mediale).
+    ['schede',    'schede.php',   'Schede',    'ti-books'],
+    ['fonti',     'fonti.php',    'Fonti',     'ti-archive'],
     ['menu',      'menu.php',     'Menu',      'ti-menu-2'],
     ['prodotti',  'prodotti.php', 'Prodotti',  'ti-box'],
     ['media',     'media.php',    'Media',     'ti-photo'],
