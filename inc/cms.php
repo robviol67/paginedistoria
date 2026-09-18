@@ -211,5 +211,12 @@ function cms_publish($slug) {
   $out = __DIR__ . '/../' . $p['out'];
   @copy($out, $out . '.bak');
   if (file_put_contents($out, $html) === false) throw new Exception('scrittura di ' . $p['out'] . ' non riuscita (permessi?)');
+  // Seam per-sito: dopo che il pannello ha riscritto una pagina, il progetto
+  // può rimettere a posto ciò che viene dal database (in Pagine di Storia le
+  // zone dati della Home, che il modello del pannello non conosce).
+  if (function_exists('pds_dopo_pubblicazione')) pds_dopo_pubblicazione($slug);
   return true;
 }
+
+// ── vestito per-sito ────────────────────────────────────────────────────────
+if (is_file(__DIR__ . '/pds_home.php')) require_once __DIR__ . '/pds_home.php';

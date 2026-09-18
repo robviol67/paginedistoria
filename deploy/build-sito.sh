@@ -68,6 +68,12 @@ cat > "$DIST/.htaccess" <<'HT'
 DirectoryIndex index.html index.php
 Options -Indexes
 
+# Le copie .bak che il pannello lascia accanto alle pagine a ogni
+# ripubblicazione: versioni vecchie, non si servono.
+<FilesMatch "\.bak$">
+  Require all denied
+</FilesMatch>
+
 # La configurazione non si serve MAI dal web.
 <FilesMatch "^config(\.example)?\.php$">
   Require all denied

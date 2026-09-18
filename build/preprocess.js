@@ -80,6 +80,20 @@ for (const nome of fs.readdirSync(SRC).filter(f => f.endsWith('.dc.html'))) {
     if (r.fatti !== 2) console.warn(`  ! Media: attese 2 sezioni dati, trovate ${r.fatti}: controllare il Design`);
   }
 
+  if (nome === 'Home.dc.html') {
+    // Le tre zone data-vb-skip della Home prendono un nome (data-pds): il PHP
+    // le riscrive dal database (inc/pds_home.php) lasciando intatto il resto,
+    // perché index.html è la pagina da cui il motore legge intestazione e piè.
+    // Il contenuto del Design resta dentro come riserva finché non si pubblica.
+    const nomi = ['linea-del-tempo', 'nessi-in-evidenza', 'taccuino'];
+    let i = 0;
+    html = html.replace(/<div data-vb-skip/g, (m) => nomi[i] ? `<div data-vb-skip data-pds="${nomi[i++]}"` : m);
+    if (i !== 3) console.warn(`  ! Home: attese 3 zone dati, trovate ${i}`);
+    // Gli interruttori Fascia/Verticale chiamavano il runtime del prototipo,
+    // che non si pubblica: diventano attributi che legge assets/atlante.js.
+    html = html.replace('onClick="{{ mostraFascia }}"', 'data-pds-vista="fascia"').replace('onClick="{{ mostraVerticale }}"', 'data-pds-vista="verticale"');
+  }
+
   fs.writeFileSync(path.join(OUT, nome), html, 'utf8');
 }
 console.log(`  ✓ preprocess: sorgenti puliti in src-clean/ (${totMockup} mockup tolti)`);

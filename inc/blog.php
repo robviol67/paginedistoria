@@ -377,6 +377,8 @@ function blog_publish_post($id) {
   @copy($out, $out . '.bak');
   if (file_put_contents($out, $html) === false) throw new Exception('Scrittura non riuscita (permessi?).');
   blog_index_publish_all();
+  // La Home mostra gli ultimi post: si riallinea (seam per-sito, vedi cms.php).
+  if (function_exists('pds_dopo_pubblicazione')) pds_dopo_pubblicazione('blog');
   return true;
 }
 // Ripubblica tutti i post pubblicati + gli indici — usato quando cambia il menu/footer condiviso.
@@ -393,3 +395,4 @@ function blog_publish_all() {
 // Si include in coda, quando le funzioni del motore esistono già: pds_blog.php
 // le usa (blog_route, blog_posts_public…) e ne sostituisce solo due.
 if (is_file(__DIR__ . '/pds_blog.php')) require_once __DIR__ . '/pds_blog.php';
+if (is_file(__DIR__ . '/pds_home.php')) require_once __DIR__ . '/pds_home.php';

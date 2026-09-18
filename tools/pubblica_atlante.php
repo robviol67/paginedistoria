@@ -16,6 +16,7 @@ require_once __DIR__ . '/../inc/pds_fonte.php';
 require_once __DIR__ . '/../inc/pds_dati.php';
 require_once __DIR__ . '/../inc/pds_nessi.php';
 require_once __DIR__ . '/../inc/pds_media.php';
+require_once __DIR__ . '/../inc/pds_home.php';
 
 $daRiga = PHP_SAPI === 'cli';
 if (!$daRiga) {
@@ -43,6 +44,8 @@ try { $n = pds_pubblica_nessi(); printf("pagina Nessi:   %d candidati\n", $n['ne
 catch (Throwable $e) { echo "  ✗ pagina Nessi: " . $e->getMessage() . "\n"; }
 try { $m = pds_pubblica_media(); printf("pagina Media:   %d momenti\n", $m['voci']); }
 catch (Throwable $e) { echo "  ✗ pagina Media: " . $e->getMessage() . "\n"; }
+try { $h = pds_pubblica_home(); printf("Home:           %d zone dai dati (%d cambiate)\n", $h['zone'], $h['cambiate']); }
+catch (Throwable $e) { echo "  ✗ Home: " . $e->getMessage() . "\n"; }
 
 // Le fonti si rigenerano tutte quando si rigenera tutto: una scheda cambiata
 // cambia l'elenco «Schede che la usano» di ogni fonte che cita.

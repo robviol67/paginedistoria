@@ -416,3 +416,11 @@ body.pds-con-raccolta { padding-bottom: 96px; }
 .pds-lato-raccolta p { margin: 0 0 var(--space-3); font-size: 13px; }
 .pds-lato-raccolta .btn { width: 100%; margin-top: var(--space-2); }
 @media print { .pds-raccolta { display: none; } body.pds-con-raccolta { padding-bottom: 0; } }
+
+
+/* ── Home: gli stati al passaggio del mouse della linea del tempo ──────────
+   Nel prototipo stavano in style-hover, che il runtime applicava: senza, le
+   fasce e le righe non reagivano. Valori del Design. */
+.pds-segmento:hover, .pds-segmento:focus-visible { background: var(--color-neutral-400) !important; }
+.pds-periodo-riga:hover, .pds-periodo-riga:focus-visible { background: var(--color-neutral-200); }
+[data-pds-vista-blocco][hidden] { display: none; }

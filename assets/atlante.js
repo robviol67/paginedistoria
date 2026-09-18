@@ -604,6 +604,25 @@
     applica();
   }
 
+
+  // ════════════════════════════════════════════════════════════════════════
+  // HOME — l'interruttore fascia / verticale della linea del tempo
+  // ════════════════════════════════════════════════════════════════════════
+  // Nel prototipo lo gestiva il runtime (state.vista); qui due blocchi già in
+  // pagina, uno nascosto. I colori del pulsante attivo sono quelli del Design.
+  function home(bottoni) {
+    var ATTIVO = 'background:var(--color-accent);color:var(--color-bg);border-color:var(--color-accent)';
+    function mostra(v) {
+      document.querySelectorAll('[data-pds-vista-blocco]').forEach(function (b) { b.hidden = b.getAttribute('data-pds-vista-blocco') !== v; });
+      bottoni.forEach(function (b) {
+        var on = b.getAttribute('data-pds-vista') === v;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.setAttribute('style', on ? ATTIVO : '');
+      });
+    }
+    bottoni.forEach(function (b) { b.addEventListener('click', function () { mostra(b.getAttribute('data-pds-vista')); }); });
+  }
+
   // ── accensione ────────────────────────────────────────────────────────────
   function avvia() {
     var f = document.getElementById('atlante-filtri');
@@ -614,6 +633,8 @@
     if (c) cronologia(c);
     var n = document.getElementById('pds-nessi');
     if (n) nessi(n);
+    var v = [].slice.call(document.querySelectorAll('[data-pds-vista]'));
+    if (v.length && document.querySelector('[data-pds-vista-blocco]')) home(v);
     var m = document.getElementById('pds-media');
     if (m && m.querySelector('.pds-media-voce')) media(m);
   }

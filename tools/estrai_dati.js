@@ -49,6 +49,17 @@ const T = D.tassonomie || {};
   anno_inizio: p.inizio || p.anno_inizio || null, anno_fine: p.fine || p.anno_fine || null,
   ordine: i, dati: p,
 }));
+// I sottotitoli dei periodi («Referendum, Costituente, trattato di pace») sono
+// testo editoriale che esiste SOLO nella vista verticale della Home del
+// Design. Senza, la linea del tempo generata perderebbe una riga per periodo.
+(function () {
+  const home = fs.readFileSync(path.join(RADICE, 'src', 'Home.dc.html'), 'utf8').replace(/\s+/g, ' ');
+  const z = home.slice(home.indexOf('{{ inVerticale }}">'));
+  const re = /href="Cronologia\.dc\.html#(P\d+)"[\s\S]*?font-size:19px;line-height:1\.15">[^<]+<\/span> <span[^>]*>([^<]+)<\/span>/g;
+  let m; const sott = {};
+  while ((m = re.exec(z))) if (!sott[m[1]]) sott[m[1]] = m[2].trim();
+  for (const t of tass) if (t.tipo === 'periodo' && !t.descrizione && sott[t.codice]) t.descrizione = sott[t.codice];
+})();
 (T.temi || []).forEach((t, i) => tass.push({
   tipo: 'tema', codice: typeof t === 'string' ? t : (t.id || t.codice || t.titolo),
   etichetta: typeof t === 'string' ? t : (t.titolo || t.etichetta), ordine: i,

@@ -202,7 +202,7 @@ if (mancanti.size) {
 //     che vengano dai dati.
 const PAGINE = { 'Home': 'index.html', 'Atlante': 'atlante.html', 'Cronologia': 'cronologia.html', 'Fonti': 'fonti.html',
   'Nessi': 'nessi.html', 'Media': 'media.html', 'Metodo': 'metodo.html', 'Segnala': 'segnala.html', 'Privacy': 'privacy.html', 'Taccuino': 'blog.html' };
-const CON_APP = new Set(['atlante.html', 'cronologia.html', 'fonti.html', 'nessi.html', 'media.html']);
+const CON_APP = new Set(['atlante.html', 'cronologia.html', 'fonti.html', 'nessi.html', 'media.html', 'index.html']);
 
 // I conteggi: dal server se la mappa li porta, altrimenti dai dati estratti.
 let CONTI = M.conti || null;

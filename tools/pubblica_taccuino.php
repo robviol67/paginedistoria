@@ -21,5 +21,7 @@ if (PHP_SAPI !== 'cli') {
 $n = 0;
 foreach (blog_posts_public() as $p) { blog_publish_post((int)$p['id']); $n++; echo "  · " . $p['slug'] . "\n"; }
 blog_index_publish_all();
-echo "\nripubblicati $n post + gli indici\n";
+require_once __DIR__ . '/../inc/pds_home.php';
+$h = pds_pubblica_home();
+echo "\nripubblicati $n post + gli indici; Home: {$h['zone']} zone dai dati ({$h['cambiate']} cambiate)\n";
 echo "resa: " . (function_exists('pds_post_render_doc') ? "vestito del Design (inc/pds_blog.php)" : "impianto del motore") . "\n";
