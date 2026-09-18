@@ -18,7 +18,7 @@ $check = isset($_GET['check']);
 
 try {
   $tabelle = ['pds_schede', 'pds_tassonomie', 'pds_scheda_periodo', 'pds_scheda_tema',
-              'pds_fonti', 'pds_scheda_fonte', 'pds_scheda_relazione'];
+              'pds_fonti', 'pds_scheda_fonte', 'pds_scheda_relazione', 'pds_documenti'];
 
   if ($check) {
     // Verifica in-process: una query su information_schema, nessun HTTP interno.
@@ -154,6 +154,53 @@ try {
       INDEX verso_id (verso_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
   echo "OK  pds_scheda_relazione\n";
+
+  // ── I documenti: l'atto preciso dentro una fonte, per una scheda ─────────
+  // Nel Design sono una raccolta a parte (AT_LOC): la citazione esatta, il tipo
+  // di atto, la data, l'indirizzo e il giorno in cui è stato riscontrato. La
+  // pagina di una fonte li elenca tutti; la scheda li usa per il pulsante
+  // «Apri il documento». Alla prima importazione erano rimasti fuori.
+  db()->exec("CREATE TABLE IF NOT EXISTS pds_documenti (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      scheda_id VARCHAR(12) NOT NULL,
+      fonte_id VARCHAR(24) NOT NULL,
+      descrizione TEXT NULL,
+      citazione TEXT NULL,
+      tipo_documento VARCHAR(160) NULL,
+      data_documento VARCHAR(16) NULL,
+      url TEXT NULL,
+      verificata_il VARCHAR(16) NULL,
+      ordine INT NOT NULL DEFAULT 0,
+      INDEX scheda_fonte (scheda_id, fonte_id),
+      INDEX fonte_id (fonte_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  echo "OK  pds_documenti\n";
+
+  // ── Campi che alla prima importazione erano rimasti fuori ────────────────
+  // Aggiunti a posteriori, quindi con db_add_col: idempotente su MySQL e
+  // MariaDB, e un secondo lancio non fa niente.
+  $aggiunte = [
+    ['pds_schede', 'verifica_data', 'VARCHAR(16) NULL'],
+    ['pds_schede', 'verifica_note', 'TEXT NULL'],
+    ['pds_schede', 'verifica_requisiti', 'TEXT NULL'],        // JSON: primaria_con_localizzatore, storiografia_con_editore, soddisfatti
+    ['pds_schede', 'rilevanza_politica', 'TEXT NULL'],
+    ['pds_schede', 'mondo_nel_mondo', 'TEXT NULL'],            // le quattro sezioni delle schede «Accade nel mondo»
+    ['pds_schede', 'mondo_risposta', 'TEXT NULL'],
+    ['pds_schede', 'mondo_ricadute', 'TEXT NULL'],
+    ['pds_schede', 'mondo_cosa_cambia', 'TEXT NULL'],
+    ['pds_fonti', 'editore', 'VARCHAR(255) NULL'],
+    ['pds_fonti', 'anno', 'VARCHAR(16) NULL'],
+    ['pds_fonti', 'edizione', 'VARCHAR(160) NULL'],
+    ['pds_fonti', 'isbn', 'VARCHAR(32) NULL'],
+    // La copertura nel Design è un oggetto {inizio, fine}: in una colonna di
+    // testo PDO lo scriveva come la parola «Array». Due colonne numeriche, e
+    // `copertura` resta il testo da mostrare («1943–2003», «1970–oggi»).
+    ['pds_fonti', 'copertura_inizio', 'SMALLINT NULL'],
+    ['pds_fonti', 'copertura_fine', 'SMALLINT NULL'],
+  ];
+  foreach ($aggiunte as [$t, $c, $def]) {
+    echo (db_add_col($t, $c, $def) ? "OK  + $t.$c\n" : "SKIP $t.$c (già presente)\n");
+  }
 
   echo "\nFatto. Le tabelle sono pronte e vuote: i dati li porta dentro\n";
   echo "tools/importa_atlante.php, che si può rilanciare senza fare danni.\n";

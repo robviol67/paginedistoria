@@ -119,7 +119,40 @@ function risolvi_schede(string $html, array &$mancanti): string {
   }, $html);
 }
 
+// ── i link ai file di prototipazione dentro il testo dei post ───────────────
+// Il post scritto nel markup («Taccuino post 2») si porta dietro i link del
+// prototipo: Metodo.dc.html, Scheda.dc.html, Taccuino post.dc.html. Stessa
+// regola di build/postbuild.js per le pagine: pagina → pagina, record →
+// indirizzo del record, e se il record non si sa, la pagina elenco.
+const PDS_PAGINE_PROTOTIPO = [
+  'Home' => 'index.html', 'Atlante' => 'atlante.html', 'Cronologia' => 'cronologia.html',
+  'Fonti' => 'fonti.html', 'Nessi' => 'nessi.html', 'Media' => 'media.html', 'Metodo' => 'metodo.html',
+  'Segnala' => 'segnala.html', 'Privacy' => 'privacy.html', 'Taccuino' => 'blog.html',
+  'Taccuino categoria' => 'blog.html',
+];
+function riscrivi_link_prototipo(string $html, array $postPerFile, array &$conti): string {
+  return preg_replace_callback('/href="([^"]*\.dc\.html)(\?[^"]*)?"/', function ($m) use ($postPerFile, &$conti) {
+    $file = rawurldecode($m[1]);
+    $nome = preg_replace('/\.dc\.html$/', '', $file);
+    parse_str(ltrim(html_entity_decode($m[2] ?? ''), '?'), $q);
+    $conti['link']++;
+    if (isset(PDS_PAGINE_PROTOTIPO[$nome])) return 'href="' . PDS_PAGINE_PROTOTIPO[$nome] . '"';
+    if (str_starts_with($nome, 'Scheda')) {
+      $s = !empty($q['id']) ? atlante_scheda(strtoupper($q['id'])) : null;
+      return 'href="' . ($s ? atlante_url_scheda($s) : 'atlante.html') . '"';
+    }
+    if ($nome === 'Fonte') {
+      $f = !empty($q['id']) ? atlante_fonte(strtoupper($q['id'])) : null;
+      return 'href="' . ($f ? atlante_url_fonte($f) : 'fonti.html') . '"';
+    }
+    if (str_starts_with($nome, 'Taccuino post') && isset($postPerFile[$file])) return 'href="' . $postPerFile[$file] . '"';
+    $conti['link']--; $conti['non_risolti'][] = $file;
+    return $m[0];
+  }, $html);
+}
+
 $nuovi = 0; $aggiornati = 0; $saltati = 0; $mancanti = [];
+$contiLink = ['link' => 0, 'non_risolti' => []];
 $pubblicati = 0;
 
 foreach ($D['post'] as $p) {
@@ -163,7 +196,27 @@ foreach ($D['post'] as $p) {
   echo "  · " . ($p['data_iso'] ?? '—') . "  " . mb_substr($titolo, 0, 56) . "\n";
 }
 
+// Secondo passo: ora che ogni post ha il suo indirizzo, si riscrivono i link
+// fra post e verso le pagine. Al primo passo il post di destinazione poteva
+// non esistere ancora.
+$postPerFile = [];
+foreach ($D['post'] as $p) {
+  $st = db()->prepare('SELECT * FROM cms_blog_posts WHERE title=? LIMIT 1');
+  $st->execute([trim((string)$p['titolo'])]);
+  if ($r = $st->fetch()) $postPerFile[$p['file']] = blog_route($r);
+}
+foreach (db()->query('SELECT id, body FROM cms_blog_posts')->fetchAll() as $r) {
+  if (!str_contains((string)$r['body'], '.dc.html')) continue;
+  $nuovo = riscrivi_link_prototipo((string)$r['body'], $postPerFile, $contiLink);
+  if ($nuovo !== $r['body']) {
+    db()->prepare('UPDATE cms_blog_posts SET body=? WHERE id=?')->execute([$nuovo, $r['id']]);
+    if ($pubblica) blog_publish_post((int)$r['id']);
+  }
+}
+
 printf("\npost         +%d nuovi, %d aggiornati, %d lasciati stare\n", $nuovi, $aggiornati, $saltati);
+printf("link riscritti nei testi: %d%s\n", $contiLink['link'],
+  $contiLink['non_risolti'] ? ' (non risolti: ' . implode(', ', array_unique($contiLink['non_risolti'])) . ')' : '');
 printf("categorie    %d in tutto\n", count(blog_categories()));
 if ($pubblica) printf("pubblicati   %d post + gli indici (blog.html, blog-2.html…)\n", $pubblicati);
 else echo "non pubblicati: lanciare la pubblicazione dal pannello\n";

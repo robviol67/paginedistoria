@@ -38,7 +38,7 @@ echo $forza ? "Modo: SOVRASCRIVO i record esistenti\n\n" : "Modo: aggiungo i man
 
 $pdo = db();
 $n = ['tass_nuove' => 0, 'tass_agg' => 0, 'fonti_nuove' => 0, 'fonti_agg' => 0,
-      'schede_nuove' => 0, 'schede_agg' => 0, 'saltate' => 0, 'loc' => 0];
+      'schede_nuove' => 0, 'schede_agg' => 0, 'saltate' => 0, 'loc' => 0, 'rel' => 0, 'doc' => 0];
 
 try {
   $pdo->beginTransaction();
@@ -65,7 +65,8 @@ try {
 
   // ── fonti ─────────────────────────────────────────────────────────────────
   $campiF = ['titolo','autore_ente','natura','categoria','ambito','paese','lingua','url',
-             'accesso','accesso_nota','limiti','come_usarla','copertura','esito','riscontrato','verifica_data'];
+             'accesso','accesso_nota','limiti','come_usarla','copertura','esito','riscontrato','verifica_data',
+             'editore','anno','edizione','isbn','copertura_inizio','copertura_fine'];
   $selF = $pdo->prepare('SELECT 1 FROM pds_fonti WHERE id=?');
   $insF = $pdo->prepare('INSERT INTO pds_fonti (id,' . implode(',', $campiF) . ') VALUES (?' . str_repeat(',?', count($campiF)) . ')');
   $updF = $pdo->prepare('UPDATE pds_fonti SET ' . implode('=?, ', $campiF) . '=? WHERE id=?');
@@ -78,7 +79,9 @@ try {
 
   // ── schede, con periodi, temi, etichette e citazioni ──────────────────────
   $campiS = ['slug','tipologia','titolo','data_inizio','data_fine','periodo_principale',
-             'sintesi','perche_studiarla','cautela','verdetto','verdetto_nota','stato','n_doc','ordine'];
+             'sintesi','perche_studiarla','cautela','verdetto','verdetto_nota','stato','n_doc','ordine',
+             'verifica_data','verifica_note','verifica_requisiti','rilevanza_politica',
+             'mondo_nel_mondo','mondo_risposta','mondo_ricadute','mondo_cosa_cambia'];
   $selS = $pdo->prepare('SELECT 1 FROM pds_schede WHERE id=?');
   $insS = $pdo->prepare('INSERT INTO pds_schede (id,' . implode(',', $campiS) . ') VALUES (?' . str_repeat(',?', count($campiS)) . ')');
   $updS = $pdo->prepare('UPDATE pds_schede SET ' . implode('=?, ', $campiS) . '=? WHERE id=?');
@@ -90,7 +93,12 @@ try {
   $delSF = $pdo->prepare('DELETE FROM pds_scheda_fonte WHERE scheda_id=?');
   $insSF = $pdo->prepare('INSERT INTO pds_scheda_fonte (scheda_id, fonte_id, ruolo, localizzatore, tipo_documento, data_documento, url_specifico, nota, verificato_il, ordine) VALUES (?,?,?,?,?,?,?,?,?,?)');
 
+  $delR = $pdo->prepare('DELETE FROM pds_scheda_relazione WHERE scheda_id=?');
+  $insR = $pdo->prepare('INSERT IGNORE INTO pds_scheda_relazione (scheda_id, verso_id, relazione, ordine) VALUES (?,?,?,?)');
+
   foreach ($D['schede'] as $s) {
+    if (isset($s['verifica_requisiti']) && is_array($s['verifica_requisiti']))
+      $s['verifica_requisiti'] = json_encode($s['verifica_requisiti'], JSON_UNESCAPED_UNICODE);
     $vals = array_map(fn($c) => $s[$c] ?? null, $campiS);
     $selS->execute([$s['id']]);
     $esiste = (bool)$selS->fetchColumn();
@@ -109,6 +117,9 @@ try {
     foreach (array_unique($s['temi'] ?? []) as $t) $insT2->execute([$s['id'], $t, 'tema']);
     foreach (array_unique($s['etichette'] ?? []) as $e) $insT2->execute([$s['id'], $e, 'etichetta']);
 
+    $delR->execute([$s['id']]);
+    foreach ($s['collegamenti'] ?? [] as $k) { $insR->execute([$s['id'], $k['verso_id'], $k['relazione'], $k['ordine']]); $n['rel']++; }
+
     $delSF->execute([$s['id']]);
     foreach ($s['fonti'] ?? [] as $f) {
       $insSF->execute([$s['id'], $f['fonte_id'], $f['ruolo'], $f['localizzatore'], $f['tipo_documento'],
@@ -117,11 +128,34 @@ try {
     }
   }
 
+  // ── documenti (AT_LOC) ────────────────────────────────────────────────────
+  // Stessa prudenza delle schede: si scrivono se la tabella è vuota (prima
+  // importazione) o se si chiede di sovrascrivere. Altrimenti restano quelli
+  // del database, che potrebbero essere stati corretti nel pannello.
+  $senzaDocumenti = $pdo->query('SELECT COUNT(*) FROM pds_documenti')->fetchColumn() == 0;
+  if ($forza || $senzaDocumenti) {
+    $delD = $pdo->prepare('DELETE FROM pds_documenti WHERE scheda_id=?');
+    foreach (array_unique(array_column($D['documenti'] ?? [], 'scheda_id')) as $sid) $delD->execute([$sid]);
+    $insD = $pdo->prepare('INSERT INTO pds_documenti (scheda_id, fonte_id, descrizione, citazione, tipo_documento, data_documento, url, verificata_il, ordine) VALUES (?,?,?,?,?,?,?,?,?)');
+    foreach ($D['documenti'] ?? [] as $d) {
+      $insD->execute([$d['scheda_id'], $d['fonte_id'], $d['descrizione'], $d['citazione'], $d['tipo_documento'],
+                      $d['data_documento'], $d['url'], $d['verificata_il'], $d['ordine']]);
+      $n['doc']++;
+    }
+  }
+
   // La data dell'istantanea Wayback è un valore solo: sta nelle impostazioni
   // del motore (cms_settings, colonne skey/svalue), non in una tabella nuova.
   if (!empty($D['wayback_data'])) {
     require_once __DIR__ . '/../inc/settings.php';
     setting_set('atlante_wayback_data', $D['wayback_data']);
+  }
+  // I meta dell'edizione (titolo, versione, metodo, avvertenze, conteggi):
+  // servono alle pagine e al pannello, e sono un blocco solo.
+  if (!empty($D['meta'])) {
+    require_once __DIR__ . '/../inc/settings.php';
+    setting_set('atlante_meta', json_encode($D['meta'], JSON_UNESCAPED_UNICODE));
+    setting_set('atlante_edizione', (string)($D['edizione'] ?? ''));
   }
 
   $pdo->commit();
@@ -134,6 +168,8 @@ try {
 printf("tassonomie   +%d nuove, %d aggiornate\n", $n['tass_nuove'], $n['tass_agg']);
 printf("fonti        +%d nuove, %d aggiornate\n", $n['fonti_nuove'], $n['fonti_agg']);
 printf("schede       +%d nuove, %d aggiornate, %d lasciate stare\n", $n['schede_nuove'], $n['schede_agg'], $n['saltate']);
-printf("citazioni    %d righe scheda×fonte con localizzatore\n", $n['loc']);
+printf("citazioni    %d righe scheda×fonte\n", $n['loc']);
+printf("collegamenti %d fra schede\n", $n['rel']);
+printf("documenti    %d atti localizzati\n", $n['doc']);
 echo "\nFatto. Da qui in avanti la fonte è il database: le pagine si rigenerano\n";
 echo "dal pannello, e questo file torna utile solo alla prossima edizione dati.\n";

@@ -17,6 +17,17 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $q = fn(string $sql) => db()->query($sql)->fetchAll();
+
+// ?scheda=ID (o un argomento da riga di comando): la riga di una scheda, per
+// capire che cosa c'è davvero nel database quando una pagina dice altro.
+$una = PHP_SAPI === 'cli' ? ($argv[1] ?? '') : (string)($_GET['scheda'] ?? '');
+if ($una !== '') {
+  $st = db()->prepare('SELECT * FROM pds_schede WHERE id=?');
+  $st->execute([strtoupper($una)]);
+  foreach (($st->fetch() ?: ['errore' => 'scheda non trovata']) as $k => $v)
+    printf("  %-20s %s\n", $k, is_null($v) ? '∅' : mb_substr((string)$v, 0, 90));
+  exit;
+}
 $uno = fn(string $sql) => (int)db()->query($sql)->fetchColumn();
 
 echo "SCHEDE per tipologia\n";
@@ -31,6 +42,11 @@ foreach ($q('SELECT stato, COUNT(*) n FROM pds_schede GROUP BY stato ORDER BY n 
 printf("\nFONTI                  %3d\n", $uno('SELECT COUNT(*) FROM pds_fonti'));
 printf("CITAZIONI (scheda×fonte) %3d\n", $uno('SELECT COUNT(*) FROM pds_scheda_fonte'));
 printf("  di cui con localizzatore %3d\n", $uno("SELECT COUNT(*) FROM pds_scheda_fonte WHERE localizzatore IS NOT NULL AND localizzatore<>''"));
+printf("DOCUMENTI localizzati  %3d\n", $uno('SELECT COUNT(*) FROM pds_documenti'));
+printf("COLLEGAMENTI fra schede %3d\n", $uno('SELECT COUNT(*) FROM pds_scheda_relazione'));
+printf("SCHEDE «mondo» complete %3d\n", $uno("SELECT COUNT(*) FROM pds_schede WHERE mondo_nel_mondo IS NOT NULL AND mondo_nel_mondo<>''"));
+printf("SCHEDE con data verifica %3d\n", $uno("SELECT COUNT(*) FROM pds_schede WHERE verifica_data IS NOT NULL"));
+printf("LIBRI con editore      %3d\n", $uno("SELECT COUNT(*) FROM pds_fonti WHERE editore IS NOT NULL AND editore<>''"));
 printf("TASSONOMIE             %3d\n", $uno('SELECT COUNT(*) FROM pds_tassonomie'));
 foreach ($q('SELECT tipo, COUNT(*) n FROM pds_tassonomie GROUP BY tipo ORDER BY tipo') as $r)
   printf("  %-20s %3d\n", $r['tipo'], $r['n']);
@@ -42,3 +58,5 @@ printf("  schede senza fonti          %3d\n", $uno('SELECT COUNT(*) FROM pds_sch
 printf("  schede senza sintesi        %3d\n", $uno("SELECT COUNT(*) FROM pds_schede WHERE sintesi IS NULL OR sintesi=''"));
 printf("  citazioni a fonti assenti   %3d\n", $uno('SELECT COUNT(*) FROM pds_scheda_fonte f WHERE NOT EXISTS (SELECT 1 FROM pds_fonti o WHERE o.id=f.fonte_id)'));
 printf("  slug doppi                  %3d\n", $uno('SELECT COUNT(*) FROM (SELECT slug FROM pds_schede GROUP BY slug HAVING COUNT(*)>1) d'));
+printf("  collegamenti a schede assenti %3d\n", $uno('SELECT COUNT(*) FROM pds_scheda_relazione r WHERE NOT EXISTS (SELECT 1 FROM pds_schede s WHERE s.id=r.verso_id)'));
+printf("  documenti a fonti assenti   %3d\n", $uno('SELECT COUNT(*) FROM pds_documenti d WHERE NOT EXISTS (SELECT 1 FROM pds_fonti f WHERE f.id=d.fonte_id)'));
