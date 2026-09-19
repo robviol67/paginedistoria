@@ -123,7 +123,8 @@ function pds_pubblica_home(): array {
   $html = @file_get_contents($f);
   if ($html === false) throw new Exception('index.html non leggibile');
   $prima = $html;
-  $zone = ['linea-del-tempo' => pds_home_linea(), 'nessi-in-evidenza' => pds_home_nessi(), 'taccuino' => pds_home_taccuino()];
+  require_once __DIR__ . '/pds_dossier.php';
+  $zone = ['linea-del-tempo' => pds_home_linea(), 'dossier' => pds_home_dossier(), 'nessi-in-evidenza' => pds_home_nessi(), 'taccuino' => pds_home_taccuino()];
   // «zone»: quante zone ci sono e sono state scritte dai dati; «cambiate»:
   // quante sono diverse da prima. Zero cambiate non è un errore: vuol dire che
   // la Home era già allineata.
@@ -142,6 +143,6 @@ function pds_pubblica_home(): array {
 // Home (testi) o il Taccuino (post), le zone dati si riallineano subito.
 function pds_dopo_pubblicazione(string $cosa): void {
   if ($cosa === 'home' || $cosa === 'blog') {
-    try { pds_pubblica_home(); } catch (Throwable $e) { error_log('pds_dopo_pubblicazione: ' . $e->getMessage()); }
+    try { pds_pubblica_home(); if ($cosa === 'blog') { require_once __DIR__ . '/pds_dossier.php'; pds_pubblica_dossier(); } } catch (Throwable $e) { error_log('pds_dopo_pubblicazione: ' . $e->getMessage()); }
   }
 }

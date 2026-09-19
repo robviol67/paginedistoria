@@ -69,6 +69,9 @@
   margin: var(--space-4) 0 0;
 }
 .pds-corpo a { color: var(--color-accent-700); }
+.pds-figura { margin: var(--space-2) 0; max-width: 520px; }
+.pds-figura img { display: block; width: 100%; height: auto; border: 1px solid var(--color-neutral-200, #ddd); }
+.pds-figura figcaption { margin-top: var(--space-2); font-family: var(--font-heading); font-size: 13px; line-height: 1.5; color: var(--color-neutral-700); }
 
 .pds-citazione {
   margin: var(--space-2) 0;
@@ -254,6 +257,11 @@
 .pds-sezione--larga { margin-bottom: var(--space-8); }
 .pds-sezione > h2 { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin-bottom: var(--space-3); }
 .pds-lettura-breve { font-size: 16px; font-family: var(--font-reading); line-height: 1.62; max-width: 64ch; }
+.pds-racconto p { font-size: 17px; font-family: var(--font-reading); line-height: 1.68; max-width: 66ch; margin: 0 0 var(--space-4); }
+.pds-cronologia { border-collapse: collapse; width: 100%; max-width: 72ch; font-size: 15px; line-height: 1.5; }
+.pds-cronologia th, .pds-cronologia td { border-top: 1px solid var(--color-neutral-200, #ddd); padding: var(--space-2) var(--space-3) var(--space-2) 0; vertical-align: top; text-align: left; }
+.pds-cronologia th { white-space: nowrap; font-weight: 400; color: var(--color-neutral-700); width: 1%; padding-right: var(--space-4); }
+.pds-cron-doc { text-decoration: none; color: var(--color-neutral-700); }
 
 .pds-cautela { border: 1px solid var(--color-text); background: var(--color-neutral-100); padding: var(--space-4); margin-bottom: var(--space-8); scroll-margin-top: 96px; }
 .pds-cautela p:first-child { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); font-family: var(--font-heading); font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -449,3 +457,24 @@ body.pds-con-raccolta { padding-bottom: 96px; }
    ma allineata a sinistra sulla colonna: il bordo coincide con il logo. */
 .pds-scheda, .pds-elenco, .pds-fonte, .pds-lettura { max-width: var(--pds-colonna); }
 .pds-lettura > * { max-width: 760px; }
+
+/* ── Dossier: card dell'indice e della Home, elenco delle puntate ───────── */
+.pds-dossier-griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-4); margin-top: var(--space-6); }
+.pds-apertura .pds-dossier-griglia, .pds-elenco .pds-dossier-griglia { margin-top: var(--space-8); }
+section > .pds-dossier-griglia { margin-top: 0; }
+.pds-dossier-card, .pds-puntata { border: 1px solid var(--color-divider); border-left: 4px solid var(--color-text); padding: var(--space-4); display: flex; flex-direction: column; gap: 6px; background: var(--color-bg); }
+.pds-dossier-card h3, .pds-puntata h3 { margin: 0; font-size: 19px; line-height: 1.15; }
+.pds-dossier-card h3 a, .pds-puntata h3 a { color: var(--color-text); text-decoration: none; }
+.pds-dossier-card h3 a:hover, .pds-puntata h3 a:hover { text-decoration: underline; }
+.pds-dossier-card p, .pds-puntata p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--color-neutral-800); }
+.pds-dossier-stato { display: flex; align-items: center; gap: var(--space-2); color: var(--color-accent-700) !important; }
+.pds-dossier-stato span, .pds-puntata-n { font-size: 11px !important; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700) !important; }
+.pds-dossier-apri { margin-top: auto !important; padding-top: var(--space-2); }
+.pds-dossier-apri a { color: var(--color-accent-700); font-weight: 600; text-decoration: none; }
+/* in preparazione: si legge, ma è spento e non si clicca */
+.pds-dossier-card.is-attesa, .pds-puntata.is-attesa { border-left-color: var(--color-neutral-300); background: transparent; color: var(--color-neutral-700); }
+.is-attesa h3, .is-attesa p, .is-attesa .pds-dossier-stato, .is-attesa .pds-dossier-stato span, .is-attesa .pds-puntata-n { color: var(--color-neutral-700) !important; }
+.is-attesa h3 { font-weight: 600; opacity: .75; } .is-attesa p { opacity: .75; } .is-attesa svg { opacity: .55; }
+.pds-dossier-premessa { font-family: var(--font-reading); font-size: 17px; line-height: 1.66; max-width: 70ch; margin: var(--space-4) 0 0; }
+.pds-dossier-titoletto { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin: var(--space-8) 0 var(--space-3); border-bottom: 1px solid var(--color-text); padding-bottom: var(--space-2); }
+.pds-puntate { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-4); }

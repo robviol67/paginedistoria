@@ -39,9 +39,15 @@ function pds_post_render_doc($post): string {
     blog_route($post),
     $post['seo_image'] ?: $post['cover_image']
   );
-  $h .= pds_header('blog.html');
+  // Una puntata di un Dossier appartiene alla sezione Dossier: percorso, voce
+  // di menu attiva e ritorno portano lì, non al Taccuino.
+  require_once __DIR__ . '/pds_dossier.php';
+  $dossier = $categoria === 'Dossier' ? pds_dossier_di_post($post) : null;
+  $h .= pds_header($dossier ? 'dossier.html' : 'blog.html');
   $h .= '<main class="pds-lettura" data-print-urls>' . "\n";
-  $h .= '<nav class="pds-percorso" aria-label="Percorso"><a href="blog.html">Taccuino</a><span>›</span><span>' . pesc($categoria) . "</span></nav>\n";
+  $h .= $dossier
+    ? '<nav class="pds-percorso" aria-label="Percorso"><a href="dossier.html">Dossier</a><span>›</span><a href="' . pesc(pds_dossier_file($dossier)) . '">' . pesc($dossier['titolo']) . "</a></nav>\n"
+    : '<nav class="pds-percorso" aria-label="Percorso"><a href="blog.html">Taccuino</a><span>›</span><span>' . pesc($categoria) . "</span></nav>\n";
   $h .= '<p class="pds-testatina">' . implode(' · ', $testatina) . "</p>\n";
   $h .= '<h1>' . pesc($titolo) . "</h1>\n";
   if (!empty($post['subtitle'])) $h .= '<p class="pds-occhiello">' . pesc($post['subtitle']) . "</p>\n";
@@ -53,7 +59,9 @@ function pds_post_render_doc($post): string {
   // chiavi del pannello, non dal pubblico).
   $h .= '<div class="pds-corpo">' . $post['body'] . "</div>\n";
 
-  $h .= '<p style="margin-top:var(--space-8)"><a href="blog.html">← Torna al Taccuino</a></p>' . "\n";
+  $h .= $dossier
+    ? '<p style="margin-top:var(--space-8)"><a href="' . pesc(pds_dossier_file($dossier)) . '">← Tutte le puntate di «' . pesc($dossier['titolo']) . '»</a></p>' . "\n"
+    : '<p style="margin-top:var(--space-8)"><a href="blog.html">← Torna al Taccuino</a></p>' . "\n";
   $h .= "</main>\n";
   $h .= pds_footer();
   $h .= pds_chiudi();
