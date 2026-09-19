@@ -96,6 +96,16 @@ echo $testo('cautela', 'Cautela · fatti, atti e interpretazioni', 3);
 echo $testo('rilevanza_politica', 'Rilevanza politica', 3, 'Facoltativo.');
 echo '</div>';
 
+// ── racconto e cronologia ──
+$righeCron = '';
+foreach (json_decode((string)($r['cronologia'] ?? ''), true) ?: [] as $c)
+  $righeCron .= ($c['data'] ?? '') . ' | ' . ($c['fatto'] ?? '') . (!empty($c['url']) ? ' | ' . $c['url'] : '') . "\n";
+echo '<div class="card"><div class="sec" style="margin-top:0">Racconto e cronologia</div>';
+echo $testo('racconto', 'Racconto', 18, 'Prosa per nodi, 3.500–4.500 caratteri; i paragrafi si separano con una riga vuota.');
+echo '<div class="field"><label>Cronologia</label><textarea name="s[cronologia]" rows="10" style="font-family:ui-monospace,monospace;font-size:13px">' . h($righeCron) . '</textarea>'
+   . '<p style="margin:4px 0 0;font-size:12px;color:#8a9184">Una riga per voce: «AAAA-MM-GG | fatto | url». La data può essere anche AAAA-MM o AAAA; l’url è facoltativo.</p></div>';
+echo '</div>';
+
 if ($t === 'Accade nel mondo') {
   echo '<div class="card"><div class="sec" style="margin-top:0">Accade nel mondo · le quattro sezioni</div>'
      . $testo('mondo_nel_mondo', '01 · Accade nel mondo') . $testo('mondo_risposta', '02 · La risposta delle istituzioni italiane')

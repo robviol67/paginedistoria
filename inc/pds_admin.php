@@ -48,7 +48,7 @@ function pds_slug_libero(string $slug, string $id): string {
 
 // ── salvataggio di una scheda ───────────────────────────────────────────────
 const PDS_CAMPI_SCHEDA = ['tipologia','titolo','slug','data_inizio','data_fine','periodo_principale','sintesi','perche_studiarla',
-  'cautela','verdetto','verdetto_nota','stato','pubblicata','verifica_data','verifica_note','rilevanza_politica',
+  'cautela','verdetto','verdetto_nota','stato','pubblicata','verifica_data','verifica_note','rilevanza_politica','racconto','cronologia',
   'mondo_nel_mondo','mondo_risposta','mondo_ricadute','mondo_cosa_cambia',
   'nesso_arco','nesso_a_data','nesso_a_testo','nesso_b_data','nesso_b_testo','nesso_test','nesso_meccanismo',
   'nesso_favore','nesso_contro','nesso_rischio','nesso_ricadute','nesso_fonti_da_acquisire'];
@@ -69,6 +69,18 @@ function pds_salva_scheda(?string $id, array $d, array $collegati): string {
   foreach (['data_inizio', 'data_fine'] as $c) {
     $v = trim((string)($d[$c] ?? ''));
     if ($v !== '' && !preg_match('/^\d{4}(-\d{2}(-\d{2})?)?$/', $v)) $errori[] = "$c: si scrive AAAA, AAAA-MM o AAAA-MM-GG";
+  }
+  // La cronologia nel pannello si scrive una riga per voce, «data | fatto | url»;
+  // nel database sta in JSON, che è quello che legge la pagina.
+  if (isset($d['cronologia']) && is_string($d['cronologia']) && substr(ltrim($d['cronologia']), 0, 1) !== '[') {
+    $righe = [];
+    foreach (preg_split('/\R/', $d['cronologia']) as $n => $l) {
+      if (trim($l) === '') continue;
+      $p = array_map('trim', explode('|', $l));
+      if (count($p) < 2 || !preg_match('/^\d{4}(-\d{2}(-\d{2})?)?$/', $p[0])) { $errori[] = 'cronologia, riga ' . ($n + 1) . ': si scrive «AAAA-MM-GG | fatto | url»'; continue; }
+      $righe[] = ['data' => $p[0], 'fatto' => $p[1], 'url' => $p[2] ?? ''];
+    }
+    $d['cronologia'] = $righe ? json_encode($righe, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : '';
   }
   if ($errori) throw new InvalidArgumentException('Non salvata: ' . implode('; ', $errori) . '.');
 

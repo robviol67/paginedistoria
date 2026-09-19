@@ -240,6 +240,10 @@ try {
     ['pds_schede', 'nesso_ricadute', 'TEXT NULL'],           // ricadute politiche da verificare
     ['pds_schede', 'nesso_fonti_da_acquisire', 'TEXT NULL'],
     ['pds_schede', 'nesso_provenienza', 'VARCHAR(160) NULL'],// da quale file del Design viene il corpo
+    // L'arricchimento del 2026-09: il racconto lungo (paragrafi separati da una
+    // riga vuota) e la sua cronologia, in JSON: [{data, fatto, fonte_id, url}].
+    ['pds_schede', 'racconto', 'MEDIUMTEXT NULL'],
+    ['pds_schede', 'cronologia', 'TEXT NULL'],
   ];
   foreach ($aggiunte as [$t, $c, $def]) {
     echo (db_add_col($t, $c, $def) ? "OK  + $t.$c\n" : "SKIP $t.$c (già presente)\n");

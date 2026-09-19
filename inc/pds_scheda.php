@@ -56,6 +56,14 @@ function pds_data_breve(?string $iso): string {
 }
 
 // L'istantanea Wayback: il Design tiene UNA data e costruisce l'indirizzo.
+// «1953-03-31» → «31 marzo 1953»; «1953-03» → «marzo 1953»; «1953» resta com'è.
+function pds_data_cronologia(string $d): string {
+  static $mesi = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $d, $m)) return (int)$m[3] . ($m[3] === '01' ? 'º' : '') . ' ' . $mesi[(int)$m[2] - 1] . ' ' . $m[1];
+  if (preg_match('/^(\d{4})-(\d{2})$/', $d, $m)) return $mesi[(int)$m[2] - 1] . ' ' . $m[1];
+  return $d;
+}
+
 function pds_wayback(string $url): array {
   $data = setting_get('atlante_wayback_data', '');
   $ts = preg_match('#^(\d{2})/(\d{2})/(\d{4})$#', $data, $m) ? "$m[3]$m[2]$m[1]000000" : '2';
@@ -319,6 +327,12 @@ function pds_scheda_render_doc(string $id): ?string {
         . PDS_BLOCCHI_MANCANTI[$t] . ': il blocco resta vuoto in attesa della revisione.</p></section>' . "\n";
   }
 
+  if (trim((string)($r['racconto'] ?? '')) !== '') {
+    $h .= '<section class="pds-sezione pds-racconto" id="racconto"><h2>Il racconto</h2>';
+    foreach (preg_split('/\n\s*\n/', trim((string)$r['racconto'])) as $par) $h .= '<p>' . pesc(trim($par)) . '</p>';
+    $h .= "</section>\n";
+  }
+
   if (trim((string)$r['rilevanza_politica']) !== '') {
     $h .= '<section class="pds-sezione" id="rilevanza"><h2>Rilevanza politica</h2><p class="pds-lettura-breve">' . pesc($r['rilevanza_politica']) . "</p></section>\n";
   }
@@ -329,6 +343,18 @@ function pds_scheda_render_doc(string $id): ?string {
   if ($r['cautela']) {
     $h .= '<aside id="cautela" data-print-block class="pds-cautela"><p><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="round"><path d="M12 3 2 21h20Z"></path><path d="M12 9v5M12 18v.1"></path></g></svg> Fatti, atti e interpretazioni: la distinzione da tenere</p>'
         . '<p>' . pesc($r['cautela']) . "</p></aside>\n";
+  }
+
+  // cronologia: le date che il racconto lascia fuori
+  $cron = json_decode((string)($r['cronologia'] ?? ''), true) ?: [];
+  if ($cron) {
+    $h .= '<section class="pds-sezione pds-sezione--larga" id="cronologia"><h2>Cronologia</h2><table class="pds-cronologia">';
+    foreach ($cron as $c) {
+      $fatto = pesc((string)($c['fatto'] ?? ''));
+      if (!empty($c['url'])) $fatto .= ' <a class="pds-cron-doc" href="' . pesc($c['url']) . '" target="_blank" rel="noopener" title="Documento">↗</a>';
+      $h .= '<tr><th class="num" scope="row">' . pesc(pds_data_cronologia((string)($c['data'] ?? ''))) . '</th><td>' . $fatto . '</td></tr>';
+    }
+    $h .= "</table></section>\n";
   }
 
   // collegamenti
@@ -386,8 +412,10 @@ function pds_scheda_render_doc(string $id): ?string {
   // colonna laterale
   $h .= '<aside class="pds-lato" data-print-hide><div><p class="pds-lato-titolo">In questa scheda</p><nav>'
       . '<a href="' . pesc($url) . '#corpo">Corpo della scheda</a>'
+      . (trim((string)($r['racconto'] ?? '')) !== '' ? '<a href="' . pesc($url) . '#racconto">Il racconto</a>' : '')
       . ($r['perche_studiarla'] ? '<a href="' . pesc($url) . '#perche">Perché studiarla</a>' : '')
       . ($r['cautela'] ? '<a href="' . pesc($url) . '#cautela">Cautela</a>' : '')
+      . (!empty(json_decode((string)($r['cronologia'] ?? ''), true)) ? '<a href="' . pesc($url) . '#cronologia">Cronologia</a>' : '')
       . '<a href="' . pesc($url) . '#collegamenti">Collegamenti</a><a href="' . pesc($url) . '#fonti">Fonti</a></nav></div>'
       . '<div><p class="pds-lato-titolo">Periodo</p><a class="num pds-lato-periodo" href="cronologia.html' . ($r['periodo_principale'] ? '?periodo=' . pesc($r['periodo_principale']) : '') . '">' . pesc($periodoLabel) . '</a>'
       . '<hr class="hr"><p class="pds-lato-conti"><span class="num">' . $nFonti . '</span> fonti collegate · <span class="num">' . $nColl . '</span> collegamenti</p></div>'
